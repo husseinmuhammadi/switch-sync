@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+        <groupId>com.idp.finantial</groupId>
+        <artifactId>switch-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../parent/</relativePath>
+    </parent>
+	
+    <artifactId>${jpos.artifactId}</artifactId>
+    <version>${jpos.version}</version>
+
+    <!-- http://blog.btmatthews.com/?p=69 -->
+    <packaging>jboss-sar</packaging>
+
+    <!-- https://awakepower.wordpress.com/2015/10/27/how-to-create-sar-service-archive-file-for-jboss-with-maven/ -->
+    <!--<packaging>sar</packaging>-->
+
+    <url>http://maven.apache.org</url>
+
+    <name>jboss-service</name>
+
+    <!--
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-parent</artifactId>
+                <version>8.1.0.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    -->
+
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.jpos/jpos -->
+        <dependency>
+            <groupId>org.jpos</groupId>
+            <artifactId>jpos</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.jbossas/jboss-as-system-jmx -->
+        <dependency>
+            <groupId>org.jboss.jbossas</groupId>
+            <artifactId>jboss-as-system-jmx</artifactId>
+            <version>6.1.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.jbossas/jboss-as-server -->
+        <!--
+        <dependency>
+            <groupId>org.jboss.jbossas</groupId>
+            <artifactId>jboss-as-server</artifactId>
+            <version>6.1.0.Final</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.jboss/jboss-common-core -->
+        <!--
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-common-core</artifactId>
+            <version>2.5.0.Final</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging -->
+        <!--
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.3.0.Final</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.microcontainer/jboss-kernel -->
+        <!--
+        <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jboss-kernel</artifactId>
+            <version>2.2.0.M2</version>
+        </dependency>
+        -->
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.spec/jboss-javaee-all-6.0 -->
+        <!--
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-all-6.0</artifactId>
+            <version>3.0.0.Final</version>
+        </dependency>
+        -->
+
+        <!--
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        -->
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- If <packaging/> is set to sar, then this plugin will be executed during the package phase. To execute the plugin manually, use this command: mvn install -->
+            <!--
+            <plugin>
+                <groupId>net.sf.maven-sar</groupId>
+                <artifactId>maven-sar-plugin</artifactId>
+                <version>1.0</version>
+                <extensions>true</extensions>
+            </plugin>
+            -->
+
+            <!-- http://blog.btmatthews.com/?p=69 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jboss-packaging-maven-plugin</artifactId>
+                <version>2.2</version>
+                <extensions>true</extensions>
+            </plugin>
+
+            <!--
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.9.Final</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.9.Final</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <groupId>postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <name>postgresql.jar</name>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+        </plugins>
+    </build>
+
+</project>

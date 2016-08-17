@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.idp.finantial</groupId>
+        <artifactId>switch-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../parent/</relativePath>
+    </parent>
+
+    <artifactId>${ear.artifactId}</artifactId>
+    <version>${ear.version}</version>
+
+    <packaging>ear</packaging>
+
+    <build>
+        <finalName>switch-ear</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                    </archive>
+                    <version>7</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <modules>
+                        <ejbModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${model.artifactId}</artifactId>
+                            <bundleFileName>${model.archive.name}</bundleFileName>
+                        </ejbModule>
+                        <jarModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${api.artifactId}</artifactId>
+                            <bundleFileName>${api.archive.name}</bundleFileName>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                            <bundleDir>/</bundleDir>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${core.artifactId}</artifactId>
+                            <bundleFileName>${core.archive.name}</bundleFileName>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                            <bundleDir>/</bundleDir>
+                        </jarModule>
+                        <ejbModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${service.artifactId}</artifactId>
+                            <bundleFileName>${controller.archive.name}</bundleFileName>
+                        </ejbModule>
+                        <webModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${web.artifactId}</artifactId>
+                            <bundleFileName>${view.archive.name}</bundleFileName>
+                            <contextRoot>${web.contextroot}</contextRoot>
+                        </webModule>
+                        <sarModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${jpos.artifactId}</artifactId>
+                            <bundleFileName>${jpos.archive.name}</bundleFileName>
+                        </sarModule>
+                    </modules>
+                    <!-- create jboss-app.xml and put it in META-INF folder, you can create this file manually
+                    <jboss>
+                        <version>4</version>
+                        <unauthenticated-principal>guest</unauthenticated-principal>
+                        <loader-repository>myapp:archive=jposQ.ear</loader-repository>
+                        <loader-repository>com.foo:loader=foo-application-1.0.ear</loader-repository>
+                    </jboss>
+                    -->
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>glassfish-resources.xml</include>
+                </includes>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${utility.artifactId}</artifactId>
+            <version>${utility.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${model.artifactId}</artifactId>
+            <version>${model.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${api.artifactId}</artifactId>
+            <version>${api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${service.artifactId}</artifactId>
+            <version>${service.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${core.artifactId}</artifactId>
+            <version>${core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${jpos.artifactId}</artifactId>
+            <version>${jpos.version}</version>
+            <type>sar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${web.artifactId}</artifactId>
+            <version>${view.version}</version>
+            <type>war</type>
+        </dependency>
+
+    </dependencies>
+
+</project>

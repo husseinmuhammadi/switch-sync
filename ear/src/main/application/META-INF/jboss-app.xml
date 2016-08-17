@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jboss-app>
+    <loader-repository>
+        myapp:archive=jposQ.ear
+    </loader-repository>
+
+    <module>
+        <service>q2mbean-1.0.sar</service>
+    </module>
+</jboss-app>

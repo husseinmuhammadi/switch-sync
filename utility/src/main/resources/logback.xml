@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<configuration scan="true" scanPeriod="30 seconds" >-->
+<configuration debug="true">
+    <timestamp key="date" datePattern="yyyyMMdd"/>
+    <property name="MAX_FILE_SIZE" value="30MB"/>
+    <property name="FILE_NAME_FORMAT" value="-%d{yyyy-MM-dd}.%i.log"/>
+    <property name="LOG_PATTERN" value="-%d{HH:mm:ss.SSS} [%thread] %-5level %logger{75} - %msg%n"/>
+    <property name="MAX_HISTORY" value="360"/>
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConpsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="File-Appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <prudent>true</prudent>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>%d{yyyy-MM,aux}/%d{dd,aux}/complementary-log-%d{yyyy-MM-dd}.%i.log${FILE_NAME_FORMAT}
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ir.team.insurance.complementary" level="DEBUG" additivity="false">
+        <appender-ref ref="File-Appender"/>
+    </logger>
+
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

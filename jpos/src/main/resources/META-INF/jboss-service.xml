@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Wildfly -->
+<server xmlns="urn:jboss:service:7.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:jboss:service:7.0 jboss-service_7_0.xsd">
+    <mbean code="org.jpos.mbean.Q2Service" name="Q2:name=Q2Service"></mbean>
+</server>
+
+<!-- JBoss 6.1.0.Final AS -->
+<!--
+<service>
+    <mbean code="org.jpos.mbean.Q2Service" name="Q2:name=Q2Service"></mbean>
+</service>
+-->

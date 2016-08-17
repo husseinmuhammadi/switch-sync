@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.5.3 
+Created-By: Apache Jakarta Maven
+Built-By: apr
+Package: org.jboss.mbean
+Build-Jdk: 1.4.2-beta
+Extension-Name: q2mbean
+Specification-Version: 
+Specification-Vendor: jPos
+Specification-Title: 
+    JBoss MBean for deploying Q2 within JBoss.
+  
+Implementation-Version: 1.0
+Implementation-Vendor: jPos
+Implementation-Vendor-Id: 
+
