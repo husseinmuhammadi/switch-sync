@@ -1,7 +1,7 @@
 package ir.team.insurance.complementary.model.dao;
 
+import com.dpi.financial.ftcom.model.to.PlanType;
 import ir.team.insurance.complementary.model.base.GenericDao;
-import ir.team.insurance.complementary.model.to.PlanType;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;

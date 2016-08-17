@@ -1,8 +1,8 @@
 package ir.team.insurance.complementary.service.base;
 
+import com.dpi.financial.ftcom.model.to.PlanType;
 import ir.team.insurance.complementary.api.base.PlanTypeService;
 import ir.team.insurance.complementary.model.dao.PlanTypeDao;
-import ir.team.insurance.complementary.model.to.PlanType;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;

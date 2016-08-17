@@ -1,4 +1,4 @@
-package ir.team.insurance.complementary.model.to;
+package com.dpi.financial.ftcom.model.to;
 
 import ir.team.insurance.complementary.model.base.BaseEntity;
 

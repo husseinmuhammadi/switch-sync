@@ -1,7 +1,7 @@
 package ir.team.insurance.complementary.api;
 
 
-import ir.team.insurance.complementary.model.to.User;
+import com.dpi.financial.ftcom.model.to.User;
 
 public interface UserService {
     User findUserById(Long id);

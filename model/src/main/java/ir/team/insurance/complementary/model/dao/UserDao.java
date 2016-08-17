@@ -2,7 +2,7 @@ package ir.team.insurance.complementary.model.dao;
 
 import ir.team.insurance.complementary.model.base.GenericDao;
 import ir.team.insurance.complementary.model.base.QueryParameterUtil;
-import ir.team.insurance.complementary.model.to.User;
+import com.dpi.financial.ftcom.model.to.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
