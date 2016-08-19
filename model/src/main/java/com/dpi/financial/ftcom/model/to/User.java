@@ -1,6 +1,6 @@
 package com.dpi.financial.ftcom.model.to;
 
-import ir.team.insurance.complementary.model.base.BaseEntity;
+import com.dpi.financial.ftcom.model.base.BaseEntity;
 import ir.team.insurance.complementary.model.converter.LocaleConverter;
 import ir.team.insurance.complementary.model.type.LocaleType;
 

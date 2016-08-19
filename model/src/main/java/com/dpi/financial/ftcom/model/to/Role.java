@@ -1,6 +1,7 @@
 package com.dpi.financial.ftcom.model.to;
 
-import ir.team.insurance.complementary.model.base.BaseEntity;
+
+import com.dpi.financial.ftcom.model.base.BaseEntity;
 
 import javax.persistence.*;
 import java.util.List;

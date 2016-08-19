@@ -1,4 +1,4 @@
-package ir.team.insurance.complementary.model.base;
+package com.dpi.financial.ftcom.model.base;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
 
+@Deprecated
 @MappedSuperclass
 public abstract class BaseEntity {
 

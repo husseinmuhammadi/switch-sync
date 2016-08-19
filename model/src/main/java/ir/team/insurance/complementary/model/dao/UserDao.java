@@ -1,7 +1,7 @@
 package ir.team.insurance.complementary.model.dao;
 
-import ir.team.insurance.complementary.model.base.GenericDao;
-import ir.team.insurance.complementary.model.base.QueryParameterUtil;
+import com.dpi.financial.ftcom.model.base.GenericDao;
+import com.dpi.financial.ftcom.model.base.QueryParameterUtil;
 import com.dpi.financial.ftcom.model.to.User;
 
 import javax.ejb.Stateless;

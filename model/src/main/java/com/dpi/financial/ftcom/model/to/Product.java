@@ -1,5 +1,7 @@
 package com.dpi.financial.ftcom.model.to;
 
+import com.dpi.financial.ftcom.model.base.EntityBase;
+
 import javax.persistence.*;
 
 @Entity

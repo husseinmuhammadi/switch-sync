@@ -1,4 +1,4 @@
-package com.dpi.financial.ftcom.model.to;
+package com.dpi.financial.ftcom.model.base;
 
 import javax.persistence.*;
 import java.util.Date;

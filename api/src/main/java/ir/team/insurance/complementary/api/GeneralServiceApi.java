@@ -1,7 +1,7 @@
 package ir.team.insurance.complementary.api;
 
 
-import ir.team.insurance.complementary.model.base.BaseEntity;
+import com.dpi.financial.ftcom.model.base.BaseEntity;
 
 import java.util.List;
 

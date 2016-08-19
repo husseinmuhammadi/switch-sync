@@ -1,4 +1,4 @@
-package ir.team.insurance.complementary.model.base;
+package com.dpi.financial.ftcom.model.base;
 
 import java.util.HashMap;
 import java.util.Map;
