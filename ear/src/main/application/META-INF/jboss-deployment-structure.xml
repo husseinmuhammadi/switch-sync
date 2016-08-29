@@ -4,6 +4,15 @@
 
     <!--
     <deployment>
+        <dependencies>
+            <module name="org.dom4j"/>
+        </dependencies>
+    </deployment>
+    -->
+
+
+    <!--
+    <deployment>
         <exclude-subsystems>
             <subsystem name="weld"/>
         </exclude-subsystems>

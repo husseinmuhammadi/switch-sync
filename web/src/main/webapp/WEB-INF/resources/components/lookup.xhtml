@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://javadev.ir"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+    <cc:interface>
+        <cc:attribute name="componentId" required="true" type="java.lang.String"/>
+        <cc:attribute name="required" type="java.lang.Boolean"/>
+        <cc:attribute name="label" type="java.lang.String" required="true"/>
+        <cc:attribute name="autofocus" type="java.lang.String" default="false"/>
+        <cc:attribute name="disabled" type="java.lang.Boolean"/>
+        <cc:attribute name="lookupPath" type="java.lang.String" required="true"/>
+        <cc:attribute name="binding" type="javax.faces.component.NamingContainer"/>
+        <cc:attribute name="value" type="java.lang.Object" required="#{cc.attrs.binding eq null ? true : false}"/>
+        <cc:actionSource name="param" targets="#{cc.attrs.componentId}"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <div class="form-group" style="direction: rtl">
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <h:outputLabel for="#{cc.attrs.componentId}" value="#{msglbl[cc.attrs.label]}"/>
+                </div>
+                <pf:lookup lookupPath="#{cc.attrs.lookupPath}" value="#{cc.attrs.value}" id="#{cc.attrs.componentId}"
+                           inputClass="form-control" btnClass="btn btn-default"
+                           label="#{msglbl[cc.attrs.label]}"
+                           required="#{cc.attrs.required ne null ? cc.attrs.required : false}"
+                           readOnly="#{cc.attrs.disabled eq null ? false : cc.attrs.disabled}"
+                           p:placeholder="#{cc.attrs.disabled eq null or cc.attrs.disabled ne true ? msglbl[cc.attrs.label] : ''}"
+                           autofocus="#{cc.attrs.autofocus}" binding="#{cc.attrs.binding}"
+                        >
+                    <cc:insertChildren />
+                </pf:lookup>
+            </div>
+        </div>
+    </cc:implementation>
+</ui:composition>

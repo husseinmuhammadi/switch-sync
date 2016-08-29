@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:body>
+    <ui:composition template="/base/template.xhtml">
+        <ui:define name="header">
+            <h2>New Product</h2>
+        </ui:define>
+        <ui:define name="content">
+            <div>
+                <h:outputLabel value="Institution Code"/>
+                <h:inputText value="#{productController.product.institutionCode}"/>
+            </div>
+            <div>
+                <h:outputLabel value="Product Code"/>
+                <h:inputText value="#{productController.product.productCode}"/>
+            </div>
+            <div>
+                <h:outputLabel value="Product Type"/>
+                <h:inputText value="#{productController.product.productType}"/>
+            </div>
+            <div>
+                <h:outputLabel value="Card Length"/>
+                <h:inputText value="#{productController.product.cardLength}"/>
+            </div>
+            <h:commandButton value="Save" action="#{productController.save()}"/>
+            <h:link value="Back To Home" outcome="index"/>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

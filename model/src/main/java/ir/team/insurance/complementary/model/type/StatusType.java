@@ -1,7 +1,7 @@
 package ir.team.insurance.complementary.model.type;
 
-
-import ir.team.insurance.complementary.utility.exception.model.TypeNotFoundException;
+import com.dpi.financial.ftcom.model.type.EntityFieldType;
+import com.dpi.financial.ftcom.utility.exception.model.TypeNotFoundException;
 
 public enum StatusType implements EntityFieldType {
     ENTRY("E"),
@@ -15,7 +15,6 @@ public enum StatusType implements EntityFieldType {
     StatusType(String s) {
         this.statusCode = s;
     }
-
 
 
     public static StatusType getInstance(String statusCode) {

@@ -1,0 +1,30 @@
+body {
+    font-family: vazir-persian !important;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-color: #006BC2;
+}
+
+* {
+    font-size: 12px;
+}
+
+input[type="text"] {
+    background-color: #E3F1FF;
+}
+
+.main-div {
+    width: 100%;
+    left: 0px;
+    top: 0px;
+    text-align: center;
+    background-color: red;
+}
+
+.embed-div
+{
+    display: inline-block;
+    width: 300px;
+    background-color: green;
+}

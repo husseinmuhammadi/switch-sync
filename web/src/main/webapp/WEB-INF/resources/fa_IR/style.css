@@ -1,0 +1,23 @@
+@font-face {
+    font-family: vazir-persian;
+    src: url("#{resource['menu:vazir-persian-digits-overwrite.woff']}");
+}
+
+body {
+    font-family: vazir-persian !important;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    font-family: vazir-persian;
+    font-size: 12px;
+}
+
+#user-panel:hover {
+    background-color: #0cb9b9;
+    cursor:pointer;
+}

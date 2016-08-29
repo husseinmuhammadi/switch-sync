@@ -1,7 +1,7 @@
 package ir.team.insurance.complementary.model.type;
 
-
-import ir.team.insurance.complementary.utility.exception.model.TypeNotFoundException;
+import com.dpi.financial.ftcom.model.type.EntityFieldType;
+import com.dpi.financial.ftcom.utility.exception.model.TypeNotFoundException;
 
 public enum LocaleType implements EntityFieldType {
     FA_IR("fa_IR"),

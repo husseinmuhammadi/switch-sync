@@ -1,6 +1,7 @@
 package com.dpi.financial.ftcom.model.base;
 
-import ir.team.insurance.complementary.utility.exception.model.EntityIdIsNullException;
+
+import com.dpi.financial.ftcom.utility.exception.model.EntityIdIsNullException;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Dependent
-public abstract class GenericDao<T extends BaseEntity> {
+public abstract class GenericDao<T extends EntityBase> {
 
     protected EntityManager getEntityManager() {
         return entityManager;

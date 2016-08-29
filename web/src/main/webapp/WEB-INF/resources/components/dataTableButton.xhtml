@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pf="http://javadev.ir">
+<cc:interface>
+    <cc:attribute name="baseEntity" type="ir.team.insurance.complementary.model.to.BaseEntity" required="true"/>
+    <cc:attribute name="insertPageAddress" type="java.lang.String" required="true"/>
+</cc:interface>
+<cc:implementation>
+    <h:commandButton value="#{msglbl.edit}"
+                     rendered="#{param.parentId eq null}"
+                     title="#{msglbl.edit}">
+        <pf:dialogBehavior src="#{cc.attrs.insertPageAddress}"
+                           parameters="{'mode':'edit', 'id':'#{cc.attrs.baseEntity.id}'}"/>
+        <f:ajax/>
+    </h:commandButton>
+    <h:commandButton value="#{msglbl.view}"
+                     rendered="#{param.parentId eq null}"
+                     title="#{msglbl.edit}">
+        <pf:dialogBehavior src="#{cc.attrs.insertPageAddress}"
+                           parameters="{'mode':'view', 'id':'#{cc.attrs.baseEntity.id}'}"/>
+        <f:ajax/>
+    </h:commandButton>
+</cc:implementation>
+</html>

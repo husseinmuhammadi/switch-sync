@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+<cc:interface>
+    <cc:attribute name="createButtonValue" default="#{msglbl.submit}"/>
+    <cc:attribute name="updateButtonValue" default="#{msglbl.edit}"/>
+    <cc:attribute name="deleteButtonValue" default="#{msglbl.delete}"/>
+    <cc:attribute name="selectButtonValue" default="#{msglbl.select}"/>
+    <cc:attribute name="backBean" type="ir.team.insurance.complementary.web.controller.base.BaseController" />
+    <cc:attribute name="styleClass" type="java.lang.String" default="btn btn-default"/>
+    <cc:attribute name="deleteBtnStyleClass" type="java.lang.String" default="btn btn-danger" />
+</cc:interface>
+
+<cc:implementation>
+    <h:commandButton id="createButton" value="#{cc.attrs.createButtonValue}" styleClass="#{cc.attrs.styleClass}" >
+        <f:ajax listener="#{cc.attrs.backBean.createAction}" render=":messages" execute="@form" />
+    </h:commandButton>
+    <h:commandButton id="editButton" value="#{cc.attrs.updateButtonValue}" styleClass="#{cc.attrs.styleClass}"
+            action="#{cc.attrs.backBean.updateAction}"  rendered="#{param.mode ne null}" >
+        <f:param value="#{param.mode}" name="mode" />
+        <f:ajax render=":messages" execute="@form"/>
+    </h:commandButton>
+    <h:commandButton id="deleteButton" value="#{cc.attrs.deleteButtonValue}" rendered="#{param.mode ne null}"
+                     styleClass="#{cc.attrs.deleteBtnStyleClass}">
+        <f:param value="#{param.mode}" name="mode" />
+        <f:ajax render=":messages" execute="@form" listener="#{cc.attrs.backBean.deleteAction}" />
+    </h:commandButton>
+    <!--<h:commandButton id="selectButton" value="#{cc.attrs.selectButtonValue}" styleClass="#{cc.attrs.styleClass}" >-->
+        <!--<f:ajax render=":messages @form" execute="@form" listener="#{cc.attrs.backBean.selectAction}"/>-->
+    <!--</h:commandButton>-->
+</cc:implementation>
+
+</html>

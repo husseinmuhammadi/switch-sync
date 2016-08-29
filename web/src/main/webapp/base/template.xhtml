@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+    <f:facet name="first">
+        <h:outputScript library="js" name="jquery-2.1.4.min.js" target="head"/>
+        <h:outputScript library="js" name="jquery-ui.min.js" target="head"/>
+        <h:outputScript library="js" name="numeral.js" target="head"/>
+        <h:outputScript library="js" name="common.js" target="head"/>
+        <h:outputScript library="js" name="validator.js" target="head"/>
+    </f:facet>
+
+    <title>
+        <ui:insert name="pageTitle">Switch Application</ui:insert>
+    </title>
+    <ui:insert name="head"/>
+</h:head>
+<f:view encoding="UTF-8" contentType="text/html; charset=UTF-8">
+    <ui:insert name="metadata"/>
+
+    <h:body>
+        <h:messages errorClass="alert-danger" infoClass="alert-info" warnClass="alert-warning" fatalClass="alert-danger"
+                    id="messages" styleClass="alert fade in" style="direction:rtl; margin: 10px"/>
+
+        <div>
+            <ui:insert name="header">
+                <ui:include src="/base/header.xhtml"/>
+            </ui:insert>
+        </div>
+        <br/>
+
+        <div>
+            <ui:insert name="content">
+                <!--<ui:include src="/base/contents.xhtml"/>-->
+            </ui:insert>
+        </div>
+        <br/>
+
+        <div>
+            <ui:insert name="footer">
+                <ui:include src="/base/footer.xhtml"/>
+            </ui:insert>
+        </div>
+    </h:body>
+
+</f:view>
+
+</html>

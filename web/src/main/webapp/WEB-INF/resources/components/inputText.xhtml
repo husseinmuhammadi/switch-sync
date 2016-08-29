@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+<cc:interface>
+    <cc:attribute name="componentId" required="true" type="java.lang.String"/>
+    <cc:attribute name="required" type="java.lang.Boolean"/>
+    <cc:attribute name="label" type="java.lang.String" required="true"/>
+    <cc:attribute name="value" type="java.lang.Object" required="true"/>
+    <cc:attribute name="autofocus" type="java.lang.String" default="false"/>
+    <cc:attribute name="disabled" type="java.lang.Boolean"/>
+    <cc:attribute name="onkeyup" type="java.lang.String"/>
+    <cc:attribute name="maxlength" type="java.lang.Integer" default="255"/>
+    <cc:attribute name="isNumber" type="java.lang.Boolean" default="false"/>
+    <cc:attribute name="separatorFormatter" type="java.lang.Boolean" default="false" />
+    <cc:valueHolder name="converter"  targets="#{cc.attrs.componentId}" />
+</cc:interface>
+
+<cc:implementation>
+    <div class="form-group" style="direction: rtl">
+        <div class="input-group">
+            <div class="input-group-addon">
+                <h:outputLabel for="#{cc.attrs.componentId}" value="#{msglbl[cc.attrs.label]}"/>
+            </div>
+            <h:inputText value="#{cc.attrs.value}" id="#{cc.attrs.componentId}"
+                         styleClass="form-control"
+                         label="#{msglbl[cc.attrs.label]}" maxlength="#{cc.attrs.maxlength}"
+                         required="#{cc.attrs.required ne null ? cc.attrs.required : false}"
+                         disabled="#{cc.attrs.disabled eq null ? false : cc.attrs.disabled}"
+                         p:placeholder="#{cc.attrs.disabled eq null or cc.attrs.disabled ne true ? msglbl[cc.attrs.label] : ''}"
+                         onkeyup="#{cc.attrs.onkeyup ne null ? cc.attrs.onkeyup : (cc.attrs.isNumber ? (cc.attrs.separatorFormatter ? 'numberFormatter(this)' : 'number(this)') : null)}"
+                         autofocus="#{cc.attrs.autofocus}"
+                    />
+        </div>
+    </div>
+</cc:implementation>
+
+</html>

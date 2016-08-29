@@ -1,0 +1,178 @@
+.pi-settings-panel {
+    width: 170px;
+    padding: 30px;
+
+    position: fixed;
+    top: 148px;
+    left: -170px;
+    z-index: 300;
+
+    background: #21252b;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size:11px;
+    color:#909ca5;
+    text-transform:uppercase;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    -webkit-border-radius: 0 0 3px 0;
+    -moz-border-radius: 0 0 3px 0;
+    border-radius: 0 0 3px 0;
+    -webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
+    -moz-box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
+
+    -webkit-transition: left 0.2s ease-in-out;
+    -moz-transition: left 0.2s ease-in-out;
+    -ms-transition: left 0.2s ease-in-out;
+    -o-transition: left 0.2s ease-in-out;
+    transition: left 0.2s ease-in-out;
+}
+
+.pi-settings-panel.pi-active {
+    left:0px;
+}
+
+.pi-settings-panel h5 {
+    margin:30px 0 10px;
+    font-size:11px;
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+}
+
+.pi-settings-panel ul {
+    list-style:none;
+    padding-left:0;
+}
+
+.pi-settings-bg,
+.pi-settings-scheme {
+    margin-bottom:-10px !important;
+}
+
+.pi-settings-width li {
+    width:50%;
+    height:30px;
+    line-height:30px;
+    display:inline-block;
+    position: relative;
+    background:#323841;
+    -webkit-box-shadow: inset 0 1px 0 rgba(250,250,250,0.08), 0 1px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: inset 0 1px 0 rgba(250,250,250,0.08), 0 1px 1px rgba(0,0,0,0.15);
+    box-shadow: inset 0 1px 0 rgba(250,250,250,0.08), 0 1px 1px rgba(0,0,0,0.15);
+    cursor: pointer;
+    text-align: center;
+}
+
+.pi-settings-width li:first-child {
+    -webkit-border-radius: 2px 0 0 2px;
+    -moz-border-radius: 2px 0 0 2px;
+    border-radius: 2px 0 0 2px;
+}
+
+.pi-settings-width li:last-child {
+    -webkit-border-radius: 0 2px 2px 0;
+    -moz-border-radius: 0 2px 2px 0;
+    border-radius: 0 2px 2px 0;
+}
+
+.pi-settings-width li.pi-active {
+    background:#1a1e22;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 1px 0 rgba(250,250,250,0.04);
+    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 1px 0 rgba(250,250,250,0.04);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 1px 0 rgba(250,250,250,0.04);
+    cursor: default;
+}
+
+.pi-settings-bg li,
+.pi-settings-scheme li {
+    width:30px;
+    height:30px;
+    display:inline-block;
+    position: relative;
+    margin-right:10px;
+    margin-bottom:2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(250, 250, 250, 0.1), 0 1px 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: inset 0 1px 0 rgba(250, 250, 250, 0.1), 0 1px 1px rgba(0,0,0,0.2);
+    box-shadow: inset 0 1px 0 rgba(250, 250, 250, 0.1), 0 1px 1px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+.pi-settings-bg li.pi-active,
+.pi-settings-scheme li.pi-active {
+    -webkit-box-shadow: inset 0 3px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: inset 0 3px 3px rgba(0,0,0,0.5);
+    box-shadow: inset 0 3px 3px rgba(0,0,0,0.5);
+    cursor: default;
+}
+
+.pi-settings-bg li:before,
+.pi-settings-scheme li:before {
+    content:'';
+    display:block;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    border:2px solid #333e4e;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    opacity:0;
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -ms-transition: opacity 0.2s ease-in-out;
+    -o-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.pi-settings-bg li.pi-active:before,
+.pi-settings-scheme li.pi-active:before {
+    opacity:1;
+}
+
+.pi-settings-bg li:nth-child(3n),
+.pi-settings-scheme li:nth-child(3n) {
+    margin-right:0;
+}
+
+.pi-btn-settings {
+    position:absolute;
+    top:0;
+    right:-40px;
+    width:40px;
+    height:40px;
+    font-family: 'fontello';
+    font-size:20px;
+    line-height:40px;
+    text-align:center;
+    color:#e0e4ec;
+    background: #21252b;
+    -webkit-border-radius: 0 3px 3px 0;
+    -moz-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
+    cursor:pointer;
+    -webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
+    -moz-box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.15);
+}
+.pi-btn-settings:before {
+    content:'\e8a4';
+}
+
+.pi-settings-btn-bg-wood { background: #fff url(img/bg/wood.jpg); }
+.pi-settings-btn-bg-wood-dark { background: #fff url(img/bg/wood-dark.jpg); }
+.pi-settings-btn-bg-wood-light { background: #fff url(img/bg/wood-light.jpg); }
+.pi-settings-btn-bg-embossed-dark { background: #fff url(img/bg/embossed-dark.jpg); }
+
+.pi-settings-btn-scheme-base { background: #0dc0c0; }
+.pi-settings-btn-scheme-blue { background:#609ddb; }
+.pi-settings-btn-scheme-lime { background:#86ba41; }
+.pi-settings-btn-scheme-green { background:#18ba60; }
+.pi-settings-btn-scheme-brown { background:#8f5340; }
+.pi-settings-btn-scheme-yellow { background:#FCD746; }
+.pi-settings-btn-scheme-orange { background:#f58b3c; }
+.pi-settings-btn-scheme-red { background:#e86343; }
+.pi-settings-btn-scheme-purple { background:#8463a9; }

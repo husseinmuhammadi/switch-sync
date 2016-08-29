@@ -10,6 +10,7 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames = {"INSTITUTION_CODE", "PRODUCT_CODE"})
 })
 public class Product extends EntityBase {
+
     @Column(name = "PRODUCT_CODE", nullable = false, length = 3)
     private String productCode;
 
@@ -19,7 +20,7 @@ public class Product extends EntityBase {
     @Column(name = "PRODUCT_TYPE", length = 15)
     private String productType;
 
-    // @Column(name = "CARD_LENGTH")
+    @Column(name = "CARD_LENGTH")
     private int cardLength;
 
 //    SERVICE_CODE              VARCHAR2(10 BYTE),
