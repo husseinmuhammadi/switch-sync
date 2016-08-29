@@ -21,6 +21,7 @@ public class ProductController implements Serializable {
 
     public ProductController() {
         // super(new Product());
+        this.product = new Product();
     }
 
     public Product getProduct() {
@@ -32,6 +33,7 @@ public class ProductController implements Serializable {
     }
 
     public String save() {
+        Product product = productService.create(this.product);
 
         return null;
     }

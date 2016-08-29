@@ -11,24 +11,26 @@
             <h2>New Product</h2>
         </ui:define>
         <ui:define name="content">
-            <div>
-                <h:outputLabel value="Institution Code"/>
-                <h:inputText value="#{productController.product.institutionCode}"/>
-            </div>
-            <div>
-                <h:outputLabel value="Product Code"/>
-                <h:inputText value="#{productController.product.productCode}"/>
-            </div>
-            <div>
-                <h:outputLabel value="Product Type"/>
-                <h:inputText value="#{productController.product.productType}"/>
-            </div>
-            <div>
-                <h:outputLabel value="Card Length"/>
-                <h:inputText value="#{productController.product.cardLength}"/>
-            </div>
-            <h:commandButton value="Save" action="#{productController.save()}"/>
-            <h:link value="Back To Home" outcome="index"/>
+            <h:form>
+                <div>
+                    <h:outputLabel value="Institution Code"/>
+                    <h:inputText value="#{productController.product.institutionCode}"/>
+                </div>
+                <div>
+                    <h:outputLabel value="Product Code"/>
+                    <h:inputText value="#{productController.product.productCode}"/>
+                </div>
+                <div>
+                    <h:outputLabel value="Product Type"/>
+                    <h:inputText value="#{productController.product.productType}"/>
+                </div>
+                <div>
+                    <h:outputLabel value="Card Length"/>
+                    <h:inputText value="#{productController.product.cardLength}"/>
+                </div>
+                <h:commandButton value="Save" action="#{productController.save()}"/>
+                <h:link value="Back To Home" outcome="index"/>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>
