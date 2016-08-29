@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.idp.finantial</groupId>
+    <groupId>com.dpi.financial.ftcom</groupId>
     <artifactId>switch-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -22,9 +22,7 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-
-        <web.contextroot>/switch</web.contextroot>
-
+        
         <!-- ArtifactId prop -->
         <web.artifactId>switch-web</web.artifactId>
         <service.artifactId>switch-service</service.artifactId>
@@ -39,21 +37,21 @@
         <api.version>1.0.0-SNAPSHOT</api.version>
         <model.version>1.0.0-SNAPSHOT</model.version>
         <service.version>1.0.0-SNAPSHOT</service.version>
-        <view.version>1.0.0-SNAPSHOT</view.version>
-        <service.version>1.0.0-SNAPSHOT</service.version>
-        <service.api.version>1.0.0-SNAPSHOT</service.api.version>
+        <web.version>1.0.0-SNAPSHOT</web.version>
         <ear.version>1.0.0-SNAPSHOT</ear.version>
         <utility.version>1.0.0-SNAPSHOT</utility.version>
         <jpos.version>1.0</jpos.version>
         <core.version>1.0.0-SNAPSHOT</core.version>
 
         <!-- Archive name prop -->
-        <controller.archive.name>service.jar</controller.archive.name>
-        <view.archive.name>web.war</view.archive.name>
+        <service.archive.name>service.jar</service.archive.name>
+        <web.archive.name>web.war</web.archive.name>
         <model.archive.name>model.jar</model.archive.name>
         <api.archive.name>api.jar</api.archive.name>
         <core.archive.name>core.jar</core.archive.name>
         <jpos.archive.name>q2mbean-1.0.sar</jpos.archive.name>
+
+        <web.contextroot>/switch</web.contextroot>
 
         <glassfish.user>admin</glassfish.user>
         <glassfish.domain.host>localhost</glassfish.domain.host>
@@ -78,6 +76,10 @@
             <![CDATA[
                    <property name="javax" value="javaee" />]]>
         </persistence.xml>
+
+        <shiro.version>1.2.4</shiro.version>
+
+
     </properties>
 
     <dependencies>
@@ -114,6 +116,23 @@
             <version>3.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>${shiro.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

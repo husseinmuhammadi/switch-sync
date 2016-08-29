@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.idp.finantial</groupId>
+        <groupId>com.dpi.financial.ftcom</groupId>
         <artifactId>switch-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../parent/</relativePath>
@@ -23,7 +23,12 @@
                 <artifactId>maven-ear-plugin</artifactId>
                 <version>2.10.1</version>
                 <configuration>
+                    <defaultLibBundleDir>lib/</defaultLibBundleDir>
+                    <!--<skinnyWars>true</skinnyWars>-->
                     <archive>
+                        <!--<manifest>-->
+                            <!--<addClasspath>true</addClasspath>-->
+                        <!--</manifest>-->
                         <addMavenDescriptor>true</addMavenDescriptor>
                     </archive>
                     <version>7</version>
@@ -52,12 +57,12 @@
                         <ejbModule>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${service.artifactId}</artifactId>
-                            <bundleFileName>${controller.archive.name}</bundleFileName>
+                            <bundleFileName>${service.archive.name}</bundleFileName>
                         </ejbModule>
                         <webModule>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${web.artifactId}</artifactId>
-                            <bundleFileName>${view.archive.name}</bundleFileName>
+                            <bundleFileName>${web.archive.name}</bundleFileName>
                             <contextRoot>${web.contextroot}</contextRoot>
                         </webModule>
                         <sarModule>
@@ -92,15 +97,15 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>${utility.artifactId}</artifactId>
-            <version>${utility.version}</version>
+            <artifactId>${model.artifactId}</artifactId>
+            <version>${model.version}</version>
+            <type>ejb</type>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>${model.artifactId}</artifactId>
-            <version>${model.version}</version>
-            <type>ejb</type>
+            <artifactId>utility</artifactId>
+            <version>${utility.version}</version>
         </dependency>
 
         <dependency>
@@ -132,7 +137,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>${web.artifactId}</artifactId>
-            <version>${view.version}</version>
+            <version>${web.version}</version>
             <type>war</type>
         </dependency>
 
