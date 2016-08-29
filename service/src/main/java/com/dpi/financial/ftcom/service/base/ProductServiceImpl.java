@@ -5,8 +5,12 @@ import com.dpi.financial.ftcom.model.dao.ProductDao;
 import com.dpi.financial.ftcom.model.to.Product;
 
 import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import java.util.List;
 
+@Stateless
+@Local(ProductService.class)
 public class ProductServiceImpl implements ProductService {
 
     @EJB

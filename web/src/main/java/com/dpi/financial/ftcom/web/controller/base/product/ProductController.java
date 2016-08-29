@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @Named
 @ViewScoped
-public class ProductController extends ControllerBase<Product> implements Serializable {
+public class ProductController implements Serializable {
 
     @EJB
     private ProductService productService;
@@ -20,7 +20,7 @@ public class ProductController extends ControllerBase<Product> implements Serial
     private Product product;
 
     public ProductController() {
-        super(new Product());
+        // super(new Product());
     }
 
     public Product getProduct() {
