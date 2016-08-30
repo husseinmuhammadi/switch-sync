@@ -4,10 +4,12 @@ import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.utility.bundle.ResourceBundleUtil;
 
+import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.util.ResourceBundle;
 
+@Dependent
 public abstract class ControllerBase<T extends EntityBase> implements ControllerActionBase, GenericBean<T> {
 
     private final IFactory<T> factory;

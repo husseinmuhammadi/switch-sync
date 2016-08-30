@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:body>
+    <ui:composition template="/base/template.xhtml">
+        <ui:define name="header">
+            <h2>New Test Case</h2>
+        </ui:define>
+        <ui:define name="content">
+            <h:form>
+                <h:dataTable value="#{testCaseManager.testCaseList}" var="testCase"
+                             styleClass="employeeTable"
+                             headerClass="employeeTableHeader"
+                             rowClasses="employeeTableOddRow,employeeTableEvenRow">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{testCase.testCaseID}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Description</f:facet>
+                        #{testCase.testCaseDescription}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Test Scenario</f:facet>
+                        #{testCase.testScenario}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Comments</f:facet>
+                        #{testCase.comments}
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

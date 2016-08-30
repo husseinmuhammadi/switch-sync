@@ -14,6 +14,6 @@ public class TestCaseDao extends GenericDao<TestCase> {
     }
 
     public List<TestCase> findAll() {
-        return null;
+        return createNamedQuery(TestCase.FIND_ALL).getResultList();
     }
 }

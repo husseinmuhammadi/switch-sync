@@ -25,7 +25,12 @@ import javax.persistence.*;
 @Entity
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "TEST_CASE_SEQ")
 @Table(name = "TEST_CASE")
+@NamedQueries({
+        @NamedQuery(name = TestCase.FIND_ALL, query = "select t from TestCase t")
+})
 public class TestCase extends EntityBase {
+
+    public static final String FIND_ALL = "TestCase.findAll";
 
     @Column(name = "TEST_CASE_ID", nullable = true, length = 100)
     private String testCaseID;
