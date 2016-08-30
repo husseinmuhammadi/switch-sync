@@ -8,28 +8,27 @@
 <h:body>
     <ui:composition template="/base/template.xhtml">
         <ui:define name="header">
-            <h2>New Product</h2>
+            <h2>New Test Case</h2>
         </ui:define>
         <ui:define name="content">
             <h:form>
                 <div>
-                    <h:outputLabel value="Institution Code"/>
-                    <h:inputText value="#{productController.product.institutionCode}"/>
+                    <h:outputLabel value="Test Case ID"/>
+                    <h:inputText value="#{testCaseController.testCase.testCaseID}"/>
                 </div>
                 <div>
-                    <h:outputLabel value="Product Code"/>
-                    <h:inputText value="#{productController.product.productCode}"/>
+                    <h:outputLabel value="Description"/>
+                    <h:inputText value="#{testCaseController.testCase.testCaseDescription}"/>
                 </div>
                 <div>
-                    <h:outputLabel value="Product Type"/>
-                    <h:inputText value="#{productController.product.productType}"/>
+                    <h:outputLabel value="Test Scenario"/>
+                    <h:inputText value="#{testCaseController.testCase.testScenario}"/>
                 </div>
                 <div>
-                    <h:outputLabel value="Card Length"/>
-                    <h:inputText value="#{productController.product.cardLength}"/>
+                    <h:outputLabel value="Comments"/>
+                    <h:inputText value="#{testCaseController.testCase.comments}"/>
                 </div>
-                <h:commandButton value="Save" action="#{productController.create()}"/>
-                <h:link value="Back To Home" outcome="index"/>
+                <h:commandButton value="Save" action="#{testCaseController.create()}"/>
             </h:form>
         </ui:define>
     </ui:composition>

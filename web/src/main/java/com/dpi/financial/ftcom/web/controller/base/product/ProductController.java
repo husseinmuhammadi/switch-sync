@@ -1,6 +1,7 @@
 package com.dpi.financial.ftcom.web.controller.base.product;
 
 
+import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.ProductService;
 import com.dpi.financial.ftcom.model.to.Product;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
@@ -12,29 +13,25 @@ import java.io.Serializable;
 
 @Named
 @ViewScoped
-public class ProductController implements Serializable {
+public class ProductController extends ControllerBase<Product> implements Serializable {
 
     @EJB
     private ProductService productService;
 
-    private Product product;
-
     public ProductController() {
-        // super(new Product());
-        this.product = new Product();
+        super(Product.class);
     }
 
     public Product getProduct() {
-        return product;
+        return super.getEntity();
     }
 
     public void setProduct(Product product) {
-        this.product = product;
+        super.setEntity(product);
     }
 
-    public String save() {
-        Product product = productService.create(this.product);
-
-        return null;
+    @Override
+    public GeneralServiceApi<Product> getGeneralServiceApi() {
+        return productService;
     }
 }
