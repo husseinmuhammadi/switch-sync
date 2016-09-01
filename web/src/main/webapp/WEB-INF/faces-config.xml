@@ -2,5 +2,23 @@
 <faces-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
               version="2.2">
+    <application>
+        <resource-bundle>
+            <base-name>com.dpi.financial.ftcom.web.i18n.message.messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
 
+        <resource-bundle>
+            <base-name>com.dpi.financial.ftcom.web.i18n.label.messages</base-name>
+            <var>msglbl</var>
+        </resource-bundle>
+
+        <message-bundle>com.dpi.financial.ftcom.web.i18n.validation.messages</message-bundle>
+
+        <locale-config>
+            <default-locale>fa_IR</default-locale>
+            <supported-locale>fa_IR</supported-locale>
+            <supported-locale>en_US</supported-locale>
+        </locale-config>
+    </application>
 </faces-config>
