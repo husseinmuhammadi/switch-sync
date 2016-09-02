@@ -7,27 +7,58 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
     <ui:composition template="/base/template.xhtml">
+
         <ui:define name="header">
             <h2>New Test Case</h2>
         </ui:define>
+
         <ui:define name="content">
-            <h:form>
-                <div>
-                    <h:outputLabel value="Test Case ID"/>
-                    <h:inputText value="#{testCaseController.testCase.testCaseID}"/>
+            <h:form class="form-group" style="direction: rtl">
+
+                <div class="form-group" style="direction: rtl">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="testCaseID" value="#{msglbl['label.testCase.testCaseId']}"/>
+                        </div>
+                        <h:inputText value="#{testCaseController.testCase.testCaseID}"
+                                     id="testCaseID" label="#{msglbl['label.testCase.testCaseId']}"
+                                     styleClass="form-control" required="false"/>
+                    </div>
                 </div>
-                <div>
-                    <h:outputLabel value="Description"/>
-                    <h:inputText value="#{testCaseController.testCase.testCaseDescription}"/>
+
+                <div class="form-group" style="direction: rtl">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="testCaseDescription" value="#{msglbl['label.testCase.testCaseDescription']}"/>
+                        </div>
+                        <h:inputText value="#{testCaseController.testCase.testCaseDescription}"
+                                     id="testCaseDescription" label="#{msglbl['label.testCase.testCaseDescription']}"
+                                     styleClass="form-control" required="false"/>
+                    </div>
                 </div>
-                <div>
-                    <h:outputLabel value="Test Scenario"/>
-                    <h:inputText value="#{testCaseController.testCase.testScenario}"/>
+
+                <div class="form-group" style="direction: rtl">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="testScenario" value="#{msglbl['label.testCase.testScenario']}"/>
+                        </div>
+                        <h:inputText value="#{testCaseController.testCase.testScenario}"
+                                     id="testScenario" label="#{msglbl['label.testCase.testScenario']}"
+                                     styleClass="form-control" required="false"/>
+                    </div>
                 </div>
-                <div>
-                    <h:outputLabel value="Comments"/>
-                    <h:inputText value="#{testCaseController.testCase.comments}"/>
+
+                <div class="form-group" style="direction: rtl">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="testScenario" value="#{msglbl['label.testCase.comments']}"/>
+                        </div>
+                        <h:inputText value="#{testCaseController.testCase.comments}"
+                                     id="comments" label="#{msglbl['label.testCase.comments']}"
+                                     styleClass="form-control" required="false"/>
+                    </div>
                 </div>
+
                 <h:commandButton value="Save" action="#{testCaseController.create()}"/>
             </h:form>
         </ui:define>
