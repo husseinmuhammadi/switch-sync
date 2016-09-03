@@ -8,28 +8,29 @@
 <h:body>
     <ui:composition template="/base/template.xhtml">
         <ui:define name="header">
-            <h2>New Test Case</h2>
+            <h2>#{msglbl['label.testCase.list']}</h2>
         </ui:define>
+
         <ui:define name="content">
-            <h:form>
+            <h:form style="direction: rtl">
                 <h:dataTable value="#{testCaseManager.testCaseList}" var="testCase"
-                             styleClass="employeeTable"
+                             styleClass="table"
                              headerClass="employeeTableHeader"
                              rowClasses="employeeTableOddRow,employeeTableEvenRow">
                     <h:column>
-                        <f:facet name="header">ID</f:facet>
+                        <f:facet name="header">#{msglbl['label.testCase.testCaseId']}</f:facet>
                         #{testCase.testCaseID}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Description</f:facet>
+                        <f:facet name="header">#{msglbl['label.testCase.testCaseDescription']}</f:facet>
                         #{testCase.testCaseDescription}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Test Scenario</f:facet>
+                        <f:facet name="header">#{msglbl['label.testCase.testScenario']}</f:facet>
                         #{testCase.testScenario}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Comments</f:facet>
+                        <f:facet name="header">#{msglbl['label.testCase.comments']}</f:facet>
                         #{testCase.comments}
                     </h:column>
                 </h:dataTable>

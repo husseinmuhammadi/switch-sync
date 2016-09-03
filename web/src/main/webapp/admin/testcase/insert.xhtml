@@ -9,13 +9,13 @@
     <ui:composition template="/base/template.xhtml">
 
         <ui:define name="header">
-            <h2>New Test Case</h2>
+            <h2>#{msglbl['label.testCase.new']}</h2>
         </ui:define>
 
         <ui:define name="content">
             <h:form class="form-group" style="direction: rtl">
 
-                <div class="form-group" style="direction: rtl">
+                <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <h:outputLabel for="testCaseID" value="#{msglbl['label.testCase.testCaseId']}"/>
@@ -26,10 +26,11 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="direction: rtl">
+                <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
-                            <h:outputLabel for="testCaseDescription" value="#{msglbl['label.testCase.testCaseDescription']}"/>
+                            <h:outputLabel for="testCaseDescription"
+                                           value="#{msglbl['label.testCase.testCaseDescription']}"/>
                         </div>
                         <h:inputText value="#{testCaseController.testCase.testCaseDescription}"
                                      id="testCaseDescription" label="#{msglbl['label.testCase.testCaseDescription']}"
@@ -37,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="direction: rtl">
+                <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <h:outputLabel for="testScenario" value="#{msglbl['label.testCase.testScenario']}"/>
@@ -48,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="direction: rtl">
+                <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <h:outputLabel for="testScenario" value="#{msglbl['label.testCase.comments']}"/>
