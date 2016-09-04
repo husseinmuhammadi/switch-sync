@@ -2,16 +2,12 @@ package com.dpi.financial.ftcom.web.controller.base;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.web.controller.handler.FacesErrorHandlerFactory;
-import com.dpi.financial.ftcom.web.controller.handler.IFacesErrorHandler;
 import com.dpi.financial.ftcom.web.util.ResourceBundleUtil;
 
 import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
-import javax.persistence.CacheStoreMode;
-import javax.persistence.PersistenceException;
 import java.util.ResourceBundle;
 
 @Dependent
