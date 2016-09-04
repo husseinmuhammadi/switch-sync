@@ -1,6 +1,6 @@
-package com.idp.core.listene;
+package com.dpi.financial.ftcom.core.iso.listener;
 
-import com.idp.core.common.TransactionContext;
+import com.dpi.financial.ftcom.core.iso.common.TransactionContext;
 import org.jpos.core.Configurable;
 import org.jpos.core.Configuration;
 import org.jpos.core.ConfigurationException;

@@ -1,4 +1,4 @@
-package com.idp.core.common;
+package com.dpi.financial.ftcom.core.iso.common;
 
 import org.jpos.transaction.Context;
 

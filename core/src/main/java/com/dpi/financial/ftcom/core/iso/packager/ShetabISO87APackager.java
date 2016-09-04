@@ -1,4 +1,4 @@
-package com.idp.core;
+package com.dpi.financial.ftcom.core.iso.packager;
 
 import org.jpos.iso.*;
 import org.jpos.iso.packager.ISO87APackager;
