@@ -1,4 +1,4 @@
-package com.dpi.financial.ftcom.web.controller.handler;
+package com.dpi.financial.ftcom.web.controller.handler.error;
 
 import javax.faces.application.ProjectStage;
 

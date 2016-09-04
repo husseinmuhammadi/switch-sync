@@ -1,11 +1,11 @@
-package com.dpi.financial.ftcom.web.controller.handler;
+package com.dpi.financial.ftcom.web.controller.handler.error;
 
 import javax.faces.application.FacesMessage;
 
 /**
  * Created by h.mohammadi on 9/3/2016.
  */
-public class UnitTestFacesErrorHandler extends SystemTestFacesErrorHandler implements IFacesErrorHandler {
+public class SystemTestFacesErrorHandler extends ProductionFacesErrorHandler implements IFacesErrorHandler {
     @Override
     public void addMessage(String clientId, FacesMessage message) {
         super.addMessage(clientId, message);

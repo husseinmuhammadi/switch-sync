@@ -1,9 +1,7 @@
-package com.dpi.financial.ftcom.web.controller.handler;
+package com.dpi.financial.ftcom.web.controller.handler.error;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
-import javax.persistence.PersistenceException;
 
 /**
  * Created by h.mohammadi on 9/3/2016.
