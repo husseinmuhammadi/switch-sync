@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server name="shetab-server" class="org.jpos.q2.iso.QServer" logger="Q2">
-	<attr name="port" type="java.lang.Integer">39190</attr>
-	<channel name="shetab.server.channel"
-		class="org.jpos.iso.channel.ASCIIChannel"
-		packager="com.idp.core.ShetabISO87APackager" logger="Q2">
-		
-		<!--packager="org.jpos.iso.packager.ISO87APackager" logger="Q2">
-		<property name="packager-config" value="q2/cfg/shetab/iso2003ASCII.xml" />-->
-	</channel>
-	<request-listener
-		class="com.idp.core.listene.ShetabListner" logger="Q2">
-		<property name="space" value="TRANSACTION.SPACE" />
-		<property name="queue" value="TRANSACTION.SHETABREQUEST" />
-		<property name="respTime" value="1000000" />
-	</request-listener>
+    <attr name="port" type="java.lang.Integer">39190</attr>
+    <channel name="shetab.server.channel"
+             class="org.jpos.iso.channel.ASCIIChannel"
+             packager="com.dpi.financial.ftcom.core.iso.packager.ShetabISO87APackager"
+             logger="Q2">
+
+        <!--packager="org.jpos.iso.packager.ISO87APackager" logger="Q2">
+        <property name="packager-config" value="q2/cfg/shetab/iso2003ASCII.xml" />-->
+    </channel>
+    <request-listener
+            class="com.dpi.financial.ftcom.core.iso.listener.ShetabListner" logger="Q2">
+        <property name="space" value="TRANSACTION.SPACE"/>
+        <property name="queue" value="TRANSACTION.SHETABREQUEST"/>
+        <property name="respTime" value="1000000"/>
+    </request-listener>
 </server>

@@ -6,6 +6,8 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class EntityBase {
 
+    protected static final String NEW_LINE = System.getProperty("line.separator");
+
     public EntityBase() {
     }
 

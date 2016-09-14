@@ -3,7 +3,7 @@ package com.dpi.financial.ftcom.core.iso.packager;
 import org.jpos.iso.*;
 import org.jpos.iso.packager.ISO87APackager;
 
-public class ShetabISO87APackager extends ISO87APackager {
+public class ShetabISO87APackager extends ISO87APackager implements ISOPackager {
     protected ISOFieldPackager fld[] = {
             /*000*/ new IFA_NUMERIC(4, "MESSAGE TYPE INDICATOR"),
     	    /*001*/ new IFA_BITMAP(16, "BIT MAP"),

@@ -1,1 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<qserver name="xml-server" logger="Q2">
+    <attr name="port" type="java.lang.Integer">8000</attr>
+    <channel name="xml.channel"
+             class="org.jpos.iso.channel.XMLChannel"
+             packager="org.jpos.iso.packager.XMLPackager">
+    </channel>
+    <request-listener class="com.dpi.financial.ftcom.core.iso.listener.MyListener" logger="Q2">
+        <property name="my-property" value="ABC" />
+        <property name="my-other-property" value="XYZ" />
+    </request-listener>
+</qserver>

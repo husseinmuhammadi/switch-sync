@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:metadata>
+    <f:viewParam name="fname" value="#{testController.name}"/>
+    <f:viewAction action="#{testController.onLoad}" onPostback="true"/>
+</f:metadata>
+<head>
+    <title>Test</title>
+</head>
+<f:view locale="en_US">
+    <body>
+    <h:messages errorClass="alert-danger" infoClass="alert-info" warnClass="alert-warning" fatalClass="alert-danger"
+                id="messages" styleClass="alert fade in" style="direction:rtl; margin: 10px"/>
+
+    <h:form>
+        <h:inputText value="#{testController.name}"/>
+        <h:outputLabel value="Hello, world"/>
+        <h:commandButton value="Submit" action="insert">
+            <f:param name="fname" value="Insert"/>
+        </h:commandButton>
+    </h:form>
+    </body>
+</f:view>
+</html>
