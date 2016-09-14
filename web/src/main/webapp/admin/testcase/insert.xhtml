@@ -9,7 +9,7 @@
     <ui:composition template="/base/template.xhtml">
 
         <ui:define name="header">
-            <h2>#{msglbl['label.testCase.new']}</h2>
+            <h2>#{lbl['label.testCase.new']}</h2>
         </ui:define>
 
         <ui:define name="content">
@@ -18,10 +18,10 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
-                            <h:outputLabel for="testCaseID" value="#{msglbl['label.testCase.testCaseId']}"/>
+                            <h:outputLabel for="testCaseID" value="#{lbl['label.testCase.testCaseId']}"/>
                         </div>
                         <h:inputText value="#{testCaseController.testCase.testCaseID}"
-                                     id="testCaseID" label="#{msglbl['label.testCase.testCaseId']}"
+                                     id="testCaseID" label="#{lbl['label.testCase.testCaseId']}"
                                      styleClass="form-control" required="false"/>
                     </div>
                 </div>
@@ -30,10 +30,10 @@
                     <div class="input-group">
                         <div class="input-group-addon">
                             <h:outputLabel for="testCaseDescription"
-                                           value="#{msglbl['label.testCase.testCaseDescription']}"/>
+                                           value="#{lbl['label.testCase.testCaseDescription']}"/>
                         </div>
                         <h:inputText value="#{testCaseController.testCase.testCaseDescription}"
-                                     id="testCaseDescription" label="#{msglbl['label.testCase.testCaseDescription']}"
+                                     id="testCaseDescription" label="#{lbl['label.testCase.testCaseDescription']}"
                                      styleClass="form-control" required="false"/>
                     </div>
                 </div>
@@ -41,10 +41,10 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
-                            <h:outputLabel for="testScenario" value="#{msglbl['label.testCase.testScenario']}"/>
+                            <h:outputLabel for="testScenario" value="#{lbl['label.testCase.testScenario']}"/>
                         </div>
                         <h:inputText value="#{testCaseController.testCase.testScenario}"
-                                     id="testScenario" label="#{msglbl['label.testCase.testScenario']}"
+                                     id="testScenario" label="#{lbl['label.testCase.testScenario']}"
                                      styleClass="form-control" required="false"/>
                     </div>
                 </div>
@@ -52,10 +52,10 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
-                            <h:outputLabel for="testScenario" value="#{msglbl['label.testCase.comments']}"/>
+                            <h:outputLabel for="testScenario" value="#{lbl['label.testCase.comments']}"/>
                         </div>
                         <h:inputText value="#{testCaseController.testCase.comments}"
-                                     id="comments" label="#{msglbl['label.testCase.comments']}"
+                                     id="comments" label="#{lbl['label.testCase.comments']}"
                                      styleClass="form-control" required="false"/>
                     </div>
                 </div>

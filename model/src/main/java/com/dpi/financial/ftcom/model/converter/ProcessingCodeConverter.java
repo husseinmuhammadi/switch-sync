@@ -11,7 +11,10 @@ import javax.persistence.AttributeConverter;
 public class ProcessingCodeConverter implements AttributeConverter<ProcessingCode, String> {
     @Override
     public String convertToDatabaseColumn(ProcessingCode processingCode) {
-        return processingCode.getValue();
+        if (processingCode != null)
+            return processingCode.getValue();
+
+        return null;
     }
 
     @Override

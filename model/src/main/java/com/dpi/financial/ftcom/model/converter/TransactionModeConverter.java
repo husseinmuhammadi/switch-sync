@@ -10,7 +10,10 @@ import javax.persistence.AttributeConverter;
 public class TransactionModeConverter implements AttributeConverter<TransactionMode, String> {
     @Override
     public String convertToDatabaseColumn(TransactionMode transactionMode) {
-        return transactionMode.getValue();
+        if (transactionMode != null)
+            return transactionMode.getValue();
+
+        return null;
     }
 
     @Override

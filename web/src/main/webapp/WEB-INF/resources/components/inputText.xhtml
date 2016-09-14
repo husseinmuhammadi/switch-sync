@@ -21,14 +21,14 @@
     <div class="form-group" style="direction: rtl">
         <div class="input-group">
             <div class="input-group-addon">
-                <h:outputLabel for="#{cc.attrs.componentId}" value="#{msglbl[cc.attrs.label]}"/>
+                <h:outputLabel for="#{cc.attrs.componentId}" value="#{lbl[cc.attrs.label]}"/>
             </div>
             <h:inputText value="#{cc.attrs.value}" id="#{cc.attrs.componentId}"
                          styleClass="form-control"
-                         label="#{msglbl[cc.attrs.label]}" maxlength="#{cc.attrs.maxlength}"
+                         label="#{lbl[cc.attrs.label]}" maxlength="#{cc.attrs.maxlength}"
                          required="#{cc.attrs.required ne null ? cc.attrs.required : false}"
                          disabled="#{cc.attrs.disabled eq null ? false : cc.attrs.disabled}"
-                         p:placeholder="#{cc.attrs.disabled eq null or cc.attrs.disabled ne true ? msglbl[cc.attrs.label] : ''}"
+                         p:placeholder="#{cc.attrs.disabled eq null or cc.attrs.disabled ne true ? lbl[cc.attrs.label] : ''}"
                          onkeyup="#{cc.attrs.onkeyup ne null ? cc.attrs.onkeyup : (cc.attrs.isNumber ? (cc.attrs.separatorFormatter ? 'numberFormatter(this)' : 'number(this)') : null)}"
                          autofocus="#{cc.attrs.autofocus}"
                     />

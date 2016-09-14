@@ -10,16 +10,16 @@
     <cc:attribute name="insertPageAddress" type="java.lang.String" required="true"/>
 </cc:interface>
 <cc:implementation>
-    <h:commandButton value="#{msglbl.edit}"
+    <h:commandButton value="#{lbl.edit}"
                      rendered="#{param.parentId eq null}"
-                     title="#{msglbl.edit}">
+                     title="#{lbl.edit}">
         <pf:dialogBehavior src="#{cc.attrs.insertPageAddress}"
                            parameters="{'mode':'edit', 'id':'#{cc.attrs.baseEntity.id}'}"/>
         <f:ajax/>
     </h:commandButton>
-    <h:commandButton value="#{msglbl.view}"
+    <h:commandButton value="#{lbl.view}"
                      rendered="#{param.parentId eq null}"
-                     title="#{msglbl.edit}">
+                     title="#{lbl.edit}">
         <pf:dialogBehavior src="#{cc.attrs.insertPageAddress}"
                            parameters="{'mode':'view', 'id':'#{cc.attrs.baseEntity.id}'}"/>
         <f:ajax/>

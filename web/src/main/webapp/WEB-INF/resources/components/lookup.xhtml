@@ -21,14 +21,14 @@
         <div class="form-group" style="direction: rtl">
             <div class="input-group">
                 <div class="input-group-addon">
-                    <h:outputLabel for="#{cc.attrs.componentId}" value="#{msglbl[cc.attrs.label]}"/>
+                    <h:outputLabel for="#{cc.attrs.componentId}" value="#{lbl[cc.attrs.label]}"/>
                 </div>
                 <pf:lookup lookupPath="#{cc.attrs.lookupPath}" value="#{cc.attrs.value}" id="#{cc.attrs.componentId}"
                            inputClass="form-control" btnClass="btn btn-default"
-                           label="#{msglbl[cc.attrs.label]}"
+                           label="#{lbl[cc.attrs.label]}"
                            required="#{cc.attrs.required ne null ? cc.attrs.required : false}"
                            readOnly="#{cc.attrs.disabled eq null ? false : cc.attrs.disabled}"
-                           p:placeholder="#{cc.attrs.disabled eq null or cc.attrs.disabled ne true ? msglbl[cc.attrs.label] : ''}"
+                           p:placeholder="#{cc.attrs.disabled eq null or cc.attrs.disabled ne true ? lbl[cc.attrs.label] : ''}"
                            autofocus="#{cc.attrs.autofocus}" binding="#{cc.attrs.binding}"
                         >
                     <cc:insertChildren />

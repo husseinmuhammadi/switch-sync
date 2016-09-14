@@ -17,12 +17,12 @@
     <div class="form-group" style="direction: rtl">
         <div class="input-group">
             <div class="input-group-addon">
-                <h:outputLabel for="#{cc.attrs.componentId}" value="#{msglbl[cc.attrs.label]}"/>
+                <h:outputLabel for="#{cc.attrs.componentId}" value="#{lbl[cc.attrs.label]}"/>
             </div>
             <pf:datePicker value="#{cc.attrs.value}" id="#{cc.attrs.componentId}"
-                           inputClass="form-control" label="#{msglbl[cc.attrs.label]}"
+                           inputClass="form-control" label="#{lbl[cc.attrs.label]}"
                            required="#{cc.attrs.required ne null ? cc.attrs.required : false}"
-                           p:placeholder="#{cc.attrs.disabled eq null or cc.attrs.disabled ne true ? msglbl[cc.attrs.label] : ''}"
+                           p:placeholder="#{cc.attrs.disabled eq null or cc.attrs.disabled ne true ? lbl[cc.attrs.label] : ''}"
                            autofocus="#{cc.attrs.autofocus}" disabled="#{cc.attrs.disabled}"
                     >
                 <cc:insertChildren/>

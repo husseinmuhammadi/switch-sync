@@ -1,40 +1,32 @@
 package com.dpi.financial.ftcom.model.to;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.model.converter.DeviceCodeConverter;
-import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
-import com.dpi.financial.ftcom.model.converter.ProductCodeConverter;
-import com.dpi.financial.ftcom.model.converter.TransactionModeConverter;
-import com.dpi.financial.ftcom.model.type.DeviceCode;
-import com.dpi.financial.ftcom.model.type.ProcessingCode;
-import com.dpi.financial.ftcom.model.type.ProductCode;
-import com.dpi.financial.ftcom.model.type.TransactionMode;
+import com.dpi.financial.ftcom.model.converter.*;
+import com.dpi.financial.ftcom.model.type.*;
 import com.dpi.financial.ftcom.utility.helper.DateHelper;
 
 import javax.persistence.*;
 
 /**
- *
  * http://www.softwaretestingclass.com/what-is-difference-between-test-cases-vs-test-scenarios/
  * Test Scenario: The exhaustive testing is not possible due to large number of data combinations and large number of possible paths in the software. Scenario testing is to make sure that end to end functionality of application under test is working as expected. Also check if the all business flows are working as expected. In scenario testing tester need to put his/her foot in the end users shoes to check and perform the action as how they are using application under test. In scenario testing the preparation of scenarios would be the most important part, to prepare the scenario tester needs to consult or take help from the client, stakeholder or developers.
- *
- *
+ * <p>
+ * <p>
  * https://blog.testlodge.com/whats-the-difference-between-test-case-and-test-scenario/
  * Test Scenario
  * The purpose of scenario testing is to test the end-to-end functionality of a software application and ensure the business processes and flows are functioning as needed. In scenario testing, the tester puts themselves in the users shoes and determines real world scenarios (use-cases) that can be performed. Once these test scenarios are determined, test cases can be written for each scenario. Test scenarios are the high level concept of what to test.
  * Test Case
  * A test case is a set of steps to be executed by the tester in order to validate the scenario. Whereas test scenarios are derived from use-cases, test cases are derived and written from the test scenarios. A test scenario usually has multiple test cases associated with it, as test cases layout out the low-level details on how to test the scenario.
- *
+ * <p>
  * Example
  * Test Scenario: Validate the login page
  * Test Case 1: Enter a valid username and password
  * Test Case 2: Reset your password
  * Test Case 3: Enter invalid credentials
- *
- *
+ * <p>
+ * <p>
  * http://www.guru99.com/test-scenario.html
  * Test Scenario - A Scenario is any functionality that can be tested. It is also called Test Condition or Test Possibility.
- *
  */
 
 @Entity
@@ -46,6 +38,10 @@ import javax.persistence.*;
 public class SwitchTestScenario extends EntityBase {
 
     public static final String FIND_ALL = "SwitchTestScenario.findAll";
+
+    @Column(name = "FINANCIAL_SERVICE_PROVIDER", nullable = false, length = 1)
+    @Convert(converter = FinancialServiceProviderConverter.class)
+    private FinancialServiceProvider financialServiceProvider;
 
     @Column(name = "PROCESSING_CODE", nullable = true, length = 2)
     @Convert(converter = ProcessingCodeConverter.class)
@@ -126,5 +122,13 @@ public class SwitchTestScenario extends EntityBase {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public FinancialServiceProvider getFinancialServiceProvider() {
+        return financialServiceProvider;
+    }
+
+    public void setFinancialServiceProvider(FinancialServiceProvider financialServiceProvider) {
+        this.financialServiceProvider = financialServiceProvider;
     }
 }

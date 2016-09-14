@@ -10,7 +10,10 @@ import javax.persistence.AttributeConverter;
 public class ProductCodeConverter implements AttributeConverter<ProductCode, String> {
     @Override
     public String convertToDatabaseColumn(ProductCode productCode) {
-        return productCode.getValue();
+        if (productCode != null)
+            return productCode.getValue();
+
+        return null;
     }
 
     @Override

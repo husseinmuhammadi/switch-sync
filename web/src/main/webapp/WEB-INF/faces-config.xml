@@ -10,7 +10,7 @@
 
         <resource-bundle>
             <base-name>com.dpi.financial.ftcom.web.i18n.label.messages</base-name>
-            <var>msglbl</var>
+            <var>lbl</var>
         </resource-bundle>
 
         <message-bundle>com.dpi.financial.ftcom.web.i18n.validation.messages</message-bundle>
