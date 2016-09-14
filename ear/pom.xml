@@ -81,6 +81,139 @@
                     -->
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.2.Final</version>
+                <executions>
+                    <!-- Undeploy the application on clean -->
+                    <execution>
+                        <id>undeploy</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>undeploy</goal>
+                        </goals>
+                        <configuration>
+                            <ignoreMissingDeployment>true</ignoreMissingDeployment>
+                        </configuration>
+                    </execution>
+
+                    <!-- Deploy the JDBC library -->
+                    <!--
+                    <execution>
+                        <id>deploy-driver</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <groupId>postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <name>postgresql.jar</name>
+                        </configuration>
+                        <goals>
+                            <goal>deploy-artifact</goal>
+                        </goals>
+                    </execution>
+                    -->
+
+                    <!-- Add a data source -->
+                    <!--
+                    <execution>
+                        <id>add-datasource</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <address>subsystem=datasources,data-source=myDatasource</address>
+                            <resources>
+                                <resource>
+                                    <enableResource>true</enableResource>
+                                    <properties>
+                                        <connection-url>jdbc:postgresql://localhost/myDatabase</connection-url>
+                                        <jndi-name>java:jboss/myDatasource</jndi-name>
+                                        <enabled>true</enabled>
+                                        <enable>true</enable>
+                                        <user-name>dbuser</user-name>
+                                        <password>supersecret</password>
+                                        <driver-name>postgresql.jar</driver-name>
+                                        <use-ccm>false</use-ccm>
+                                    </properties>
+                                </resource>
+                            </resources>
+                        </configuration>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                    </execution>
+                    -->
+
+                    <!-- Add an XA datasource -->
+                    <!--
+                    <execution>
+                        <id>add-xa-datasource</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <address>subsystem=datasources</address>
+                            <resources>
+                                <resource>
+                                    <address>xa-data-source=java:jboss/datasources/postgresDS</address>
+                                    <enableResource>true</enableResource>
+                                    <properties>
+                                        <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+                                        <jndi-name>java:jboss/datasources/postgresDS</jndi-name>
+                                        <enabled>true</enabled>
+                                        <driver-name>postgresql.jar</driver-name>
+                                    </properties>-->
+                                    <!-- Add the XA data source properties. The nested addresses will prepended the address above. -->
+                                    <!--<resources>
+                                        <resource>
+                                            <address>
+                                                xa-datasource-properties=DatabaseName
+                                            </address>
+                                            <properties>
+                                                <value>myDatabase</value>
+                                            </properties>
+                                        </resource>
+                                        <resource>
+                                            <address>
+                                                xa-datasource-properties=ServerName
+                                            </address>
+                                            <properties>
+                                                <value>localhost</value>
+                                            </properties>
+                                        </resource>
+                                        <resource>
+                                            <address>
+                                                xa-datasource-properties=User
+                                            </address>
+                                            <properties>
+                                                <value>dbuser</value>
+                                            </properties>
+                                        </resource>
+                                        <resource>
+                                            <address>
+                                                xa-datasource-properties=Password
+                                            </address>
+                                            <properties>
+                                                <value>supersecret</value>
+                                            </properties>
+                                        </resource>
+                                    </resources>
+                                </resource>
+                            </resources>
+                        </configuration>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                    </execution>
+                    -->
+
+                    <!-- Deploy the application on install -->
+                    <execution>
+                        <id>deploy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
             <resource>
