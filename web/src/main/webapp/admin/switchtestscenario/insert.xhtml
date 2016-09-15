@@ -15,16 +15,19 @@
         <ui:define name="content">
             <h:form class="form-group" style="direction: rtl">
 
-                <div class="form-group">
+                <div class="form-group" style="direction: rtl">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <h:outputLabel for="financialServiceProvider"
                                            value="#{lbl['label.switchTestScenario.financialServiceProvider']}"/>
                         </div>
-                        <h:inputText value="#{switchTestScenarioController.switchTestScenario.financialServiceProvider}"
-                                     id="financialServiceProvider"
-                                     label="#{lbl['label.switchTestScenario.financialServiceProvider']}"
-                                     styleClass="form-control" required="true"/>
+                        <h:selectOneMenu value="#{switchTestScenarioController.switchTestScenario.financialServiceProvider}"
+                                         id="financialServiceProvider" label="#{lbl['label.switchTestScenario.financialServiceProvider']}"
+                                         required="true" styleClass="form-control">
+                            <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
+                            <f:selectItems value="#{switchTestScenarioController.financialServiceProviderItems.entrySet()}" var="items"
+                                           itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                        </h:selectOneMenu>
                     </div>
                 </div>
 

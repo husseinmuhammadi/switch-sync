@@ -2,16 +2,20 @@ package com.dpi.financial.ftcom.web.controller.base;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.web.util.ResourceBundleUtil;
+import com.dpi.financial.ftcom.web.bundle.ResourceBundleUtil;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+import java.util.AbstractCollection;
 import java.util.ResourceBundle;
 
 @Dependent
-public abstract class ControllerBase<T extends EntityBase> implements ControllerActionBase, GenericBean<T> {
+public abstract class ControllerBase<T extends EntityBase> extends AbstractController
+        implements ControllerActionBase, GenericBean<T> {
 
     private final IFactory<T> factory;
     protected T entity;
@@ -32,6 +36,10 @@ public abstract class ControllerBase<T extends EntityBase> implements Controller
     }
 
     public abstract GeneralServiceApi<T> getGeneralServiceApi();
+
+    @PostConstruct
+    protected void init() {
+    }
 
     @Override
     public void prepare() {
@@ -91,4 +99,6 @@ public abstract class ControllerBase<T extends EntityBase> implements Controller
     public String delete() {
         return null;
     }
+
+
 }

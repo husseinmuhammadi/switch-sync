@@ -34,4 +34,5 @@ public class ProductController extends ControllerBase<Product> implements Serial
     public GeneralServiceApi<Product> getGeneralServiceApi() {
         return productService;
     }
+
 }

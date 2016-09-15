@@ -32,4 +32,10 @@ public enum ProductCode implements IEnumFieldValue<String> {
     public String getValue() {
         return this.productCode;
     }
+
+    @Override
+    public String getFullName() {
+        return this.getClass().getName() + "." + this.name();
+    }
+
 }

@@ -4,12 +4,15 @@ package com.dpi.financial.ftcom.web.controller.base.switchtestscenario;
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.SwitchTestScenarioService;
 import com.dpi.financial.ftcom.model.to.SwitchTestScenario;
+import com.dpi.financial.ftcom.model.type.FinancialServiceProvider;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 @Named
 @ViewScoped
@@ -18,6 +21,15 @@ public class SwitchTestScenarioController extends ControllerBase<SwitchTestScena
 
     @EJB
     private SwitchTestScenarioService switchTestScenarioService;
+
+    public Map<String, String> getFinancialServiceProviderItems() {
+        Map<String, String> items = new HashMap<String, String>();
+        items.put("", getLabel("label.select.empty"));
+        for (FinancialServiceProvider financialServiceProvider : FinancialServiceProvider.values()) {
+            items.put(financialServiceProvider.name(), getLabel(financialServiceProvider));
+        }
+        return items;
+    }
 
     public SwitchTestScenarioController() {
         super(SwitchTestScenario.class);
@@ -34,5 +46,10 @@ public class SwitchTestScenarioController extends ControllerBase<SwitchTestScena
     @Override
     public GeneralServiceApi<SwitchTestScenario> getGeneralServiceApi() {
         return switchTestScenarioService;
+    }
+
+    @Override
+    public void init() {
+
     }
 }

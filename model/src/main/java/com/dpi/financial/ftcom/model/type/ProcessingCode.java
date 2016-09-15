@@ -46,4 +46,10 @@ public enum  ProcessingCode implements IEnumFieldValue<String> {
     public String getValue() {
         return this.processingCode;
     }
+
+    @Override
+    public String getFullName() {
+        return this.getClass().getName() + "." + this.name();
+    }
+
 }

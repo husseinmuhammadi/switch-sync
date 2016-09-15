@@ -29,4 +29,10 @@ public enum TransactionMode implements IEnumFieldValue<String> {
     public String getValue() {
         return this.transactionMode;
     }
+
+    @Override
+    public String getFullName() {
+        return this.getClass().getName() + "." + this.name();
+    }
+
 }

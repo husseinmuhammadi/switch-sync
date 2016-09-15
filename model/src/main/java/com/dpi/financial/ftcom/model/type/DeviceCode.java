@@ -34,4 +34,10 @@ public enum DeviceCode implements IEnumFieldValue<String> {
     public String getValue() {
         return this.deviceCode;
     }
+
+    @Override
+    public String getFullName() {
+        return this.getClass().getName() + "." + this.name();
+    }
+
 }

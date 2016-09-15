@@ -29,4 +29,9 @@ public enum FinancialServiceProvider implements IEnumFieldValue<String> {
     public String getValue() {
         return this.financialServiceProvider;
     }
+
+    @Override
+    public String getFullName() {
+        return this.getClass().getName() + "." + this.name();
+    }
 }
