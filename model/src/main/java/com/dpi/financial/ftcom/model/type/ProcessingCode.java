@@ -34,10 +34,14 @@ public enum  ProcessingCode implements IEnumFieldValue<String> {
     }
 
     public static ProcessingCode getInstance(String value) {
+        if (value == null || value.isEmpty())
+            return null;
+
         for (ProcessingCode processingCode : values()) {
             if (processingCode.getValue().equals(value))
                 return processingCode;
         }
+
         throw new TypeNotFoundException(ProcessingCode.class.getName()
                 + " Error creating instance for processing code : " + value);
     }

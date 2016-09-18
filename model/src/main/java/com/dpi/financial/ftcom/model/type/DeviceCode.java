@@ -22,10 +22,14 @@ public enum DeviceCode implements IEnumFieldValue<String> {
     }
 
     public static DeviceCode getInstance(String value) {
+        if (value == null || value.isEmpty())
+            return null;
+
         for (DeviceCode deviceCode : values()) {
             if (deviceCode.getValue().equals(value))
                 return deviceCode;
         }
+
         throw new TypeNotFoundException(DeviceCode.class.getName()
                 + " Error creating instance for device code: " + value);
     }

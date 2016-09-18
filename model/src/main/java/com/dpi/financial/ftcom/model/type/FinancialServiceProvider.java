@@ -17,10 +17,14 @@ public enum FinancialServiceProvider implements IEnumFieldValue<String> {
     }
 
     public static FinancialServiceProvider getInstance(String value) {
+        if (value == null || value.isEmpty())
+            return null;
+
         for (FinancialServiceProvider financialServiceProvider : values()) {
             if (financialServiceProvider.getValue().equals(value))
                 return financialServiceProvider;
         }
+
         throw new TypeNotFoundException(FinancialServiceProvider.class.getName()
                 + " Error creating instance for financial service provider: " + value);
     }

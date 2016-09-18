@@ -22,15 +22,6 @@ public class SwitchTestScenarioController extends ControllerBase<SwitchTestScena
     @EJB
     private SwitchTestScenarioService switchTestScenarioService;
 
-    public Map<String, String> getFinancialServiceProviderItems() {
-        Map<String, String> items = new HashMap<String, String>();
-        items.put("", getLabel("label.select.empty"));
-        for (FinancialServiceProvider financialServiceProvider : FinancialServiceProvider.values()) {
-            items.put(financialServiceProvider.name(), getLabel(financialServiceProvider));
-        }
-        return items;
-    }
-
     public SwitchTestScenarioController() {
         super(SwitchTestScenario.class);
     }

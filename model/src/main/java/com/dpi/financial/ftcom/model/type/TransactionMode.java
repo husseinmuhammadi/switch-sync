@@ -17,10 +17,14 @@ public enum TransactionMode implements IEnumFieldValue<String> {
     }
 
     public static TransactionMode getInstance(String value) {
+        if (value == null || value.isEmpty())
+            return null;
+
         for (TransactionMode transactionMode : values()) {
             if (transactionMode.getValue().equals(value))
                 return transactionMode;
         }
+
         throw new TypeNotFoundException(TransactionMode.class.getName()
                 + " Error creating instance for transaction mode : " + value);
     }

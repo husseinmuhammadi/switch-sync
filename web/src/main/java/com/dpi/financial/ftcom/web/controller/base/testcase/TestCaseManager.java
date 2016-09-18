@@ -31,8 +31,9 @@ public class TestCaseManager extends ControllerManagerBase<TestCase> implements 
         return testCaseService;
     }
 
+    @Override
     @PostConstruct
-    private void init(){
+    public void init() {
         testCaseList = testCaseService.findAll();
     }
 

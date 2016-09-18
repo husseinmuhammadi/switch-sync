@@ -15,7 +15,23 @@
         <ui:define name="content">
             <h:form class="form-group" style="direction: rtl">
 
-                <div class="form-group" style="direction: rtl">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="testConditionType"
+                                           value="#{lbl['label.switchTestScenario.testConditionType']}"/>
+                        </div>
+                        <h:selectOneMenu value="#{switchTestScenarioController.switchTestScenario.testConditionType}"
+                                         id="testConditionType" label="#{lbl['label.switchTestScenario.testConditionType']}"
+                                         required="true" styleClass="form-control">
+                            <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
+                            <f:selectItems value="#{selectItemsController.testConditionTypeItems.entrySet()}" var="items"
+                                           itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <h:outputLabel for="financialServiceProvider"
@@ -25,7 +41,7 @@
                                          id="financialServiceProvider" label="#{lbl['label.switchTestScenario.financialServiceProvider']}"
                                          required="true" styleClass="form-control">
                             <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
-                            <f:selectItems value="#{switchTestScenarioController.financialServiceProviderItems.entrySet()}" var="items"
+                            <f:selectItems value="#{selectItemsController.financialServiceProviderItems.entrySet()}" var="items"
                                            itemLabel="#{items.value}" itemValue="#{items.key}"/>
                         </h:selectOneMenu>
                     </div>
@@ -37,9 +53,12 @@
                             <h:outputLabel for="processingCode"
                                            value="#{lbl['label.switchTestScenario.processingCode']}"/>
                         </div>
-                        <h:inputText value="#{switchTestScenarioController.switchTestScenario.processingCode}"
-                                     id="processingCode" label="#{lbl['label.switchTestScenario.processingCode']}"
-                                     styleClass="form-control" required="false"/>
+                        <h:selectOneMenu value="#{switchTestScenarioController.switchTestScenario.processingCode}"
+                                         id="processingCode" label="#{lbl['label.switchTestScenario.processingCode']}"
+                                         styleClass="form-control" required="false">
+                            <f:selectItems value="#{selectItemsController.processingCodeItems.entrySet()}" var="items"
+                                           itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                        </h:selectOneMenu>
                     </div>
                 </div>
 
@@ -48,9 +67,12 @@
                         <div class="input-group-addon">
                             <h:outputLabel for="deviceCode" value="#{lbl['label.switchTestScenario.deviceCode']}"/>
                         </div>
-                        <h:inputText value="#{switchTestScenarioController.switchTestScenario.deviceCode}"
-                                     id="deviceCode" label="#{lbl['label.switchTestScenario.deviceCode']}"
-                                     styleClass="form-control" required="false"/>
+                        <h:selectOneMenu value="#{switchTestScenarioController.switchTestScenario.deviceCode}"
+                                         id="deviceCode" label="#{lbl['label.switchTestScenario.deviceCode']}"
+                                         styleClass="form-control" required="false">
+                            <f:selectItems value="#{selectItemsController.deviceCodeItems.entrySet()}" var="items"
+                                           itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                        </h:selectOneMenu>
                     </div>
                 </div>
 
@@ -59,9 +81,27 @@
                         <div class="input-group-addon">
                             <h:outputLabel for="productCode" value="#{lbl['label.switchTestScenario.productCode']}"/>
                         </div>
-                        <h:inputText value="#{switchTestScenarioController.switchTestScenario.productCode}"
-                                     id="productCode" label="#{lbl['label.switchTestScenario.productCode']}"
-                                     styleClass="form-control" required="false"/>
+                        <h:selectOneMenu value="#{switchTestScenarioController.switchTestScenario.productCode}"
+                                         id="productCode" label="#{lbl['label.switchTestScenario.productCode']}"
+                                         styleClass="form-control" required="false">
+                            <f:selectItems value="#{selectItemsController.productCodeItems.entrySet()}" var="items"
+                                           itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="transactionMode"
+                                           value="#{lbl['label.switchTestScenario.transactionMode']}"/>
+                        </div>
+                        <h:selectOneMenu value="#{switchTestScenarioController.switchTestScenario.transactionMode}"
+                                         id="transactionMode" label="#{lbl['label.switchTestScenario.transactionMode']}"
+                                         styleClass="form-control" required="false">
+                            <f:selectItems value="#{selectItemsController.transactionModeItems.entrySet()}" var="items"
+                                           itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                        </h:selectOneMenu>
                     </div>
                 </div>
 
@@ -97,18 +137,6 @@
                         <h:inputText value="#{switchTestScenarioController.switchTestScenario.scenario}"
                                      id="scenario" label="#{lbl['label.switchTestScenario.scenario']}"
                                      styleClass="form-control" required="true"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <h:outputLabel for="transactionMode"
-                                           value="#{lbl['label.switchTestScenario.transactionMode']}"/>
-                        </div>
-                        <h:inputText value="#{switchTestScenarioController.switchTestScenario.transactionMode}"
-                                     id="transactionMode" label="#{lbl['label.switchTestScenario.transactionMode']}"
-                                     styleClass="form-control" required="false"/>
                     </div>
                 </div>
 

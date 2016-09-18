@@ -9,6 +9,13 @@ public class MessageUtil {
         return getMessage(key, resourceBundle);
     }
 
+    /**
+     * http://stackoverflow.com/questions/6451215/how-to-remove-the-surrounding-when-message-is-not-found-in-bundle
+     *
+     * @param key
+     * @param resourceBundle
+     * @return
+     */
     public static String getMessage(String key, ResourceBundle resourceBundle) {
         // return resourceBundle.getString(name);
 

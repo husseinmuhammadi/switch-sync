@@ -33,11 +33,15 @@ import javax.persistence.*;
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "SWITCH_TEST_SCENARIO_SEQ")
 @Table(name = "SWITCH_TEST_SCENARIO")
 @NamedQueries({
-        @NamedQuery(name = SwitchTestScenario.FIND_ALL, query = "select t from SwitchTestScenario t")
+        @NamedQuery(name = SwitchTestScenario.FIND_ALL, query = "select t from SwitchTestScenario t where t.deleted = false")
 })
 public class SwitchTestScenario extends EntityBase {
 
     public static final String FIND_ALL = "SwitchTestScenario.findAll";
+
+    @Column(name = "TEST_CONDITION_TYPE", nullable = true, length = 1)
+    @Convert(converter = TestConditionTypeConverter.class)
+    private TestConditionType testConditionType;
 
     @Column(name = "FINANCIAL_SERVICE_PROVIDER", nullable = false, length = 1)
     @Convert(converter = FinancialServiceProviderConverter.class)
@@ -58,6 +62,9 @@ public class SwitchTestScenario extends EntityBase {
     @Column(name = "TRANSACTION_MODE", nullable = true, length = 8)
     @Convert(converter = TransactionModeConverter.class)
     private TransactionMode transactionMode;
+
+    @Column(name = "REVERSED", nullable = true)
+    private boolean reversed;
 
     @Column(name = "SCENARIO", nullable = false, length = 200)
     private String scenario;
@@ -130,5 +137,21 @@ public class SwitchTestScenario extends EntityBase {
 
     public void setFinancialServiceProvider(FinancialServiceProvider financialServiceProvider) {
         this.financialServiceProvider = financialServiceProvider;
+    }
+
+    public TestConditionType getTestConditionType() {
+        return testConditionType;
+    }
+
+    public void setTestConditionType(TestConditionType testConditionType) {
+        this.testConditionType = testConditionType;
+    }
+
+    public boolean isReversed() {
+        return reversed;
+    }
+
+    public void setReversed(boolean reversed) {
+        this.reversed = reversed;
     }
 }

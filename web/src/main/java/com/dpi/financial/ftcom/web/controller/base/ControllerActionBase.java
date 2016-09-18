@@ -14,4 +14,6 @@ public interface ControllerActionBase {
     String update();
 
     String delete();
+
+    String delete(Long id);
 }

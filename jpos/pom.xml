@@ -110,9 +110,22 @@
     </dependencies>
 
     <build>
+
+        <!-- TEST -->
+        <resources>
+            <resource>
+                <directory>src/main/resources/META-INF</directory>
+                <filtering>true</filtering>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
+
         <plugins>
 
-            <!-- If <packaging/> is set to sar, then this plugin will be executed during the package phase. To execute the plugin manually, use this command: mvn install -->
+            <!--
+            If <packaging/> is set to sar, then this plugin will be executed during the package phase.
+            To execute the plugin manually, use this command: mvn install
+            -->
             <!--
             <plugin>
                 <groupId>net.sf.maven-sar</groupId>
@@ -128,6 +141,17 @@
                 <artifactId>jboss-packaging-maven-plugin</artifactId>
                 <version>2.2</version>
                 <extensions>true</extensions>
+
+                <!-- TEST -->
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifestEntries>
+                            <!--<Class-Path>lib/${utility.artifactId}-${utility.version}.jar</Class-Path>-->
+                            <!--<Dependencies>org.jpos</Dependencies>-->
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
 
             <!--

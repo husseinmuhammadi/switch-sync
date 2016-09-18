@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import java.util.AbstractCollection;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 @Dependent
 public abstract class ControllerBase<T extends EntityBase> extends AbstractController
@@ -54,12 +55,7 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
     @Override
     public String create() {
         ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
-
-        ProjectStage projectStage = FacesContext.getCurrentInstance().getApplication().getProjectStage();
-
         try {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> before save : " + entity.getId());
-
             // prepare entity
             prepare();
 
@@ -71,21 +67,7 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
             entity = factory.createInstance();
         } catch (Exception e) {
             e.printStackTrace();
-
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> after save : " + entity.getId());
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("request.error")));
-
-            if (projectStage != null && projectStage.equals(ProjectStage.Development)) {
-                Throwable cause = e.getCause();
-                while (cause != null /* && !(cause instanceof SQLException)*/) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(cause.toString()));
-
-                    // if (cause instanceof javax.persistence.PersistenceException) entity.setId(null);
-
-                    cause = cause.getCause();
-                }
-            }
+            printErrorMessage(e);
         }
         return null;
     }
@@ -97,8 +79,43 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
 
     @Override
     public String delete() {
+        ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
+
+        try {
+            getGeneralServiceApi().delete(entity);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("request.success")));
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrorMessage(e);
+        }
         return null;
     }
 
+    @Override
+    public String delete(Long id) {
+        try {
+            entity = getGeneralServiceApi().find(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrorMessage(e);
+        }
+        return delete();
+    }
 
+    private void printErrorMessage(Throwable e) {
+        ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("request.error")));
+
+        ProjectStage projectStage = FacesContext.getCurrentInstance().getApplication().getProjectStage();
+        if (projectStage != null && projectStage.equals(ProjectStage.Development)) {
+            Throwable cause = e.getCause();
+            while (cause != null /* && !(cause instanceof SQLException)*/) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(cause.toString()));
+
+                // if (cause instanceof javax.persistence.PersistenceException) entity.setId(null);
+
+                cause = cause.getCause();
+            }
+        }
+    }
 }

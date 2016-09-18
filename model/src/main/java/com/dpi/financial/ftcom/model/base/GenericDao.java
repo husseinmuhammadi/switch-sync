@@ -32,8 +32,8 @@ public abstract class GenericDao<T extends EntityBase> {
     }
 
     public void remove(T t) {
-        entityManager.merge(t);
         t.setDeleted(true);
+        entityManager.merge(t);
     }
 
     public T update(T t) {
