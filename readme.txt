@@ -1,4 +1,4 @@
-<h1>Switch Project Installation<h1>
+Switch Project Installation
 
 PREREQUISITES
  1- Install JDK 1.8 x64 
