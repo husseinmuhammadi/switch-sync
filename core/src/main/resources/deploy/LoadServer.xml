@@ -1,0 +1,12 @@
+<server name="xml-server" class="org.jpos.q2.iso.QServer" logger="Q2">
+	<attr name="port" type="java.lang.Integer">39191</attr>
+    <channel class="org.jpos.iso.channel.ASCIIChannel" logger="Q2"
+             realm="Visa" packager="com.en.base1.ShetabISO87APackager">
+    </channel>
+	<request-listener
+		class="com.en.listener.LoadListener" logger="Q2">
+		<property name="space" value="TRANSACTION.SPACE" />
+		<property name="queue" value="TRANSACTION.REQUEST" />
+		<property name="respTime" value="10" />
+	</request-listener>
+</server>

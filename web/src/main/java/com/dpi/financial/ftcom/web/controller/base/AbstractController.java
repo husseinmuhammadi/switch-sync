@@ -3,6 +3,8 @@ package com.dpi.financial.ftcom.web.controller.base;
 import com.dpi.financial.ftcom.utility.i18n.MessageUtil;
 import com.dpi.financial.ftcom.web.bundle.ResourceBundleUtil;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -76,6 +78,25 @@ public class AbstractController {
         ResourceBundle resourceBundle = getLabelBundle();
                 // ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.LABEL_BUNDLE);
         return MessageUtil.getMessage(anEnum, resourceBundle);
+    }
+
+
+
+    protected void printErrorMessage(Throwable e) {
+        ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("request.error")));
+
+        ProjectStage projectStage = FacesContext.getCurrentInstance().getApplication().getProjectStage();
+        if (projectStage != null && projectStage.equals(ProjectStage.Development)) {
+            Throwable cause = e.getCause();
+            while (cause != null /* && !(cause instanceof SQLException)*/) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(cause.toString()));
+
+                // if (cause instanceof javax.persistence.PersistenceException) entity.setId(null);
+
+                cause = cause.getCause();
+            }
+        }
     }
 
 }

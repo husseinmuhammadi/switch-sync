@@ -9,6 +9,8 @@ import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -36,7 +38,17 @@ public class SwitchTestScenarioManager extends ControllerManagerBase<SwitchTestS
     @Override
     @PostConstruct
     public void init() {
-        switchTestScenarioList = switchTestScenarioService.findAll();
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+        // externalContext.getFlash().keep();
+        // if ()
+
+        try {
+            switchTestScenarioList = switchTestScenarioService.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrorMessage(e);
+        }
     }
 
     public List<SwitchTestScenario> getSwitchTestScenarioList() {

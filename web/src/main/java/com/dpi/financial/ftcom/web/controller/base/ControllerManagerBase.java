@@ -11,7 +11,8 @@ import javax.enterprise.context.Dependent;
  */
 
 @Dependent
-public abstract class ControllerManagerBase<T extends EntityBase> implements Manager {
+public abstract class ControllerManagerBase<T extends EntityBase>
+        extends AbstractController implements Manager {
     public ControllerManagerBase(Class<T> entityBeanClass) {
     }
 

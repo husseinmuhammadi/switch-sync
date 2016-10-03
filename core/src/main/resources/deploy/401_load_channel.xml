@@ -1,0 +1,21 @@
+<channel-adaptor name="loadtest" class="org.jpos.q2.iso.ChannelAdaptor" logger="Q2">
+    <channel class="org.jpos.iso.channel.ASCIIChannel" logger="Q2"
+             realm="Base1" packager="com.en.base1.ShetabISO87APackager">
+
+        <!--<property name="host" value="223.30.224.241" /> -->
+        <!-- 10.0.0.195:55571 -->
+        <!-- 10.0.0.162:12501 -->
+
+        <property name="host" value="172.16.24.146"/>
+        <!--<property name="host" value="localhost" />-->
+        <property name="port" value="39190"/>
+        <!--12501 51071 51076 -->
+
+        <!--<property name="port" value="39190" /> -->
+    </channel>
+    <in>load-send</in>
+    <out>load-receive</out>
+    <space>tspace:default</space>
+    <reconnect-delay>6000</reconnect-delay>
+</channel-adaptor>
+

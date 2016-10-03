@@ -1,0 +1,6 @@
+<mux class="org.jpos.q2.iso.QMUX" logger="Q2" name="atm-mux">
+    <in>atm-receive</in>
+    <out>atm-send</out>
+    <unhandled>atm-unhandled</unhandled>
+    <key>message-coordination-number</key>
+</mux>

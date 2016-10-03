@@ -25,7 +25,8 @@ public enum  ProcessingCode implements IEnumFieldValue<String> {
     FundTransferCr("47"),
     PinChange("90"),
     MiniStatement("91"),
-    PinVerification("92");
+    PinVerification("92"),
+    Pin2Change("93");
 
     private String processingCode;
 

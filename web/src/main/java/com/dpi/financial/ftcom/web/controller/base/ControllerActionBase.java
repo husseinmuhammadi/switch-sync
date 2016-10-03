@@ -16,4 +16,8 @@ public interface ControllerActionBase {
     String delete();
 
     String delete(Long id);
+
+    String refresh();
+
+    void afterLoad();
 }

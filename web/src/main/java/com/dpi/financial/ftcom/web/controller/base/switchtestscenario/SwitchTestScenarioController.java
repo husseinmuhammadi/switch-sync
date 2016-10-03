@@ -8,6 +8,8 @@ import com.dpi.financial.ftcom.model.type.FinancialServiceProvider;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -41,6 +43,11 @@ public class SwitchTestScenarioController extends ControllerBase<SwitchTestScena
 
     @Override
     public void init() {
+
+    }
+
+    @Override
+    public void afterLoad() {
 
     }
 }

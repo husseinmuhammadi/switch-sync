@@ -8,8 +8,10 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import java.io.IOException;
 import java.util.AbstractCollection;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
@@ -20,6 +22,8 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
 
     private final IFactory<T> factory;
     protected T entity;
+
+    private Long id;
 
     public ControllerBase(Class<T> entityBeanType) {
         factory = new Factory<T>(entityBeanType);
@@ -34,6 +38,14 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
     @Override
     public void setEntity(T entity) {
         this.entity = entity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public abstract GeneralServiceApi<T> getGeneralServiceApi();
@@ -74,6 +86,14 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
 
     @Override
     public String update() {
+        try {
+            getGeneralServiceApi().update(entity);
+            String url = FacesContext.getCurrentInstance().getViewRoot().getViewId().replace("insert", "index") + "?faces-redirect=true";
+            return url;
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrorMessage(e);
+        }
         return null;
     }
 
@@ -83,7 +103,19 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
 
         try {
             getGeneralServiceApi().delete(entity);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("request.success")));
+            FacesContext context = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = context.getExternalContext();
+
+            FacesMessage message = new FacesMessage(resourceBundle.getString("request.success"));
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessage("request.success"), "");
+            context.addMessage(null, message);
+
+            externalContext.getFlash().setKeepMessages(true);
+
+            // externalContext.getFlash().put("message", new FacesMessage(FacesMessage.SEVERITY_INFO, getMessage("request.success"), ""));
+            // externalContext.getFlash().setKeepMessages(true);
+            String url = context.getViewRoot().getViewId() + "?faces-redirect=true";
+            return url;
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
@@ -102,20 +134,25 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
         return delete();
     }
 
-    private void printErrorMessage(Throwable e) {
-        ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("request.error")));
+    @Override
+    public String refresh() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String url = context.getViewRoot().getViewId() + "?faces-redirect=true";
+        return url;
+    }
 
-        ProjectStage projectStage = FacesContext.getCurrentInstance().getApplication().getProjectStage();
-        if (projectStage != null && projectStage.equals(ProjectStage.Development)) {
-            Throwable cause = e.getCause();
-            while (cause != null /* && !(cause instanceof SQLException)*/) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(cause.toString()));
-
-                // if (cause instanceof javax.persistence.PersistenceException) entity.setId(null);
-
-                cause = cause.getCause();
+    public void onLoad() {
+        if (id != null) {
+            entity = getGeneralServiceApi().find(id);
+            if (entity == null) {
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().dispatch("index");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
+        afterLoad();
     }
 }

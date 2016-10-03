@@ -6,6 +6,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+<ui:insert name="metadata"/>
+
 <h:head>
     <f:facet name="first">
         <h:outputScript library="js" name="jquery-2.1.4.min.js" target="head"/>
@@ -25,8 +27,6 @@
 </h:head>
 
 <f:view encoding="UTF-8" contentType="text/html; charset=UTF-8" locale="#{templateController.localeValue}">
-    <ui:insert name="metadata"/>
-
     <h:body>
         <div style="direction: rtl">
             <ui:insert name="header">
@@ -35,8 +35,7 @@
         </div>
         <br/>
 
-        <h:messages errorClass="alert-danger" infoClass="alert-info" warnClass="alert-warning" fatalClass="alert-danger"
-                    id="messages" styleClass="alert fade in" style="direction:rtl; margin: 10px"/>
+        <h:messages id="messages" errorClass="alert-danger" infoClass="alert-info" warnClass="alert-warning" fatalClass="alert-danger" styleClass="alert fade in" style="direction:rtl; margin: 10px"/>
 
         <div>
             <ui:insert name="content">

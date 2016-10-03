@@ -35,4 +35,8 @@ public class ProductController extends ControllerBase<Product> implements Serial
         return productService;
     }
 
+    @Override
+    public void afterLoad() {
+
+    }
 }

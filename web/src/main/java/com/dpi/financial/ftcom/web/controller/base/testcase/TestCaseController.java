@@ -36,4 +36,9 @@ public class TestCaseController extends ControllerBase<TestCase> implements Seri
     public GeneralServiceApi<TestCase> getGeneralServiceApi() {
         return testCaseService;
     }
+
+    @Override
+    public void afterLoad() {
+
+    }
 }

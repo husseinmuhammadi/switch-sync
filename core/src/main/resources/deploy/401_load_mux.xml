@@ -1,0 +1,5 @@
+<mux class="org.jpos.q2.iso.QMUX" logger="Q2" name="load-mux">
+    <in>load-receive</in>
+    <out>load-send</out>
+    <unhandled>load-unhandled</unhandled>
+</mux>

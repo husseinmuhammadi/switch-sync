@@ -1,0 +1,18 @@
+<channel-adaptor name="atmtest"
+                 class="org.jpos.q2.iso.ChannelAdaptor" logger="Q2">
+    <channel name="atm.channel" class="com.en.listener.AtmChannel" packager="org.jpos.iso.packager.DummyPackager"
+             logger="Q2">
+
+        <property name="schema" value="file:./cfg/atm/ndc-"/>
+
+        <property name="host" value="172.16.24.146"/>
+        <!--<property name="host" value="localhost"/>-->
+        <property name="port" value="9876"/>
+
+    </channel>
+    <in>atm-send</in>
+    <out>atm-receive</out>
+    <space>tspace:default</space>
+    <reconnect-delay>600000</reconnect-delay>
+</channel-adaptor>
+

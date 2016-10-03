@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:body>
+    <ui:composition template="/base/template.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="id" value="#{terminalController.id}"/>
+                <f:viewAction action="#{terminalController.onLoad}" onPostback="true"/>
+            </f:metadata>
+        </ui:define>
+
+        <ui:define name="header">
+            <h2>#{lbl['label.terminal.profile']}</h2>
+        </ui:define>
+
+        <ui:define name="content">
+            <h:form class="form-group" style="direction: rtl">
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="id" value="#{lbl['label.entity.id']}"/>
+                        </div>
+                        <h:outputText value="#{terminalController.terminal.id}"
+                                      id="id" label="#{lbl['label.entity.id']}"
+                                      styleClass="form-control" required="false"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="terminalId" value="#{lbl['label.terminal.terminalId']}"/>
+                        </div>
+                        <h:outputText value="#{terminalController.terminal.terminalId}"
+                                      id="terminalId" label="#{lbl['label.terminal.terminalId']}"
+                                      styleClass="form-control" required="false"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="luno" value="#{lbl['label.terminal.luno']}"/>
+                        </div>
+                        <h:outputText value="#{terminalController.terminal.luno}"
+                                      id="luno" label="#{lbl['label.terminal.luno']}"
+                                      styleClass="form-control" required="false"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="terminalIp" value="#{lbl['label.terminal.terminalIp']}"/>
+                        </div>
+                        <h:outputText value="#{terminalController.terminal.terminalIp}"
+                                      id="terminalIp" label="#{lbl['label.terminal.terminalIp']}"
+                                      styleClass="form-control" required="false"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <h:outputLabel for="description" value="#{lbl['label.entity.description']}"/>
+                        </div>
+                        <h:outputText value="#{terminalController.terminal.description}"
+                                      id="description" label="#{lbl['label.entity.description']}"
+                                      styleClass="form-control" required="false"/>
+                    </div>
+                </div>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
