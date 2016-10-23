@@ -15,7 +15,8 @@
 
             <property name="javax.persistence.sql-load-script-source" value="META-INF/insert.sql" />
 
-            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>-->
+            <property name="hibernate.dialect" value="com.dpi.financial.ftcom.model.base.hibernate.EnhancedOracle10gDialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
 
