@@ -22,6 +22,13 @@
         <param-value>/WEB-INF/resources</param-value>
     </context-param>
 
+    <!--
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>aristo</param-value>
+    </context-param>
+    -->
+
     <!-- Welcome page -->
     <welcome-file-list>
         <welcome-file>faces/hello.xhtml</welcome-file>
