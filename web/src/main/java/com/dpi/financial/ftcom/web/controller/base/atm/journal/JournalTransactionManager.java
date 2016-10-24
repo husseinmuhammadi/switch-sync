@@ -2,7 +2,9 @@ package com.dpi.financial.ftcom.web.controller.base.atm.journal;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.SwitchTestScenarioService;
+import com.dpi.financial.ftcom.api.base.atm.JournalTransactionService;
 import com.dpi.financial.ftcom.model.to.SwitchTestScenario;
+import com.dpi.financial.ftcom.model.to.atm.JournalTransaction;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 
 import javax.annotation.PostConstruct;
@@ -16,20 +18,21 @@ import java.util.List;
 
 @Named
 @ViewScoped
-public class JournalManager extends ControllerManagerBase<SwitchTestScenario> implements Serializable {
+public class JournalTransactionManager extends ControllerManagerBase<JournalTransaction>
+        implements Serializable {
 
     @EJB
-    private SwitchTestScenarioService switchTestScenarioService;
+    private JournalTransactionService service;
 
-    private List<SwitchTestScenario> switchTestScenarioList;
+    private List<JournalTransaction> journalTransactionList;
 
-    public JournalManager() {
-        super(SwitchTestScenario.class);
+    public JournalTransactionManager() {
+        super(JournalTransaction.class);
     }
 
     @Override
-    public GeneralServiceApi<SwitchTestScenario> getGeneralServiceApi() {
-        return switchTestScenarioService;
+    public GeneralServiceApi<JournalTransaction> getGeneralServiceApi() {
+        return service;
     }
 
     //TODO: Make this method private
@@ -42,18 +45,18 @@ public class JournalManager extends ControllerManagerBase<SwitchTestScenario> im
         // if ()
 
         try {
-            switchTestScenarioList = switchTestScenarioService.findAll();
+            journalTransactionList = service.findAll();
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
         }
     }
 
-    public List<SwitchTestScenario> getSwitchTestScenarioList() {
-        return switchTestScenarioList;
+    public List<JournalTransaction> getJournalTransactionList() {
+        return journalTransactionList;
     }
 
-    public void setSwitchTestScenarioList(List<SwitchTestScenario> switchTestScenarioList) {
-        this.switchTestScenarioList = switchTestScenarioList;
+    public void setJournalTransactionList(List<JournalTransaction> journalTransactionList) {
+        this.journalTransactionList = journalTransactionList;
     }
 }

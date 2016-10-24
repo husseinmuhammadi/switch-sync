@@ -7,6 +7,7 @@ import com.dpi.financial.ftcom.utility.helper.DateHelper;
 import net.sf.ehcache.constructs.nonstop.concurrency.LockOperationTimedOutNonstopException;
 
 import javax.persistence.*;
+import java.nio.file.attribute.FileTime;
 import java.util.Date;
 
 @Entity
@@ -17,10 +18,12 @@ import java.util.Date;
         @UniqueConstraint(columnNames = {"LUNO", "JOURNAL_DATE"})
 })
 @NamedQueries({
-        @NamedQuery(name = JournalFile.FIND_ALL, query = "select t from JournalFile t where t.deleted = false")
+        @NamedQuery(name = JournalFile.FIND_ALL, query = "select t from JournalFile t where t.deleted = false"),
+        @NamedQuery(name = JournalFile.FIND_BY_TERMINAL, query = "select t from JournalFile t where t.deleted = false and t.terminal = :terminal")
 })
 public class JournalFile extends EntityBase {
     public static final String FIND_ALL = "JournalFile.findAll";
+    public static final String FIND_BY_TERMINAL = "JournalFile.findByTerminal";
 
     @OneToOne
     @JoinColumn(name = "TERMINAL_ID")
@@ -39,6 +42,33 @@ public class JournalFile extends EntityBase {
     @Temporal(TemporalType.DATE)
     @Column(name = "JOURNAL_DATE", nullable = false)
     private Date journalDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATION_TIME")
+    private Date creationTime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_ACCESS_TIME")
+    private Date lastAccessTime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_MODIFIED_TIME")
+    private Date lastModifiedTime;
+
+    @Column(name = "IS_DIRECTORY")
+    private boolean directory;
+
+    @Column(name = "IS_OTHER")
+    private boolean other;
+
+    @Column(name = "IS_REGULAR_FILE")
+    private boolean regularFile;
+
+    @Column(name = "IS_SYMBOLIC_LINK")
+    private boolean symbolicLink;
+
+    @Column(name = "FILE_SIZE")
+    private Long size;
 
     public Terminal getTerminal() {
         return terminal;
@@ -78,5 +108,69 @@ public class JournalFile extends EntityBase {
 
     public void setJournalDate(Date journalDate) {
         this.journalDate = journalDate;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public Date getLastAccessTime() {
+        return lastAccessTime;
+    }
+
+    public void setLastAccessTime(Date lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
+    }
+
+    public Date getLastModifiedTime() {
+        return lastModifiedTime;
+    }
+
+    public void setLastModifiedTime(Date lastModifiedTime) {
+        this.lastModifiedTime = lastModifiedTime;
+    }
+
+    public boolean isDirectory() {
+        return directory;
+    }
+
+    public void setDirectory(boolean directory) {
+        this.directory = directory;
+    }
+
+    public boolean isOther() {
+        return other;
+    }
+
+    public void setOther(boolean other) {
+        this.other = other;
+    }
+
+    public boolean isRegularFile() {
+        return regularFile;
+    }
+
+    public void setRegularFile(boolean regularFile) {
+        this.regularFile = regularFile;
+    }
+
+    public boolean isSymbolicLink() {
+        return symbolicLink;
+    }
+
+    public void setSymbolicLink(boolean symbolicLink) {
+        this.symbolicLink = symbolicLink;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
     }
 }

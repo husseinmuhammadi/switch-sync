@@ -15,4 +15,8 @@ public class TerminalDao extends GenericDao<Terminal> {
     public List<Terminal> findAll() {
         return createNamedQuery(Terminal.FIND_ALL).getResultList();
     }
+
+    public Terminal findByLuno(String luno) {
+        return createNamedQuery(Terminal.FIND_BY_LUNO).setParameter("luno", luno).getSingleResult();
+    }
 }

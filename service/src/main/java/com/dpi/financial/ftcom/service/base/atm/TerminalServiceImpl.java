@@ -3,6 +3,7 @@ package com.dpi.financial.ftcom.service.base.atm;
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
 import com.dpi.financial.ftcom.model.dao.atm.TerminalDao;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.utility.helper.DateHelper;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -14,30 +15,35 @@ import java.util.List;
 public class TerminalServiceImpl implements TerminalService {
 
     @EJB
-    private TerminalDao terminalDao;
+    private TerminalDao dao;
 
     @Override
     public Terminal create(Terminal terminal) {
-        return terminalDao.create(terminal);
+        return dao.create(terminal);
     }
 
     @Override
     public List<Terminal> findAll() {
-        return terminalDao.findAll();
+        return dao.findAll();
     }
 
     @Override
     public Terminal find(Long id) {
-        return terminalDao.findById(id);
+        return dao.findById(id);
     }
 
     @Override
     public void update(Terminal terminal) {
-        terminalDao.update(terminal);
+        dao.update(terminal);
     }
 
     @Override
     public void delete(Terminal terminal) {
-        terminalDao.remove(terminal);
+        dao.remove(terminal);
+    }
+
+    @Override
+    public Terminal findByLuno(String luno) {
+        return dao.findByLuno(luno);
     }
 }

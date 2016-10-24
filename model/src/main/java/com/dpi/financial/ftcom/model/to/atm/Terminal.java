@@ -13,12 +13,14 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames = {"LUNO"})
 })
 @NamedQueries({
-        @NamedQuery(name = Terminal.FIND_ALL, query = "select t from Terminal t where t.deleted = false")
+        @NamedQuery(name = Terminal.FIND_ALL, query = "select t from Terminal t where t.deleted = false"),
+        @NamedQuery(name = Terminal.FIND_BY_LUNO, query = "select t from Terminal t where t.deleted = false and t.luno = :luno")
 })
 
 public class Terminal extends EntityBase {
 
     public static final String FIND_ALL = "Terminal.findAll";
+    public static final String FIND_BY_LUNO = "Terminal.findByLuno";
 
     @Column(name = "TERMINAL_ID", nullable = false, length = 10)
     private String terminalId;

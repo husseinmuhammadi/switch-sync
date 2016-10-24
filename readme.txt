@@ -91,6 +91,14 @@ BUILD & DEPLOY
 		standalone.bat --debug
 	Deployment & Undeployment 
 		Deployment & Undeployment is possible through wildfly admin console http://localhost:9990
+		
+	Wildfly comes with a Command Line Interface (CLI) with access to administrative tasks.
+	The CLI is also usable in "non-interactive" mode from scripts. 
+	The following command deploys an application:
+
+	$WILDFLY_HOME/bin/jboss-cli.sh --connect --command="deployment-info"
+	$WILDFLY_HOME/bin/jboss-cli.sh --connect --command="deploy --force [PATH_TO_WAR]"
+	$WILDFLY_HOME/bin/jboss-cli.sh --connect --command="undeploy [NAME]"		
 	
  3- Start project
 	Open internet explorer http://localhost:8080/switch/index.xhtml
@@ -102,3 +110,39 @@ Additional Tips:
 
 	Removing Git Http Proxy
 		git config --global --unset http.proxy
+		
+	Deploy to WildFly using jboss-cli (Tech Tip #11)
+	
+	WildFly provides multiple ways to deploy to your applications.
+	This tip will cover the most likely way to deploy deploy applications to WildFly, i.e. jboss-cli.
+	jboss-cli is Command Line Interface management tool for a standalone server or a managed domain. It is available in the “bin” directory of unzipped WildFly distribution and allows a user to connect to a standalone server or domain controller and execute management operations.
+	“jboss-cli” can be used to deploy applications using the interactive console or in a non-interactive manner.
+	Lets look at interactive first:
+	Use jboss-cli to connect with the existing standalone instance by giving the following command:
+		jboss-cli.sh -c
+	The -c switch connects using the default host (‘localhost’) and management port (‘9990’). These values are specified in ‘bin/jboss-cli.xml’ and can be updated.
+	This opens up the “jboss-cli” interactive console and shows the following prompt:
+		[standalone@localhost:9990 /]
+	The prompt indicates that ‘jboss-cli’ is connected to a standalone instance’s management port.
+	Deploy the application by giving the following command in console:
+		deploy target/javaee7-1.0-SNAPSHOT.war
+	The directory name of the war file in the command may be different depending upon how ‘jboss-cli’ was invoked. Verify the server log to ensure that the application was redeployed. Look for specific timestamp in the log entries.
+	--force switch can be included in the command to replace the existing application.
+	Verify the deployment status by typing the following command deployment-info in the console:
+		deployment-info
+	and see the output as:
+		NAME                     RUNTIME-NAME             PERSISTENT ENABLED STATUS
+		javaee7-1.0-SNAPSHOT.war javaee7-1.0-SNAPSHOT.war true       true    OK
+	Verify the server log to ensure that the application was deployed. Look for specific timestamp in the log entries.
+	Undeploy the application by giving the following command:
+		undeploy javaee7-1.0-SNAPSHOT.war
+	Type “exit” or “quit” to exit the interactive console.
+	Now lets look at how these commands can be issued non-interactively very easily.
+	Deploy the application as:
+		jboss-cli.sh --connect --command="deploy target/javaee7-1.0-SNAPSHOT.war --force"
+	Verify the deployment status as:
+		./bin/jboss-cli.sh --connect --command=deployment-info
+	Undeploy the application as:
+		./bin/jboss-cli.sh --connect --command="undeploy javaee7-1.0-SNAPSHOT.war"
+	
+	reference: http://blog.arungupta.me/deploy-to-wildfly-using-jboss-cli-tech-tip-11/

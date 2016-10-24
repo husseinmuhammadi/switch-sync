@@ -1,7 +1,7 @@
 package com.dpi.financial.ftcom.web.controller.base;
 
 import com.dpi.financial.ftcom.utility.i18n.MessageUtil;
-import com.dpi.financial.ftcom.web.bundle.ResourceBundleUtil;
+import com.dpi.financial.ftcom.web.bundle.ResourceManager;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
@@ -60,36 +60,33 @@ public class AbstractController {
         return FacesContext.getCurrentInstance().getExternalContext();
     }
     protected ResourceBundle getMessageBundle() {
-        ResourceBundleUtil resourceBundleUtil = new ResourceBundleUtil();
-        return resourceBundleUtil.getBundle("msg");
+        ResourceManager resourceManager = new ResourceManager();
+        return resourceManager.getBundle("msg");
     }
 
     protected ResourceBundle getLabelBundle() {
-        ResourceBundleUtil resourceBundleUtil = new ResourceBundleUtil();
-        return resourceBundleUtil.getBundle("lbl");
+        ResourceManager resourceManager = new ResourceManager();
+        return resourceManager.getBundle("lbl");
     }
 
     protected String getMessage(String message) {
-        ResourceBundle resourceBundle =
-                ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
-
+        ResourceBundle resourceBundle = ResourceManager.getMessageBundle();
         return MessageUtil.getMessage(message, resourceBundle);
     }
 
     protected String getLabel(String label) {
-        ResourceBundle resourceBundle =
-                ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.LABEL_BUNDLE);
+        ResourceBundle resourceBundle = ResourceManager.getLabelBundle();
         return MessageUtil.getMessage(label, resourceBundle);
     }
 
     protected String getLabel(Enum anEnum) {
         ResourceBundle resourceBundle = getLabelBundle();
-        // ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.LABEL_BUNDLE);
+        // ResourceManager.getResourceBundle(ResourceManager.LABEL_BUNDLE);
         return MessageUtil.getMessage(anEnum, resourceBundle);
     }
 
     protected void printErrorMessage(Throwable e) {
-        ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
+        ResourceBundle resourceBundle = ResourceManager.getMessageBundle();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("request.error")));
 
         ProjectStage projectStage = FacesContext.getCurrentInstance().getApplication().getProjectStage();

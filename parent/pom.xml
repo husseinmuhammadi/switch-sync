@@ -51,8 +51,23 @@
         <core.archive.name>core.jar</core.archive.name>
         <jpos.archive.name>q2mbean-1.0.sar</jpos.archive.name>
 
+        <!-- web -->
         <web.contextroot>/switch</web.contextroot>
 
+        <!-- database -->
+        <dbunit.dataTypeFactoryName>org.dbunit.dataset.datatype.DefaultDataTypeFactory</dbunit.dataTypeFactoryName>
+        <dbunit.operation.type>REFRESH</dbunit.operation.type>
+        <hibernate.dialect>com.dpi.financial.ftcom.model.base.hibernate.EnhancedMySQL5InnoDBDialect</hibernate.dialect>
+        <jdbc.groupId>mysql</jdbc.groupId>
+        <netbeans.hint.useExternalMaven>true</netbeans.hint.useExternalMaven>
+        <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
+        <jdbc.version>5.0.5</jdbc.version>
+        <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+        <jdbc.url>jdbc:mysql://localhost/bis?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;connectionCollation=utf8_general_ci</jdbc.url>
+        <jdbc.username>root</jdbc.username>
+        <jdbc.password>14894</jdbc.password>
+
+        <!-- glassfish -->
         <glassfish.user>admin</glassfish.user>
         <glassfish.domain.host>localhost</glassfish.domain.host>
         <glassfish.domain.adminPort>4848</glassfish.domain.adminPort>
@@ -73,8 +88,7 @@
         </arquillian-container-properties>
 
         <persistence.xml>
-            <![CDATA[
-                   <property name="javax" value="javaee" />]]>
+            <![CDATA[<property name="javax" value="javaee" />]]>
         </persistence.xml>
 
         <shiro.version>1.2.4</shiro.version>

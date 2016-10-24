@@ -6,41 +6,29 @@
                 template="/base/template.xhtml">
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewAction action="#{cardMasterManager.onLoad}"/>
+            <f:viewParam name="luno" value="#{journalFileManager.terminal.luno}"/>
+            <f:viewAction action="#{journalFileManager.onLoad}" onPostback="true"/>
         </f:metadata>
     </ui:define>
 
     <ui:define name="header">
-        <h2>#{lbl['label.cardMaster.list']}</h2>
+        <h2>#{lbl['label.journalFile.list']}</h2>
     </ui:define>
 
     <ui:define name="content">
         <h:form style="direction: rtl">
-
-            <h:link outcome="insert">
-                <h:graphicImage alt="add" library="images" name="add.png" width="20"
-                                styleClass="img-responsive"/>
-            </h:link>
-
             <!--<h:outputText style="color:blue" value="Flash Variable Without Keep: #{flash.keep.message.summary}"/>-->
-            <h:dataTable value="#{cardMasterManager.cardMasterList}" var="cardMaster"
-                         styleClass="table table-striped table-bordered dt-responsive nowrap">
+            <h:dataTable value="#{journalFileManager.journalFileList}" var="journalFile"
+                         styleClass="table table-striped table-bordered dt-responsive nowrap"
+                         headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
 
-                <h:column>
-                    <f:facet name="header">#{lbl['label.cardMaster.primaryAccountNumber']}</f:facet>
-                    <h:link value="#{cardMaster.pan}" outcome="profile">
-                        <f:param name="id" value="#{cardMaster.id}"/>
+                <h:column rendered="#{not empty journalFile.id}">
+                    <f:facet name="header">#{lbl['label.journalFile.luno']}</f:facet>
+                    <h:link value="#{journalFile.luno}" outcome="profile">
+                        <f:param name="id" value="#{journalFile.id}"/>
                     </h:link>
                 </h:column>
 
-                <h:column>
-                    <f:facet name="header">#{lbl['label.cardMaster.expirationDate']}</f:facet>
-                    <h:outputText value="#{cardMaster.expirationDate}">
-                        <f:convertDateTime pattern="yyMM"/>
-                    </h:outputText>
-                </h:column>
-
-                <!--                
                 <h:column>
                     <f:facet name="header">#{lbl['label.journalFile.luno']}</f:facet>
                     #{journalFile.luno}
@@ -57,6 +45,14 @@
                 </h:column>
 
                 <h:column>
+                    <f:facet name="header">#{lbl['label.journalFile.journalDate']}</f:facet>
+                    <h:outputText value="#{journalFile.journalDate}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                    </h:outputText>
+                </h:column>
+
+                <!--
+                <h:column>
                     <f:facet name="header">#{lbl['label.journalFile.creationTime']}</f:facet>
                     #{journalFile.creationTime}
                 </h:column>
@@ -65,7 +61,12 @@
                     <f:facet name="header">#{lbl['label.journalFile.lastAccessTime']}</f:facet>
                     #{journalFile.lastAccessTime}
                 </h:column>
-                -->                
+                -->
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.journalFile.lastModifiedTime']}</f:facet>
+                    #{journalFile.lastModifiedTime}
+                </h:column>
 
                 <!--
                 <h:column>
@@ -87,27 +88,27 @@
                     <f:facet name="header">#{lbl['label.journalFile.symbolicLink']}</f:facet>
                     #{journalFile.symbolicLink}
                 </h:column>
+                -->
 
                 <h:column>
                     <f:facet name="header">#{lbl['label.journalFile.size']}</f:facet>
                     #{journalFile.size}
                 </h:column>
-                -->
 
                 <h:column>
                     <f:facet name="header">#{lbl['label.header.options']}</f:facet>
-                    <h:link outcome="insert" rendered="#{not empty cardMaster.id}">
-                        <f:param name="id" value="#{cardMaster.id}"/>
+                    <h:link outcome="insert" rendered="#{not empty journalFile.id}">
+                        <f:param name="id" value="#{journalFile.id}"/>
                         <h:graphicImage alt="edit" library="images" name="edit.png" width="20"
                                         styleClass="img-responsive"/>
                     </h:link>
-                    <h:commandLink action="#{cardMasterController.delete(cardMaster.id)}"
-                                   rendered="#{not empty cardMaster.id}">
+                    <h:commandLink action="#{journalFileController.delete(journalFile.id)}"
+                                   rendered="#{not empty journalFile.id}">
                         <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
                                         styleClass="img-responsive"/>
                         <!--<f:ajax execute="@form" render="@form" />-->
                     </h:commandLink>
-                    <h:commandLink action="#{cardMasterController.refresh}">
+                    <h:commandLink action="#{journalFileController.refresh}">
                         <h:graphicImage alt="reload" library="images" name="reload.png" width="20"
                                         styleClass="img-responsive"/>
                     </h:commandLink>

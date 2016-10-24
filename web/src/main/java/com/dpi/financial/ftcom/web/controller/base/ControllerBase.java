@@ -2,19 +2,15 @@ package com.dpi.financial.ftcom.web.controller.base;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.web.bundle.ResourceBundleUtil;
+import com.dpi.financial.ftcom.web.bundle.ResourceManager;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.ProjectStage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 import java.io.IOException;
-import java.util.AbstractCollection;
 import java.util.ResourceBundle;
-import java.util.TreeMap;
 
 @Dependent
 public abstract class ControllerBase<T extends EntityBase> extends AbstractController
@@ -66,7 +62,7 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
 
     @Override
     public String create() {
-        ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
+        ResourceBundle resourceBundle = ResourceManager.getMessageBundle();
         try {
             // prepare entity
             prepare();
@@ -75,31 +71,47 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
             validate();
 
             getGeneralServiceApi().create(entity);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("request.success")));
-            entity = factory.createInstance();
+            getFacesContext().addMessage(null, new FacesMessage(resourceBundle.getString("request.success")));
+            getExternalContext().getFlash().setKeepMessages(true);
+            return afterCreate();
+
+            // TODO: After saving entity we need to create new entity if we stay in insert view
+            // entity = factory.createInstance();
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
         }
+
         return null;
+    }
+
+    protected String afterCreate() {
+        return getFacesContext().getViewRoot().getViewId().replace("insert", "index") + "?faces-redirect=true";
     }
 
     @Override
     public String update() {
+        String url = null;
         try {
             getGeneralServiceApi().update(entity);
-            String url = FacesContext.getCurrentInstance().getViewRoot().getViewId().replace("insert", "index") + "?faces-redirect=true";
-            return url;
+            url = FacesContext.getCurrentInstance().getViewRoot().getViewId().replace("insert", "index") + "?faces-redirect=true";
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
         }
-        return null;
+        return url;
+    }
+
+    public String cancel() {
+        getFacesContext().addMessage(null, new FacesMessage(getMessage("request.cancel")));
+        getExternalContext().getFlash().setKeepMessages(true);
+        String url = getFacesContext().getViewRoot().getViewId().replace("insert", "index") + "?faces-redirect=true";
+        return url;
     }
 
     @Override
     public String delete() {
-        ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
+        ResourceBundle resourceBundle = ResourceManager.getMessageBundle();
 
         try {
             getGeneralServiceApi().delete(entity);

@@ -15,7 +15,8 @@ import java.util.Locale;
 @SessionScoped
 public class TemplateController implements Serializable {
 
-    private String localeValue = "fa_IR";
+     private String localeValue = "fa_IR";
+//    private String localeValue = "en_US";
 
     public String getLocaleValue() {
         return localeValue;

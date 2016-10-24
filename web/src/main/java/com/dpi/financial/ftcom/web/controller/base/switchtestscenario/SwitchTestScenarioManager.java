@@ -6,6 +6,7 @@ import com.dpi.financial.ftcom.api.base.TestCaseService;
 import com.dpi.financial.ftcom.model.to.SwitchTestScenario;
 import com.dpi.financial.ftcom.model.to.TestCase;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,8 +14,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Named
 @ViewScoped

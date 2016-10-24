@@ -5,4 +5,5 @@ import com.dpi.financial.ftcom.model.to.atm.Terminal;
 
 public interface TerminalService extends GeneralServiceApi<Terminal> {
 
+    Terminal findByLuno(String luno);
 }

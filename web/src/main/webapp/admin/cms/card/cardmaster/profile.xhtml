@@ -24,11 +24,11 @@
                     <div class="input-group-addon">
                         <h:outputLabel for="pan" value="#{lbl['label.cardMaster.primaryAccountNumber']}"/>
                     </div>
-                    <h:inputText value="#{cardMasterController.cardMaster.pan}"
-                                 id="pan" label="#{lbl['label.cardMaster.pan']}"
-                                 styleClass="form-control" required="true">
+                    <h:outputText value="#{cardMasterController.cardMaster.pan}"
+                                  id="pan" label="#{lbl['label.cardMaster.pan']}"
+                                  styleClass="form-control" required="true">
                         <f:validateLength maximum="19"/>
-                    </h:inputText>
+                    </h:outputText>
                 </div>
             </div>
 
@@ -37,11 +37,11 @@
                     <div class="input-group-addon">
                         <h:outputLabel for="expirationDate" value="#{lbl['label.cardMaster.expirationDate']}"/>
                     </div>
-                    <h:inputText value="#{cardMasterController.cardMaster.expirationDate}"
-                                 id="expirationDate" label="#{lbl['label.cardMaster.expirationDate']}"
-                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                    <h:outputText value="#{cardMasterController.cardMaster.expirationDate}"
+                                  id="expirationDate" label="#{lbl['label.cardMaster.expirationDate']}"
+                                  styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
                         <f:convertDateTime pattern="d-M-yyyy"/>
-                    </h:inputText>
+                    </h:outputText>
                 </div>
             </div>
 
