@@ -5,6 +5,7 @@ import com.dpi.financial.ftcom.web.bundle.ResourceBundleUtil;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.ProjectStage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -51,6 +52,13 @@ public class AbstractController {
         return (HttpServletResponse) getFacesContext().getExternalContext().getResponse();
     }
 
+    public String getRequestContextPath() {
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+    }
+
+    public ExternalContext getExternalContext() {
+        return FacesContext.getCurrentInstance().getExternalContext();
+    }
     protected ResourceBundle getMessageBundle() {
         ResourceBundleUtil resourceBundleUtil = new ResourceBundleUtil();
         return resourceBundleUtil.getBundle("msg");
@@ -76,11 +84,9 @@ public class AbstractController {
 
     protected String getLabel(Enum anEnum) {
         ResourceBundle resourceBundle = getLabelBundle();
-                // ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.LABEL_BUNDLE);
+        // ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.LABEL_BUNDLE);
         return MessageUtil.getMessage(anEnum, resourceBundle);
     }
-
-
 
     protected void printErrorMessage(Throwable e) {
         ResourceBundle resourceBundle = ResourceBundleUtil.getResourceBundle(ResourceBundleUtil.MESSAGE_BUNDLE);
