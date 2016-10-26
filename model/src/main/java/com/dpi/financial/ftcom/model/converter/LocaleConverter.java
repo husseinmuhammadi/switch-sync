@@ -1,6 +1,7 @@
 package com.dpi.financial.ftcom.model.converter;
 
-import ir.team.insurance.complementary.model.type.LocaleType;
+
+import com.dpi.financial.ftcom.model.type.LocaleType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

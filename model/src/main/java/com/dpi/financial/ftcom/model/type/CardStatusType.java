@@ -1,6 +1,5 @@
-package ir.team.insurance.complementary.model.type;
+package com.dpi.financial.ftcom.model.type;
 
-import com.dpi.financial.ftcom.model.type.EntityFieldType;
 import com.dpi.financial.ftcom.utility.exception.model.TypeNotFoundException;
 
 public enum CardStatusType implements EntityFieldType {

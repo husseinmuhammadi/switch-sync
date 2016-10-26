@@ -103,7 +103,7 @@
                     <h:commandLink rendered="#{not empty cardMaster.id}" actionListener="#{cardMasterManager.init}">
                         <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
                                         styleClass="img-responsive"/>
-                        <f:ajax execute="@form" render="@form :message" listener="#{cardMasterController.delete(cardMaster.id)}"/>
+                        <f:ajax execute="@form" render="@form :messages" listener="#{cardMasterController.delete(cardMaster.id)}"/>
                     </h:commandLink>
                     <h:commandLink action="#{cardMasterController.refresh}">
                         <h:graphicImage alt="reload" library="images" name="reload.png" width="20"

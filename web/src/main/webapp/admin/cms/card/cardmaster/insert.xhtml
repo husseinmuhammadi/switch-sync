@@ -50,7 +50,7 @@
             <h:commandButton value="#{lbl['button.edit']}" action="#{cardMasterController.update()}"
                              styleClass="btn btn-default"/>
             <h:commandButton value="#{lbl['button.cancel']}" action="#{cardMasterController.cancel()}"
-                             styleClass="btn btn-default"/>
+                             immediate="true" styleClass="btn btn-default"/>
 
         </h:form>
     </ui:define>
