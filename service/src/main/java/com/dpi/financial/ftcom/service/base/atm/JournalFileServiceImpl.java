@@ -1,9 +1,11 @@
 package com.dpi.financial.ftcom.service.base.atm;
 
 import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
+import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.dao.atm.JournalFileDao;
 import com.dpi.financial.ftcom.model.to.atm.JournalFile;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.shiro.authz.HostUnauthorizedException;
 
@@ -23,11 +25,18 @@ import java.util.*;
 
 @Stateless
 @Local(JournalFileService.class)
-public class JournalFileServiceImpl implements JournalFileService {
+public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
+        implements JournalFileService {
 
     @EJB
     private JournalFileDao dao;
 
+    @Override
+    public GenericDao<JournalFile> getGenericDao() {
+        return dao;
+    }
+
+    /*
     @Override
     public JournalFile create(JournalFile journalFile) {
         return dao.create(journalFile);
@@ -52,11 +61,13 @@ public class JournalFileServiceImpl implements JournalFileService {
     public void delete(JournalFile journalFile) {
         dao.remove(journalFile);
     }
+    */
 
     @Override
     public List<JournalFile> findAll(Terminal terminal) {
         return dao.findAll(terminal);
     }
+
 
     @Override
     public List<JournalFile> getJournalFileList(String path) {

@@ -1,11 +1,10 @@
 package com.dpi.financial.ftcom.service.base;
 
-import com.dpi.financial.ftcom.api.base.ProductService;
 import com.dpi.financial.ftcom.api.base.TestCaseService;
-import com.dpi.financial.ftcom.model.dao.ProductDao;
+import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.dao.TestCaseDao;
-import com.dpi.financial.ftcom.model.to.Product;
 import com.dpi.financial.ftcom.model.to.TestCase;
+import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -14,33 +13,40 @@ import java.util.List;
 
 @Stateless
 @Local(TestCaseService.class)
-public class TestCaseServiceImpl implements TestCaseService {
+public class TestCaseServiceImpl extends GeneralServiceImpl<TestCase> implements TestCaseService {
 
     @EJB
-    private TestCaseDao testCaseDao;
+    private TestCaseDao dao;
 
     @Override
+    public GenericDao<TestCase> getGenericDao() {
+        return dao;
+    }
+
+    /*
+    @Override
     public TestCase create(TestCase testCase) {
-        return testCaseDao.create(testCase);
+        return dao.create(testCase);
     }
 
     @Override
     public List<TestCase> findAll() {
-        return testCaseDao.findAll();
+        return dao.findAll();
     }
 
     @Override
     public TestCase find(Long id) {
-        return testCaseDao.findById(id);
+        return dao.findById(id);
     }
 
     @Override
     public void update(TestCase testCase) {
-        testCaseDao.update(testCase);
+        dao.update(testCase);
     }
 
     @Override
     public void delete(TestCase testCase) {
-        testCaseDao.remove(testCase);
+        dao.remove(testCase);
     }
+    */
 }

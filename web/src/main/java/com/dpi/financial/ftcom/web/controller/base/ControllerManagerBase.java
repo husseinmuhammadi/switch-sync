@@ -24,6 +24,7 @@ public abstract class ControllerManagerBase<T extends EntityBase>
     @Override
     @PostConstruct
     public void init() {
+        System.out.println(">>>>>> com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase.init");
         entityList = getGeneralServiceApi().findAll();
     }
 

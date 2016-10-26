@@ -111,32 +111,30 @@ public abstract class ControllerBase<T extends EntityBase> extends AbstractContr
 
     @Override
     public String delete() {
-        ResourceBundle resourceBundle = ResourceManager.getMessageBundle();
+        String url = null;
 
         try {
             getGeneralServiceApi().delete(entity);
             FacesContext context = FacesContext.getCurrentInstance();
             ExternalContext externalContext = context.getExternalContext();
 
-            FacesMessage message = new FacesMessage(resourceBundle.getString("request.success"));
+            FacesMessage message = new FacesMessage(getMessageBundle().getString("request.success"));
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, getMessage("request.success"), "");
             context.addMessage(null, message);
-
+            // externalContext.getFlash().put("message", new FacesMessage(FacesMessage.SEVERITY_INFO, getMessage("request.success"), ""));
             externalContext.getFlash().setKeepMessages(true);
 
-            // externalContext.getFlash().put("message", new FacesMessage(FacesMessage.SEVERITY_INFO, getMessage("request.success"), ""));
-            // externalContext.getFlash().setKeepMessages(true);
-            String url = context.getViewRoot().getViewId() + "?faces-redirect=true";
-            return url;
+            // url = context.getViewRoot().getViewId() + "?faces-redirect=true";
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
         }
-        return null;
+        return url;
     }
 
     @Override
     public String delete(Long id) {
+        System.out.println(">>>>>> com.dpi.financial.ftcom.web.controller.base.ControllerBase.delete(java.lang.Long)");
         try {
             entity = getGeneralServiceApi().find(id);
         } catch (Exception e) {

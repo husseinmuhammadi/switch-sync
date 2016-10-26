@@ -1,8 +1,10 @@
 package com.dpi.financial.ftcom.service.base.cms.card;
 
 import com.dpi.financial.ftcom.api.base.cms.card.CardMasterService;
+import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.dao.cms.card.CardMasterDao;
 import com.dpi.financial.ftcom.model.to.cms.card.CardMaster;
+import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -11,11 +13,18 @@ import java.util.List;
 
 @Stateless
 @Local(CardMasterService.class)
-public class CardMasterServiceImpl implements CardMasterService {
+public class CardMasterServiceImpl extends GeneralServiceImpl<CardMaster>
+        implements CardMasterService {
 
     @EJB
     private CardMasterDao dao;
 
+    @Override
+    public GenericDao<CardMaster> getGenericDao() {
+        return dao;
+    }
+
+    /*
     @Override
     public CardMaster create(CardMaster cardMaster) {
         return dao.create(cardMaster);
@@ -40,4 +49,5 @@ public class CardMasterServiceImpl implements CardMasterService {
     public void delete(CardMaster cardMaster) {
         dao.remove(cardMaster);
     }
+    */
 }

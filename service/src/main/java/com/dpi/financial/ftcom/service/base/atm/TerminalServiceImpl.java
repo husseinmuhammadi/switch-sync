@@ -1,22 +1,29 @@
 package com.dpi.financial.ftcom.service.base.atm;
 
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
+import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.dao.atm.TerminalDao;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
-import com.dpi.financial.ftcom.utility.helper.DateHelper;
+import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import java.util.List;
 
 @Stateless
 @Local(TerminalService.class)
-public class TerminalServiceImpl implements TerminalService {
+public class TerminalServiceImpl extends GeneralServiceImpl<Terminal>
+        implements TerminalService {
 
     @EJB
     private TerminalDao dao;
 
+    @Override
+    public GenericDao<Terminal> getGenericDao() {
+        return dao;
+    }
+
+    /*
     @Override
     public Terminal create(Terminal terminal) {
         return dao.create(terminal);
@@ -41,6 +48,7 @@ public class TerminalServiceImpl implements TerminalService {
     public void delete(Terminal terminal) {
         dao.remove(terminal);
     }
+    */
 
     @Override
     public Terminal findByLuno(String luno) {

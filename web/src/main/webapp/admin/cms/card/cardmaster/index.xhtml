@@ -16,7 +16,6 @@
 
     <ui:define name="content">
         <h:form style="direction: rtl">
-
             <h:link outcome="insert">
                 <h:graphicImage alt="add" library="images" name="add.png" width="20"
                                 styleClass="img-responsive"/>
@@ -101,11 +100,10 @@
                         <h:graphicImage alt="edit" library="images" name="edit.png" width="20"
                                         styleClass="img-responsive"/>
                     </h:link>
-                    <h:commandLink action="#{cardMasterController.delete(cardMaster.id)}"
-                                   rendered="#{not empty cardMaster.id}">
+                    <h:commandLink rendered="#{not empty cardMaster.id}" actionListener="#{cardMasterManager.init}">
                         <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
                                         styleClass="img-responsive"/>
-                        <!--<f:ajax execute="@form" render="@form" />-->
+                        <f:ajax execute="@form" render="@form :message" listener="#{cardMasterController.delete(cardMaster.id)}"/>
                     </h:commandLink>
                     <h:commandLink action="#{cardMasterController.refresh}">
                         <h:graphicImage alt="reload" library="images" name="reload.png" width="20"

@@ -1,8 +1,10 @@
 package com.dpi.financial.ftcom.service.base;
 
 import com.dpi.financial.ftcom.api.base.SwitchTestScenarioService;
+import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.dao.SwitchTestScenarioDao;
 import com.dpi.financial.ftcom.model.to.SwitchTestScenario;
+import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -11,33 +13,41 @@ import java.util.List;
 
 @Stateless
 @Local(SwitchTestScenarioService.class)
-public class SwitchTestScenarioServiceImpl implements SwitchTestScenarioService {
+public class SwitchTestScenarioServiceImpl extends GeneralServiceImpl<SwitchTestScenario> 
+        implements SwitchTestScenarioService {
 
     @EJB
-    private SwitchTestScenarioDao switchTestScenarioDao;
+    private SwitchTestScenarioDao dao;
 
     @Override
+    public GenericDao<SwitchTestScenario> getGenericDao() {
+        return dao;
+    }
+
+    /*
+    @Override
     public SwitchTestScenario create(SwitchTestScenario switchTestScenario) {
-        return switchTestScenarioDao.create(switchTestScenario);
+        return dao.create(switchTestScenario);
     }
 
     @Override
     public List<SwitchTestScenario> findAll() {
-        return switchTestScenarioDao.findAll();
+        return dao.findAll();
     }
 
     @Override
     public SwitchTestScenario find(Long id) {
-        return switchTestScenarioDao.findById(id);
+        return dao.findById(id);
     }
 
     @Override
     public void update(SwitchTestScenario switchTestScenario) {
-        switchTestScenarioDao.update(switchTestScenario);
+        dao.update(switchTestScenario);
     }
 
     @Override
     public void delete(SwitchTestScenario switchTestScenario) {
-        switchTestScenarioDao.remove(switchTestScenario);
+        dao.remove(switchTestScenario);
     }
+    */
 }

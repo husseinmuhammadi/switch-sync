@@ -4,6 +4,7 @@ import com.dpi.financial.ftcom.model.base.EntityBase;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by h.mohammadi on 10/23/2016.
@@ -38,6 +39,9 @@ public class CardMaster extends EntityBase {
 
     @Column(name = "DISCRETIONARY_DATA", nullable = true, length = 4)
     private String discretionaryData;
+
+    @OneToOne(mappedBy = "cardMaster", fetch = FetchType.LAZY)
+    private MagneticStripe magneticStripe;
 
     public String getPan() {
         return pan;
@@ -85,5 +89,13 @@ public class CardMaster extends EntityBase {
 
     public void setDiscretionaryData(String discretionaryData) {
         this.discretionaryData = discretionaryData;
+    }
+
+    public MagneticStripe getMagneticStripe() {
+        return magneticStripe;
+    }
+
+    public void setMagneticStripe(MagneticStripe magneticStripe) {
+        this.magneticStripe = magneticStripe;
     }
 }

@@ -7,6 +7,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,6 +53,11 @@ public abstract class GenericDao<T extends EntityBase> {
     public T findById(Long id) {
         return entityManager.find(entityBeanType, id);
     }
+
+    // TODO: Add method body
+    public abstract List<T> findAll();/* {
+        return createNamedQuery(T.FIND_ALL).getResultList();
+    }*/
 
     public TypedQuery<T> createNamedQuery(String queryName) {
         return entityManager.createNamedQuery(queryName, entityBeanType);
