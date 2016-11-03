@@ -4,6 +4,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/base/template.xhtml">
+
     <ui:define name="metadata">
         <f:metadata>
             <f:viewAction action="#{cardMasterManager.onLoad}"/>
@@ -16,6 +17,7 @@
 
     <ui:define name="content">
         <h:form style="direction: rtl">
+
             <h:link outcome="insert">
                 <h:graphicImage alt="add" library="images" name="add.png" width="20"
                                 styleClass="img-responsive"/>

@@ -4,6 +4,7 @@ package com.dpi.financial.ftcom.web.controller.base.cms.card.cardmaster;
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.cms.card.CardMasterService;
 import com.dpi.financial.ftcom.model.to.cms.card.CardMaster;
+import com.dpi.financial.ftcom.model.to.cms.card.MagneticStripe;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 
 import javax.ejb.EJB;
@@ -45,6 +46,8 @@ public class CardMasterController extends ControllerBase<CardMaster>
 
     @Override
     public void afterLoad() {
-
+        if (getCardMaster().getMagneticStripe() == null) {
+            getCardMaster().setMagneticStripe(new MagneticStripe());
+        }
     }
 }

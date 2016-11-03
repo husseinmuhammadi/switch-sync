@@ -63,9 +63,11 @@
     </servlet-mapping>
 
     <!-- Load custom tag into JSF web application -->
+    <!--
     <context-param>
         <param-name>facelets.LIBRARIES</param-name>
         <param-value>/WEB-INF/asset.taglib.xml</param-value>
     </context-param>
+    -->
 
 </web-app>

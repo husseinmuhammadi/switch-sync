@@ -27,7 +27,6 @@
                     <h:outputText value="#{cardMasterController.cardMaster.pan}"
                                   id="pan" label="#{lbl['label.cardMaster.pan']}"
                                   styleClass="form-control" required="true">
-                        <f:validateLength maximum="19"/>
                     </h:outputText>
                 </div>
             </div>
@@ -42,6 +41,41 @@
                                   styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
                         <f:convertDateTime pattern="d-M-yyyy"/>
                     </h:outputText>
+                </div>
+            </div>
+
+            <br/>
+
+            <h3>#{lbl['label.magneticStripe.list']}</h3>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="track1" value="#{lbl['label.magneticStripe.track1']}"/>
+                    </div>
+                    <h:outputText value="#{cardMasterController.cardMaster.magneticStripe.track1}"
+                                  id="track1" label="#{lbl['label.magneticStripe.track1']}"
+                                  styleClass="form-control">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="track2" value="#{lbl['label.magneticStripe.track2']}"/>
+                    </div>
+                    <h:inputText value="#{cardMasterController.cardMaster.magneticStripe.track2}"
+                                 id="track2" label="#{lbl['label.magneticStripe.track2']}"
+                                 styleClass="form-control">
+                    </h:inputText>
+
+                    <div class="input-group-addon">
+                        <h:commandLink>
+                            <h:graphicImage alt="reload" library="images" name="reload2.png" width="20"
+                                            styleClass="img-responsive"/>
+                        </h:commandLink>
+                    </div>
                 </div>
             </div>
 
