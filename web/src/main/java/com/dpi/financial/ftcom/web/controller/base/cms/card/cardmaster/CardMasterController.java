@@ -46,8 +46,10 @@ public class CardMasterController extends ControllerBase<CardMaster>
 
     @Override
     public void afterLoad() {
+        /*
         if (getCardMaster().getMagneticStripe() == null) {
             getCardMaster().setMagneticStripe(new MagneticStripe());
         }
+        */
     }
 }
