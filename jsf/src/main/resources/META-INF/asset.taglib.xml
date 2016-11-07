@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facelettaglibary_2_2.xsd"
+                version="2.2">
+
+    <namespace>http://xmlns.dpi.com/jsf/component</namespace>
+
+    <tag>
+        <tag-name>tab</tag-name>
+        <component>
+            <component-type>ir.javadev.jsf.component.Tab</component-type>
+        </component>
+        <attribute>
+            <name>src</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>active</name>
+            <required>false</required>
+            <type>java.lang.Boolean</type>
+        </attribute>
+        <attribute>
+            <name>text</name>
+            <required>true</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+
+    <!--
+    <tag>
+        <tag-name>searchPanel</tag-name>
+        <source>taglib/search.xhtml</source>
+    </tag>
+    <tag>
+        <tag-name>tabContainer</tag-name>
+        <component>
+            <component-type>ir.javadev.jsf.component.TabContainer</component-type>
+            <renderer-type>ir.javadev.jsf.renderer.TabContainerRenderer</renderer-type>
+        </component>
+    </tag>
+    -->
+
+    <tag>
+        <tag-name>customComponent</tag-name>
+        <component>
+            <component-type>com.dpi.ui.core.SayHello</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>searchPanel</tag-name>
+        <source>taglib/search.xhtml</source>
+    </tag>
+
+    <tag>
+        <tag-name>tabContainer</tag-name>
+        <component>
+            <component-type>ir.javadev.jsf.component.TabContainer</component-type>
+            <renderer-type>ir.javadev.jsf.renderer.TabContainerRenderer</renderer-type>
+        </component>
+    </tag>
+
+</facelet-taglib>

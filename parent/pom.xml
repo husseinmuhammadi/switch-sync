@@ -16,6 +16,7 @@
         <module>../api</module>
         <module>../service</module>
         <module>../core</module>
+        <module>../jsf</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -32,6 +33,7 @@
         <utility.artifactId>utility</utility.artifactId>
         <jpos.artifactId>q2mbean</jpos.artifactId>
         <core.artifactId>switch-core</core.artifactId>
+        <jsf.artifactId>jsf-component</jsf.artifactId>
 
         <!-- Version prop -->
         <api.version>1.0.0-SNAPSHOT</api.version>
@@ -42,6 +44,7 @@
         <utility.version>1.0.0-SNAPSHOT</utility.version>
         <jpos.version>1.0</jpos.version>
         <core.version>1.0.0-SNAPSHOT</core.version>
+        <jsf.version>1.0.0-SNAPSHOT</jsf.version>
 
         <!-- Archive name prop -->
         <service.archive.name>service.jar</service.archive.name>

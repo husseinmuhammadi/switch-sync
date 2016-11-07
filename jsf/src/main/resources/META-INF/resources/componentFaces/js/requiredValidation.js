@@ -1,0 +1,3 @@
+function requiredValidation() {
+    alert("hello");
+}
