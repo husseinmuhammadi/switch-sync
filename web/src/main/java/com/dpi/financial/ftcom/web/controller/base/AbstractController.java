@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 /**
  * Created by h.mohammadi on 9/14/2016.
  */
-public class AbstractController {
+public abstract class AbstractController {
 
     protected FacesContext facesContext = null;
 
@@ -59,6 +59,7 @@ public class AbstractController {
     public ExternalContext getExternalContext() {
         return FacesContext.getCurrentInstance().getExternalContext();
     }
+
     protected ResourceBundle getMessageBundle() {
         ResourceManager resourceManager = new ResourceManager();
         return resourceManager.getBundle("msg");

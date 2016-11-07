@@ -5,6 +5,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://java.sun.com/jstl/core"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://xmlns.dpi.com/jsf/component"
                 template="/base/template.xhtml">
     <ui:define name="metadata">
         <f:metadata>
@@ -14,7 +15,7 @@
     </ui:define>
 
     <ui:define name="header">
-        <h2>#{lbl['label.cardMaster.new']}</h2>
+        <h2>#{lbl['label.cardMaster.profile']}</h2>
     </ui:define>
 
     <ui:define name="content">
@@ -45,47 +46,13 @@
             </div>
 
             <br/>
-
-            <h3>#{lbl['label.magneticStripe.list']}</h3>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="track1" value="#{lbl['label.magneticStripe.track1']}"/>
-                    </div>
-                    <h:outputText value="#{cardMasterController.cardMaster.magneticStripe.track1}"
-                                  id="track1" label="#{lbl['label.magneticStripe.track1']}"
-                                  styleClass="form-control">
-                    </h:outputText>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="track2" value="#{lbl['label.magneticStripe.track2']}"/>
-                    </div>
-                    <h:inputText value="#{cardMasterController.cardMaster.magneticStripe.track2}"
-                                 id="track2" label="#{lbl['label.magneticStripe.track2']}"
-                                 styleClass="form-control">
-                    </h:inputText>
-
-                    <div class="input-group-addon">
-                        <h:commandLink>
-                            <h:graphicImage alt="reload" library="images" name="reload2.png" width="20"
-                                            styleClass="img-responsive"/>
-                        </h:commandLink>
-                    </div>
-                </div>
-            </div>
-
-            <h:commandButton value="#{lbl['button.save']}" action="#{cardMasterController.create()}"
-                             styleClass="btn btn-default"/>
-            <h:commandButton value="#{lbl['button.edit']}" action="#{cardMasterController.update()}"
-                             styleClass="btn btn-default"/>
-            <h:commandButton value="#{lbl['button.cancel']}" action="#{cardMasterController.cancel()}"
-                             styleClass="btn btn-default"/>
-
         </h:form>
+
+        <p:tabContainer>
+            <p:tab src="/admin/cms/card/magneticstripe/insert.xhtml" text="#{lbl['label.magneticStripe.view']}" active="true">
+                <f:param name="pan" value="#{cardMasterController.cardMaster.pan}"/>
+            </p:tab>
+        </p:tabContainer>
+
     </ui:define>
 </ui:composition>

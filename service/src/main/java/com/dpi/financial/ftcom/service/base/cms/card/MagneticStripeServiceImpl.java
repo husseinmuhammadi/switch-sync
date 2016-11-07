@@ -24,6 +24,11 @@ public class MagneticStripeServiceImpl extends GeneralServiceImpl<MagneticStripe
         return dao;
     }
 
+    @Override
+    public MagneticStripe findByPan(MagneticStripe magneticStripe) {
+        return dao.findByPan(magneticStripe);
+    }
+
     /*
     @Override
     public MagneticStripe create(MagneticStripe magneticStripe) {

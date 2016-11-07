@@ -7,13 +7,19 @@ import javax.persistence.*;
 @Entity
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "MAGNETIC_STRIPE_SEQ")
 @Table(name = "MAGNETIC_STRIPE", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"PRIMARY_ACCOUNT_NUMBER"}),
         @UniqueConstraint(columnNames = {"TRACK2"})
 })
 @NamedQueries({
-        @NamedQuery(name = MagneticStripe.FIND_ALL, query = "select t from MagneticStripe t where t.deleted = false")
+        @NamedQuery(name = MagneticStripe.FIND_ALL, query = "select t from MagneticStripe t where t.deleted = false"),
+        @NamedQuery(name = MagneticStripe.FIND_BY_PRIMARY_ACCOUNT_NUMBER, query = "select t from MagneticStripe t where t.deleted = false and t.pan = :pan")
 })
 public class MagneticStripe extends EntityBase {
     public static final String FIND_ALL = "MagneticStripe.findAll";
+    public static final String FIND_BY_PRIMARY_ACCOUNT_NUMBER = "MagneticStripe.findByPrimaryAccountNumber";
+
+    @Column(name = "PRIMARY_ACCOUNT_NUMBER", nullable = false, length = 19)
+    private String pan;
 
     @Column(name = "TRACK1", nullable = true, length = 200)
     private String track1;
@@ -22,7 +28,7 @@ public class MagneticStripe extends EntityBase {
     private String track2;
 
     @OneToOne
-    @JoinColumn(name = "CARD_MASTER_ID")
+    @JoinColumn(name = "CARD_MASTER_ID", foreignKey=@ForeignKey(name="FK_MAGNETIC_STRIPE_CARD_MASTER"))
     private CardMaster cardMaster;
 
     public String getTrack1() {
@@ -47,5 +53,13 @@ public class MagneticStripe extends EntityBase {
 
     public void setCardMaster(CardMaster cardMaster) {
         this.cardMaster = cardMaster;
+    }
+
+    public String getPan() {
+        return pan;
+    }
+
+    public void setPan(String pan) {
+        this.pan = pan;
     }
 }

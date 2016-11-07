@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                template="/base/template.xhtml">
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="id" value="#{magneticStripeController.id}"/>
+            <f:viewParam name="pan" value="#{magneticStripeController.magneticStripe.pan}"/>
+            <f:viewAction action="#{magneticStripeController.onLoad}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="header">
+        <h2>#{lbl['label.magneticStripe.new']}</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form class="form-group" style="direction: rtl">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="pan" value="#{lbl['label.magneticStripe.pan']}"/>
+                    </div>
+                    <h:inputText value="#{magneticStripeController.magneticStripe.pan}"
+                                 id="pan" label="#{lbl['label.magneticStripe.pan']}"
+                                 styleClass="form-control" required="true">
+                        <f:validateLength maximum="19"/>
+                    </h:inputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="track1" value="#{lbl['label.magneticStripe.track1']}"/>
+                    </div>
+                    <h:inputText value="#{magneticStripeController.magneticStripe.track1}"
+                                 id="track1" label="#{lbl['label.magneticStripe.track1']}"
+                                 styleClass="form-control">
+                    </h:inputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="track2" value="#{lbl['label.magneticStripe.track2']}"/>
+                    </div>
+                    <h:inputText value="#{magneticStripeController.magneticStripe.track2}"
+                                 id="track2" label="#{lbl['label.magneticStripe.track2']}"
+                                 styleClass="form-control" required="true">
+                    </h:inputText>
+                </div>
+            </div>
+
+            <h:commandButton value="#{lbl['button.save']}" action="#{magneticStripeController.create()}"
+                             styleClass="btn btn-default"/>
+            <h:commandButton value="#{lbl['button.edit']}" action="#{magneticStripeController.update()}"
+                             styleClass="btn btn-default"/>
+            <h:commandButton value="#{lbl['button.cancel']}" action="#{magneticStripeController.cancel()}"
+                             immediate="true" styleClass="btn btn-default"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
