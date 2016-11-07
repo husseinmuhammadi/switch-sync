@@ -9,6 +9,7 @@ parent/switch-parent.iml
 service/switch-service.iml
 utility/utility.iml
 web/switch-web.iml
+jsf/jsf-component.iml
 
 api/target
 core/target
@@ -18,3 +19,4 @@ model/target
 service/target
 utility/target
 web/target
+jsf/target
