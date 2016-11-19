@@ -10,6 +10,7 @@ service/switch-service.iml
 utility/utility.iml
 web/switch-web.iml
 jsf/jsf-component.iml
+security/switch-service.iml
 
 api/target
 core/target
@@ -20,3 +21,4 @@ service/target
 utility/target
 web/target
 jsf/target
+security/target/
