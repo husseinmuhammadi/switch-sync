@@ -1,0 +1,33 @@
+/*
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (1, sysdate, 0, null, sysdate, 0, '10003', '10003', '172.17.50.26');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (2, sysdate, 0, null, sysdate, 0, '10009', '10009', '172.18.50.2');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (3, sysdate, 0, null, sysdate, 0, '01003', '01003', '172.17.3.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (4, sysdate, 0, null, sysdate, 0, '10000', '10000', '172.17.50.2');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (5, sysdate, 0, null, sysdate, 0, '08501', '08501', '172.18.5.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (6, sysdate, 0, null, sysdate, 0, '10006', '10006', '172.17.7.61');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (7, sysdate, 0, null, sysdate, 0, '01005', '01005', '172.17.5.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (8, sysdate, 0, null, sysdate, 0, '10005', '10005', '172.17.50.42');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (9, sysdate, 0, null, sysdate, 0, '10010', '10010', '172.21.145.5');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (10, sysdate, 0, null, sysdate, 0, '10011', '10011', '172.17.50.74');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (11, sysdate, 0, null, sysdate, 0, '40001', '40001', '10.40.1.1');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (12, sysdate, 0, null, sysdate, 0, '01002', '01002', '10.33.3.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (13, sysdate, 0, null, sysdate, 0, '01006', '01006', '172.17.6.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (14, sysdate, 0, null, sysdate, 0, '01107', '01107', '172.17.7.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (15, sysdate, 0, null, sysdate, 0, '01008', '01008', '172.17.8.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (16, sysdate, 0, null, sysdate, 0, '01301', '01301', '172.18.1.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (17, sysdate, 0, null, sysdate, 0, '04501', '04501', '172.18.2.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (18, sysdate, 0, null, sysdate, 0, '01001', '01001', '172.17.2.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (19, sysdate, 0, null, sysdate, 0, '00020', '00020', '172.17.2.61');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (20, sysdate, 0, null, sysdate, 0, '01007', '01007', '172.17.3.61');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (21, sysdate, 0, null, sysdate, 0, '01004', '01004', '172.17.4.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (22, sysdate, 0, null, sysdate, 0, '07201', '07201', '172.18.3.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (23, sysdate, 0, null, sysdate, 0, '10002', '10002', '172.17.50.10');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (24, sysdate, 0, null, sysdate, 0, '10004', '10004', '172.17.50.34');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (25, sysdate, 0, null, sysdate, 0, '10008', '10008', '172.17.50.66');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (26, sysdate, 0, null, sysdate, 0, '40003', '40003', '10.40.1.3');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (27, sysdate, 0, null, sysdate, 0, '40004', '40004', '10.40.1.4');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (28, sysdate, 0, null, sysdate, 0, '10001', '10001', '172.17.4.61');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (29, sysdate, 0, null, sysdate, 0, '01009', '01009', '172.17.9.60');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (30, sysdate, 0, null, sysdate, 0, '10007', '10007', '172.17.50.58');
+insert into atm_terminal_master (id, create_on, is_deleted, description, update_on, version, luno, terminal_id, terminal_ip) values (31, sysdate, 0, null, sysdate, 0, '40002', '40002', '10.40.1.2');
+*/

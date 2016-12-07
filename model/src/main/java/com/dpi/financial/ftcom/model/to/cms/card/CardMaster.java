@@ -6,9 +6,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by h.mohammadi on 10/23/2016.
- */
 @Entity
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "CARD_MASTER_SEQ")
 @Table(name = "CARD_MASTER", uniqueConstraints = {

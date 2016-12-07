@@ -5,12 +5,14 @@ import com.dpi.financial.ftcom.api.base.SwitchTestScenarioService;
 import com.dpi.financial.ftcom.api.base.atm.JournalTransactionService;
 import com.dpi.financial.ftcom.model.to.SwitchTestScenario;
 import com.dpi.financial.ftcom.model.to.atm.JournalTransaction;
+import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;

@@ -34,6 +34,10 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <listener>
+        <listener-class>com.dpi.financial.ftcom.web.listener.JournalFileWatchServiceListener</listener-class>
+    </listener>
+
     <!-- JSF mapping -->
     <servlet>
         <servlet-name>facesContext</servlet-name>

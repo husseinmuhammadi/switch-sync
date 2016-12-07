@@ -54,6 +54,14 @@
                                  id="track2" label="#{lbl['label.magneticStripe.track2']}"
                                  styleClass="form-control" required="true">
                     </h:inputText>
+
+                    <div class="input-group-btn">
+                        <h:commandLink value="#{lbl['button.magneticStripe.generate']}" class="btn btn-secondary"
+                                       immediate="true">
+                            <f:ajax execute="@form" render="@form :messages"
+                                    listener="#{magneticStripeController.generateTrack2}"/>
+                        </h:commandLink>
+                    </div>
                 </div>
             </div>
 

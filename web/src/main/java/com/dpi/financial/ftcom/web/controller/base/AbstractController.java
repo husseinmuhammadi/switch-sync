@@ -103,4 +103,8 @@ public abstract class AbstractController {
         }
     }
 
+    public void getApplicationContext() {
+
+    }
+
 }

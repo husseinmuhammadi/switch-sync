@@ -7,6 +7,9 @@ import com.dpi.financial.ftcom.model.to.cms.card.MagneticStripe;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 
 import javax.ejb.EJB;
+import javax.faces.component.UIInput;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -53,6 +56,24 @@ public class MagneticStripeController extends ControllerBase<MagneticStripe>
                 if (magneticStripe != null && magneticStripe.getId() != null)
                     entity = magneticStripe;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrorMessage(e);
+        }
+    }
+
+    public void generateTrack2(AjaxBehaviorEvent event) throws AbortProcessingException {
+        try {
+            // Long insuredInsurancePlanId = Long.parseLong(((UIInput) event.getComponent()).getValue().toString());
+            MagneticStripe magneticStripe = service.generateTrackData(getMagneticStripe().getPan());
+        /*
+        InsuredInsurancePlan insuredInsurancePlan = insuredInsurancePlanService.find(insuredInsurancePlanId);
+        if (insuredInsurancePlan != null) {
+            InsurancePlan insurancePlan = insuredInsurancePlan.getInsurancePlan();
+            if (insurancePlan != null && insurancePlan.getId() != null)
+                onInsurancePlanChanged(insurancePlan);
+        }
+        */
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);

@@ -10,6 +10,11 @@ import javax.persistence.*;
 import java.nio.file.attribute.FileTime;
 import java.util.Date;
 
+/**
+ * JournalFile entity persist physical journal file information on database
+ * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Monday, December 05, 2016
+ *  <li>Prepare ATM transactions based on journal content</li>
+ */
 @Entity
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "JOURNAL_FILE_SEQ")
 @Table(name = "JOURNAL_FILE", uniqueConstraints = {
@@ -19,7 +24,7 @@ import java.util.Date;
 })
 @NamedQueries({
         @NamedQuery(name = JournalFile.FIND_ALL, query = "select t from JournalFile t where t.deleted = false"),
-        @NamedQuery(name = JournalFile.FIND_BY_TERMINAL, query = "select t from JournalFile t where t.deleted = false and t.terminal = :terminal")
+        @NamedQuery(name = JournalFile.FIND_BY_TERMINAL, query = "select t from JournalFile t where t.deleted = false and t.terminal = :terminal order by t.journalDate asc")
 })
 public class JournalFile extends EntityBase {
     public static final String FIND_ALL = "JournalFile.findAll";
@@ -69,6 +74,20 @@ public class JournalFile extends EntityBase {
 
     @Column(name = "FILE_SIZE")
     private Long size;
+
+    @Column(name = "DIGEST", columnDefinition = "RAW(32) NOT NULL")
+    private byte[] digest;
+
+    /*
+    @Column(name = "DIGEST", nullable = false, length = 32)
+    private String digest;
+    */
+
+    @Column(name = "MESSAGE_DIGEST_ALGORITHM_5", nullable = false, length = 40)
+    private String md5;
+
+    @Column(name = "IS_PREPARED", nullable = false, columnDefinition = "NUMBER(1,0) default 0")
+    private boolean prepared = false;
 
     public Terminal getTerminal() {
         return terminal;
@@ -172,5 +191,29 @@ public class JournalFile extends EntityBase {
 
     public void setSize(Long size) {
         this.size = size;
+    }
+
+    public byte[] getDigest() {
+        return digest;
+    }
+
+    public void setDigest(byte[] digest) {
+        this.digest = digest;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
+    public boolean isPrepared() {
+        return prepared;
+    }
+
+    public void setPrepared(boolean prepared) {
+        this.prepared = prepared;
     }
 }

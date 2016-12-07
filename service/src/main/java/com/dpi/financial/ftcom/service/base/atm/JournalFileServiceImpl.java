@@ -7,21 +7,25 @@ import com.dpi.financial.ftcom.model.to.atm.JournalFile;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.shiro.authz.HostUnauthorizedException;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.el.CompositeELResolver;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Stateless
 @Local(JournalFileService.class)
@@ -36,154 +40,155 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
         return dao;
     }
 
-    /*
-    @Override
-    public JournalFile create(JournalFile journalFile) {
-        return dao.create(journalFile);
-    }
-
-    @Override
-    public List<JournalFile> findAll() {
-        return dao.findAll();
-    }
-
-    @Override
-    public JournalFile find(Long id) {
-        return dao.findById(id);
-    }
-
-    @Override
-    public void update(JournalFile journalFile) {
-        dao.update(journalFile);
-    }
-
-    @Override
-    public void delete(JournalFile journalFile) {
-        dao.remove(journalFile);
-    }
-    */
-
     @Override
     public List<JournalFile> findAll(Terminal terminal) {
         return dao.findAll(terminal);
     }
 
-
+    /**
+     * This method sync files on disk to database JOURNAL_FILE and
+     * return list of journal file info in journal date order.
+     * @param baseFolder
+     * @param terminal
+     * @return
+     * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Monday, December 05, 2016
+     *  <li>Prepare ATM transactions based on journal content</li>
+     */
     @Override
-    public List<JournalFile> getJournalFileList(String path) {
+    public List<JournalFile> getJournalFileList(String baseFolder, Terminal terminal) {
+        List<JournalFile> journalFiles = findAll(terminal);
 
-        List<JournalFile> journalFiles = new ArrayList<JournalFile>();
-
-        Map<String, File> journalFolderMap = getAtmJournalFolderMap(path);
-
-        Iterator it = journalFolderMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-
-            File folder = (File) pairs.getValue();
-            for (File jrnFile : getOrderedJournalFiles(folder)) {
-                JournalFile journalFile = new JournalFile();
-
-                jrnFile.getName();
-
-                journalFile.setLuno(folder.getName());
-                journalFile.setName(FilenameUtils.getBaseName(jrnFile.getName()));
-                journalFile.setFileName(jrnFile.getName());
-
-                try {
-                    DateFormat format = new SimpleDateFormat("yyyyMMdd");
-                    String fileNameWithOutExt = FilenameUtils.removeExtension(jrnFile.getName());
-                    journalFile.setJournalDate(format.parse(fileNameWithOutExt));
-
-                    Path file = Paths.get(jrnFile.getCanonicalPath());
-
-                    BasicFileAttributes attr =
-                            Files.readAttributes(file, BasicFileAttributes.class);
-                    journalFile.setCreationTime(new Date(attr.creationTime().toMillis()));
-                    journalFile.setLastAccessTime(new Date(attr.lastAccessTime().toMillis()));
-                    journalFile.setLastModifiedTime(new Date(attr.lastModifiedTime().toMillis()));
-
-                    /*
-                    journalFile.setDirectory(attr.isDirectory());
-                    journalFile.setOther(attr.isOther());
-                    journalFile.setRegularFile(attr.isRegularFile());
-                    journalFile.setSymbolicLink(attr.isSymbolicLink());
-                    */
-                    journalFile.setSize(attr.size());
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-                journalFiles.add(journalFile);
-            }
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-        return journalFiles;
-    }
-
-    public Map<String, File> getAtmJournalFolderMap(String baseFolder) {
-        Map<String, File> atmJournalFolderMap = new HashMap<String, File>();
-
+        JournalPhysicalFile journalPhysicalFile = new JournalPhysicalFile(baseFolder);
         try {
-            final File parent = new File(baseFolder);
+            List<File> journalPhysicalFiles = journalPhysicalFile.getOrderedJournalFiles(terminal.getLuno());
+            for (File file : journalPhysicalFiles) {
+                JournalFile journal = new JournalFile();
 
-            for (final File folder : parent.listFiles()) {
-                if (folder.isDirectory())
-                    atmJournalFolderMap.put(folder.getName(), folder);
+                journal.setLuno(terminal.getLuno());
+                journal.setName(FilenameUtils.getBaseName(file.getName()));
+                journal.setFileName(file.getName());
+                journal.setTerminal(terminal);
+                updateFileInfo(journal, file);
+
+                journal.setPrepared(false);
+
+                // http://stackoverflow.com/questions/13138990/how-to-search-in-a-list-of-java-object
+                /*
+                List<JournalFile> result = journalFiles.stream()
+                        .filter(item -> item.getFileName().equals(journal.getFileName()))
+                        .collect(Collectors.toList());
+                */
+                Optional<JournalFile> any = journalFiles.stream()
+                        .filter(item -> item.getFileName().equals(journal.getFileName()))
+                        .findAny();
+
+                if (any.isPresent()) {
+                    JournalFile journalFile = any.get();
+                    System.out.println(
+                            MessageFormat.format("Journal {0}/{1} found.", journalFile.getLuno(), journalFile.getFileName())
+                    );
+                    System.out.println(
+                            MessageFormat.format("{0}/{1}", journalFile.getMd5(), journal.getMd5())
+                    );
+                    if (!journalFile.getMd5().equals(journal.getMd5())) {
+                        System.out.println(
+                                MessageFormat.format("Journal {0}/{1} content is different.", journalFile.getLuno(), journalFile.getFileName())
+                        );
+                        updateFileInfo(journalFile, file);
+                        journalFile.setPrepared(false);
+                        update(journalFile);
+                    }
+                } else {
+                    JournalFile journalFile = create(journal);
+                    System.out.println(
+                            MessageFormat.format("Journal {0}/{1} added.", journalFile.getLuno(), journalFile.getFileName())
+                    );
+                }
             }
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        return atmJournalFolderMap;
+        journalFiles = findAll(terminal);
+        return journalFiles;
     }
 
-    public List<File> getOrderedJournalFiles(File terminalJournalFolder) {
-        List<File> jrnFiles = new ArrayList<File>();
+    private JournalFile updateFileInfo(JournalFile journal, File file) {
+        try {
+            DateFormat format = new SimpleDateFormat("yyyyMMdd");
+            String fileNameWithOutExt = FilenameUtils.removeExtension(file.getName());
+            journal.setJournalDate(format.parse(fileNameWithOutExt));
 
-        if (terminalJournalFolder.isDirectory()) {
+            Path path = Paths.get(file.getCanonicalPath());
+            BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
 
-            File[] files = terminalJournalFolder.listFiles();
+            journal.setCreationTime(new Date(attr.creationTime().toMillis()));
+            journal.setLastAccessTime(new Date(attr.lastAccessTime().toMillis()));
+            journal.setLastModifiedTime(new Date(attr.lastModifiedTime().toMillis()));
 
-            Arrays.sort(files, new Comparator<File>() {
-                @Override
-                public int compare(File f1, File f2) {
-                    return f1.getName().compareTo(f2.getName());
-                }
-            });
+            journal.setDirectory(attr.isDirectory());
+            journal.setOther(attr.isOther());
+            journal.setRegularFile(attr.isRegularFile());
+            journal.setSymbolicLink(attr.isSymbolicLink());
 
-            for (final File journal : files) {
-                if (journal.isFile()) {
-                    String ext = FilenameUtils.getExtension(journal.getAbsolutePath());
-                    if (ext != null && ext.equalsIgnoreCase("jrn"))
-                        jrnFiles.add(journal);
-                    // System.out.println(journalFile.getAbsolutePath());
-                }
-            }
+            journal.setSize(attr.size());
+
+            journal.setDigest(getDigest(path));
+            journal.setMd5(encodeToMd5(file.getAbsolutePath()));
+
+        } catch (ParseException | IOException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return journal;
+    }
+
+    /**
+     * see whats going on calcMD5
+     * @param file
+     * @return
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     */
+    private byte[] getDigest(Path file) throws IOException, NoSuchAlgorithmException {
+        MessageDigest algorithm = MessageDigest.getInstance("MD5");
+        try (InputStream is = Files.newInputStream(file);
+             DigestInputStream dis = new DigestInputStream(is, algorithm)) {
+            /* Read decorated stream (dis) to EOF as normal... */
+            byte[] buffer = new byte[8192];
+            while (dis.read(buffer) != -1)
+                ;
+        }
+        byte[] digest = algorithm.digest();
+        // System.out.println("Digest: " + digest);
+        return digest;
+    }
+
+    public String encodeToMd5(String filePath) throws NoSuchAlgorithmException, IOException {
+
+        MessageDigest md = MessageDigest.getInstance("SHA1");
+        FileInputStream fis = new FileInputStream(filePath);
+
+        byte[] dataBytes = new byte[1024];
+
+        int nread = 0;
+
+        while ((nread = fis.read(dataBytes)) != -1) {
+            md.update(dataBytes, 0, nread);
         }
 
-        return jrnFiles;
-    }
+        byte[] mdbytes = md.digest();
 
-
-    public void uploadAllFiles(String atmJournalCollectionFolder) throws IOException {
-        Map<String, File> mp = getAtmJournalFolderMap(atmJournalCollectionFolder);
-        // Iterating the hash map
-        Iterator it = mp.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-            System.out.println("Uploading atm journals " + pairs.getKey());
-            File folder = (File) pairs.getValue();
-            for (File journal : getOrderedJournalFiles(folder)) {
-                uploadContent(journal);
-            }
-            it.remove(); // avoids a ConcurrentModificationException
+        // convert the byte to hex format
+        StringBuffer sb = new StringBuffer("");
+        for (int i = 0; i < mdbytes.length; i++) {
+            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
         }
+
+        System.out.println("Digest(in hex format):: " + sb.toString());
+        return sb.toString();
     }
+
+
 
     public void listFilesForFolder(final File folder, final boolean recurse) {
         for (final File fileEntry : folder.listFiles()) {
@@ -246,64 +251,6 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
         return lines;
     }
 
-    public void uploadContent(final File file) throws IOException {
-        /**
-         SequentialStreamService sequentialStreamService = new SequentialStreamService();
-         BufferedReader br = null;
-         try {
-
-         String fileNameWithOutExt = FilenameUtils.removeExtension(file.getName());
-         String terminal = file.getParent().substring(file.getParent().lastIndexOf("\\") + 1);
-         br = new BufferedReader(new FileReader(file));
-
-         String line;
-         boolean processed = false;
-
-         int startIndex = 0;
-         startIndex = getMaxLineNumber(terminal, fileNameWithOutExt);
-
-         for (int i = 0; i < startIndex; i++) {
-         line = br.readLine();
-         }
-
-         List<String> list = new ArrayList<String>(DataMgr.maxTransaction);
-         int index = startIndex;
-
-         while ((line = br.readLine()) != null) {
-         processed = true;
-
-         list.add(line);
-         index++;
-
-         // index value is for next line
-         if (index % DataMgr.maxTransaction == 0) {
-         sequentialStreamService.saveLines(terminal, fileNameWithOutExt, list, startIndex);
-
-         startIndex += DataMgr.maxTransaction;
-         list = new ArrayList<String>(DataMgr.maxTransaction);
-
-         System.out.println(DataMgr.maxTransaction + " line is processed");
-         }
-         }
-
-         if (index > startIndex)
-         sequentialStreamService.saveLines(terminal, fileNameWithOutExt, list, startIndex);
-
-         if (processed)
-         System.out.println(file.getName() + " processed successfully.");
-
-         } catch (FileNotFoundException e) {
-         e.printStackTrace();
-         } catch (IOException e) {
-         e.printStackTrace();
-         } finally {
-         if (br != null)
-         br.close();
-
-         }
-         */
-
-    }
 
     private int getMaxLineNumber(String terminal, String fileNameWithOutExt) {
         int result = 0;
@@ -333,4 +280,33 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
 
         return result;
     }
+
+
+    public String calcMD5() throws Exception{
+        byte[] buffer = new byte[8192];
+        MessageDigest md = MessageDigest.getInstance("MD5");
+
+        DigestInputStream dis = new DigestInputStream(new FileInputStream(new File("Path to file")), md);
+        try {
+            while (dis.read(buffer) != -1);
+        }finally{
+            dis.close();
+        }
+
+        byte[] bytes = md.digest();
+
+        // bytesToHex-method
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            /* comment by Hossein - uncomment it
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+            */
+        }
+
+        return new String(hexChars);
+    }
+
+
 }

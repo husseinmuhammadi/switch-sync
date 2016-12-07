@@ -5,6 +5,7 @@ import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.dao.atm.TerminalDao;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
+import org.bouncycastle.bcpg.sig.RevocationReasonTags;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -23,35 +24,11 @@ public class TerminalServiceImpl extends GeneralServiceImpl<Terminal>
         return dao;
     }
 
-    /*
-    @Override
-    public Terminal create(Terminal terminal) {
-        return dao.create(terminal);
-    }
-
-    @Override
-    public List<Terminal> findAll() {
-        return dao.findAll();
-    }
-
-    @Override
-    public Terminal find(Long id) {
-        return dao.findById(id);
-    }
-
-    @Override
-    public void update(Terminal terminal) {
-        dao.update(terminal);
-    }
-
-    @Override
-    public void delete(Terminal terminal) {
-        dao.remove(terminal);
-    }
-    */
-
     @Override
     public Terminal findByLuno(String luno) {
+        if (luno == null)
+            return null;
+
         return dao.findByLuno(luno);
     }
 }

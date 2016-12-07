@@ -274,6 +274,14 @@
             <type>war</type>
         </dependency>
 
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${security.artifactId}</artifactId>
+            <version>${security.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+
     </dependencies>
 
 </project>

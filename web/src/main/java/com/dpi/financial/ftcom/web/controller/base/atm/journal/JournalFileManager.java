@@ -2,20 +2,28 @@ package com.dpi.financial.ftcom.web.controller.base.atm.journal;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
+import com.dpi.financial.ftcom.api.base.atm.JournalTransactionService;
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
 import com.dpi.financial.ftcom.model.to.atm.JournalFile;
+import com.dpi.financial.ftcom.model.to.atm.JournalTransaction;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
-import javafx.scene.layout.BorderImage;
+import com.dpi.financial.ftcom.web.controller.conf.AtmConfiguration;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.component.UIInput;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,6 +36,12 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     @EJB
     private TerminalService terminalService;
+
+    @EJB
+    JournalTransactionService journalTransactionService;
+
+    @Inject
+    private AtmConfiguration configuration;
 
     private Terminal terminal;
     private List<JournalFile> journalFileList;
@@ -53,15 +67,10 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     public void onLoad() {
         try {
-            terminal = terminalService.findByLuno(terminal.getLuno());
+            Terminal terminal = terminalService.findByLuno(this.terminal.getLuno());
             journalFileList = service.findAll(terminal);
 
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            InputStream input = classLoader.getResourceAsStream("atm.properties");
-            Properties properties = new Properties();
-            properties.load(input);
-            String path = properties.getProperty("JOURNAL_PATH");
-
+            String path = configuration.getJournalPath();
             // journalFileList = service.getJournalFileList(path);
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,5 +92,57 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     public void setTerminal(Terminal terminal) {
         this.terminal = terminal;
+    }
+
+    public void lunoValueChange(AjaxBehaviorEvent event) {
+        String luno = ((UIInput) event.getComponent()).getValue().toString();
+        System.out.println("Selected luno: " + luno);
+        System.out.println("Selected luno: " + getTerminal().getLuno());
+        try {
+            Terminal terminal = terminalService.findByLuno(luno);
+
+            String journalPath = configuration.getJournalPath();
+            journalFileList.clear();
+            journalFileList = service.getJournalFileList(journalPath, terminal);
+            // } catch (JournalFilesNotExists e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrorMessage(e);
+        }
+    }
+
+    public String getJournalPath() {
+        String path = null;
+
+        try {
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            InputStream input = classLoader.getResourceAsStream("atm.properties");
+            Properties properties = new Properties();
+            properties.load(input);
+            path = properties.getProperty("JOURNAL_PATH");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return path;
+    }
+
+    /**
+     * This method prepare ATM transactions based on journal content for specified terminal
+     * @param event
+     * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Monday, December 05, 2016
+     *  <li>Prepare ATM transactions based on journal content</li>
+     */
+    public void prepareAtmTransactions(AjaxBehaviorEvent event) {
+        String luno = terminal.getLuno();
+        try {
+            Terminal terminal = terminalService.findByLuno(luno);
+            String journalPath = configuration.getJournalPath();
+            journalTransactionService.prepareSwipeCard(journalPath, terminal);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrorMessage(e);
+        }
     }
 }
