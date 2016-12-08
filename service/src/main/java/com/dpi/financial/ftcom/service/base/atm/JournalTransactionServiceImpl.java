@@ -23,6 +23,7 @@ import com.dpi.financial.ftcom.utility.regex.RegexMatches;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.xml.transform.Source;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -79,6 +80,17 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
 
                 while ((line = br.readLine()) != null) {
 
+                    //http://www.ascii-code.com/
+                    String endOfTransmission = String.valueOf(Character.toChars(4)); // ASCII control character EOT
+                    if (line.contains(endOfTransmission))
+                        line = line.replaceAll(endOfTransmission, "");
+
+                    if (terminal.getLuno().equals("01003") &&
+                            journalFile.getFileName().equals("20150704.jrn") &&
+                            index + 1 == 440) {
+                        System.out.println("I am here.");
+                    }
+
                     if (state != TerminalTransactionState.INVALID_STATE)
                         previousState = state;
 
@@ -107,9 +119,7 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                                         MessageFormat.format("Transaction start is not allowed here. See journal {0}/{1} line {2}",
                                                 terminal.getLuno(), journalFile.getFileName(), index + 1)
                                 );
-                            }
-
-                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_DATA, line) != null) {
+                            } else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_DATA, line) != null) {
                                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_1_DATA, line) != null) {
                                     swipeCard.setTrack1Data(getTrackData(line));
                                 }
@@ -120,9 +130,8 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_3_DATA, line) != null) {
                                     swipeCard.setTrack3Data(getTrackData(line));
                                 }
-                            }
-
-                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null ||
+                            } else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null ||
+                                    RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null ||
                                     RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null) {
                                 // end set by previous line number
                                 swipeCard.setLineEnd(index);
@@ -137,6 +146,8 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                                 );
 
                                 swipeCardDao.create(swipeCard);
+                            } else {
+                                swipeCard.setOperationState(OperationState.ERROR);
                             }
 
                             break;
@@ -164,6 +175,12 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                         case CARD_TAKEN:
                             break;
 
+                        case CASH_PRESENTED:
+                            break;
+
+                        case CASH_TAKEN:
+                            break;
+
                         case TRANSACTION_END:
                             break;
 
@@ -179,15 +196,7 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                     state = getNextState(state, line);
 
 
-                    /*****************8
 
-                     }else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null) {
-
-                     } else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TERMINAL_MESSAGE, line) != null) {
-
-                     } else {
-                     swipeCard.setOperationState(OperationState.ERROR);
-                     *******************/
                             /*
                             throw new UnexpectedLineException(
                                     MessageFormat.format("Only track data is allowed here. See journal {0}/{1} line {2}",
@@ -235,6 +244,16 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
 
     private TerminalTransactionState getNextState(TerminalTransactionState currentState, String line) throws MultipleMatchException {
         TerminalTransactionState nextState = TerminalTransactionState.INVALID_STATE;
+
+        if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TERMINAL_MESSAGE, line) != null ||
+                line.equals("/~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\") ||
+                line.equals("\\______________________________________/"))
+            return currentState;
+
+        /*
+        if (db.getNextState(cur, pattern) != null)
+            nextState = db.getNextState(cur, pattern);
+        */
         switch (currentState) {
             case TERMINAL_IDLE:
                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null)
@@ -248,6 +267,10 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                     nextState = TerminalTransactionState.TRANSACTION_START;
                 else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null)
                     nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.CARD_TAKEN;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_END;
                 break;
 
             case PIN_ENTERED:
@@ -255,37 +278,81 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                     nextState = TerminalTransactionState.TRANSACTION_REQUEST;
                 else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_INFORMATION_ENTERED, line) != null)
                     nextState = TerminalTransactionState.INFORMATION_ENTERED;
-                /*
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.CARD_TAKEN;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_AMOUNT_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.AMOUNT_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
                 else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null)
                     nextState = TerminalTransactionState.TRANSACTION_END;
-                */
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_APPLICATION_STARTED, line) != null)
+                    nextState = TerminalTransactionState.TERMINAL_IDLE;
                 break;
 
             case INFORMATION_ENTERED:
                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_AMOUNT_ENTERED, line) != null)
                     nextState = TerminalTransactionState.AMOUNT_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_INFORMATION_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.INFORMATION_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REQUEST, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_REQUEST;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.CARD_TAKEN;
                 break;
 
             case AMOUNT_ENTERED:
                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REQUEST, line) != null)
                     nextState = TerminalTransactionState.TRANSACTION_REQUEST;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_AMOUNT_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.AMOUNT_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.CARD_TAKEN;
                 break;
 
             case TRANSACTION_REQUEST:
                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REPLY, line) != null)
                     nextState = TerminalTransactionState.TRANSACTION_REPLY;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.CARD_TAKEN;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_END;
                 break;
 
             case TRANSACTION_REPLY:
                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null)
                     nextState = TerminalTransactionState.CARD_TAKEN;
                 else
-                    nextState = currentState;
+                    nextState = currentState; // CASH WITHDRAWAL
                 break;
 
             case CARD_TAKEN:
                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null)
                     nextState = TerminalTransactionState.TRANSACTION_END;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CASH_PRESENTED, line) != null)
+                    nextState = TerminalTransactionState.CASH_PRESENTED;
+                else
+                    nextState = currentState; // CASH WITHDRAWAL
+                break;
+
+            case CASH_PRESENTED:
+                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CASH_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.CASH_TAKEN;
+                else
+                    nextState = currentState; // CASH WITHDRAWAL
+                break;
+
+            case CASH_TAKEN:
+                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_END;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CASH_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.CASH_TAKEN;
+                else
+                    nextState = currentState; // CASH WITHDRAWAL
                 break;
 
             case TRANSACTION_END:
@@ -295,6 +362,7 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                     nextState = TerminalTransactionState.TERMINAL_IDLE;
                 break;
         }
+
         return nextState;
     }
 

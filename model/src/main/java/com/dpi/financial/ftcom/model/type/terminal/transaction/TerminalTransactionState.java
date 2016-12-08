@@ -17,14 +17,14 @@ public enum TerminalTransactionState implements IEnumFieldValue<String> {
     TRANSACTION_REQUEST("RQ"),
     TRANSACTION_REPLY("RP"),
     CARD_TAKEN("CT"),
+    CASH_PRESENTED("CP"),
+    CASH_TAKEN("CS"),
     TRANSACTION_END("TE"),
 
     /*
     INTERACTIVE_TRANSACTION_REPLY(""),
     DOCUMENTS_TAKEN(""),
     CASH_REQUEST(""),
-    CASH_PRESENTED(""),
-    CASH_TAKEN(""),
     ENVELOPE_DEPOSITED(""),
     TRANSACTION_FAILED(""),
     WRONG_PIN_ENTERED(""),

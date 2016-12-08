@@ -48,11 +48,15 @@ public class RegexConstant {
     public static final String ATM_REGEX_TRACK_3_DATA = "TRACK\\s+3\\s+DATA:\\s+";
 
     public static final String ATM_STATE_AMOUNT_ENTERED = "AMOUNT ENTERED";
-    public static final String ATM_REGEX_AMOUNT_ENTERED = "AMOUNT\\s+\\d*\\s+ENTERED";
+    // public static final String ATM_REGEX_AMOUNT_ENTERED = "AMOUNT\\s+\\d*\\s+ENTERED";
+    public static final String ATM_REGEX_AMOUNT_ENTERED = "AMOUNT\\s+\\p{Alnum}*\\s+ENTERED";
     public static final String ATM_REGEX_AMOUNT_ENTERED_VALUE = "\\s+\\d*\\s+";
 
     public static final String ATM_STATE_INFORMATION_ENTERED = "INFORMATION ENTERED";
-    public static final String ATM_REGEX_INFORMATION_ENTERED = "INFORMATION\\s+\\d*\\s+ENTERED";
+    // Standard edition id commented for unexpected forms
+    // public static final String ATM_REGEX_INFORMATION_ENTERED = "INFORMATION\\s+\\d*\\s+ENTERED";
+    // public static final String ATM_REGEX_INFORMATION_ENTERED = "INFORMATION\\s+[\\p{Alpha}\\p{Digit}]*\\s+ENTERED";
+    public static final String ATM_REGEX_INFORMATION_ENTERED = "INFORMATION\\s+\\p{Alnum}*\\s+ENTERED";
     public static final String ATM_REGEX_INFORMATION_ENTERED_VALUE = "\\s+\\d*\\s+";
 
     public static final String ATM_STATE_TRANSACTION_FAILED = "TRANSACTION FAILED";
@@ -177,6 +181,7 @@ public class RegexConstant {
 
     public static final String ATM_REGEX_TERMINAL_MESSAGE = "^\\*";
     public static final String ATM_REGEX_PUNCTUATION = "\\p{Punct}";
+    public static final String ATM_REGEX_APPLICATION_STARTED = "APPLICATION STARTED";
 
     // BOTTOM CASSETTE INSERTED
     // TOP CASSETTE INSERTED
