@@ -15,18 +15,26 @@ import com.dpi.financial.ftcom.utility.exception.model.TypeNotFoundException;
  *
  */
 public enum  ProcessingCode implements IEnumFieldValue<String> {
-    Purchase("00"),
-    CashWithdrawal("01"),
-    BillPayment("17"),
-    BalanceEnquiry("31"),
-    CustomerEnquiry("33"),
-    FundTransfer("40"),
-    FundTransferDr("46"),
-    FundTransferCr("47"),
-    PinChange("90"),
-    MiniStatement("91"),
-    PinVerification("92"),
-    Pin2Change("93");
+    PURCHASE("00"),
+    CASH_WITHDRAWAL("01"),
+    BILL_PAYMENT("17"),
+    BALANCE_ENQUIRY("31"),
+    CUSTOMER_ENQUIRY("33"),
+    FUND_TRANSFER("40"),
+    FUND_TRANSFER_DR("46"),
+    FUND_TRANSFER_CR("47"),
+    PIN_CHANGE("90"),
+    MINI_STATEMENT("91"),
+    PIN_VERIFICATION("92"),
+    PIN2_CHANGE("93"),
+    // For ndc purpose only
+    CASH_REVERSAL("15"),
+    BILL_PAYMENT_VALIDATE("19"),
+    PINPAD_PIN_VERIFICATION("94"),
+    ACCOUNT_INQUIRY("98"),
+    UPDATE_CASSETTE_COUNTERS_1_AND_2("99"),
+    // UPDATE_CASSETTE_COUNTERS_3_AND_4("00"),
+    ;
 
     private String processingCode;
 
@@ -44,7 +52,7 @@ public enum  ProcessingCode implements IEnumFieldValue<String> {
         }
 
         throw new TypeNotFoundException(ProcessingCode.class.getName()
-                + " Error creating instance for processing code : " + value);
+                + " Error creating instance for Processing Code : " + value);
     }
 
     @Override

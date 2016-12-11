@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/base/template.xhtml">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewAction action="#{operationCodeManager.onLoad}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="header">
+        <h2>#{lbl['label.atm.ndc.operationCode.list']}</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form style="direction: rtl">
+            <p:ajaxStatus style="width:36px;height:36px;">
+                <f:facet name="start">
+                    <h:graphicImage alt="loading" library="images" name="loader2.gif"
+                                    styleClass="img-responsive"/>
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value=""/>
+                </f:facet>
+            </p:ajaxStatus>
+
+            <h:commandLink>
+                <h:graphicImage alt="load from file" library="images" name="loading.png" width="36"
+                                styleClass="img-responsive"/>
+                <f:ajax execute="@form" render="@form :messages" listener="#{operationCodeManager.loadFromXmlFile}"/>
+            </h:commandLink>
+
+            <h:dataTable value="#{operationCodeManager.operationCodeList}" var="operationCode"
+                         styleClass="table table-striped table-bordered dt-responsive nowrap"
+                         headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
+                    #{operationCode.id}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.processingCode']}</f:facet>
+                    <h:link value="#{lbl[operationCode.processingCode.fullName]}" outcome="profile">
+                        <f:param name="id" value="#{operationCode.id}"/>
+                    </h:link>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.transactionType']}</f:facet>
+                    #{operationCode.transactionType}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.transactionDescription']}</f:facet>
+                    #{operationCode.transactionDescription}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.operationCodeBuffer']}</f:facet>
+                    #{operationCode.operationCodeBuffer}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.fromAccount']}</f:facet>
+                    #{operationCode.fromAccount}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.toAccount']}</f:facet>
+                    #{operationCode.toAccount}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.language']}</f:facet>
+                    #{lbl[operationCode.language.fullName]}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.printReceipt']}</f:facet>
+                    #{lbl[operationCode.printReceipt.fullName]}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.otherAccount']}</f:facet>
+                    #{lbl[operationCode.otherAccount.fullName]}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.selectedAccountNo']}</f:facet>
+                    #{operationCode.selectedAccountNo}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.amount']}</f:facet>
+                    #{operationCode.amount}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.effectiveDate']}</f:facet>
+                    <h:outputText value="#{operationCode.effectiveDate}">
+                        <f:convertDateTime pattern="M-d-yyyy"/>
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.atm.ndc.operationCode.effectiveTime']}</f:facet>
+                    <h:outputText value="#{operationCode.effectiveTime}">
+                        <f:convertDateTime pattern="M-d-yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.entity.description']}</f:facet>
+                    #{operationCode.description}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{lbl['label.header.options']}</f:facet>
+                    <table border="0">
+                        <tr>
+                            <td>
+                                <h:link outcome="insert">
+                                    <f:param name="id" value="#{operationCode.id}"/>
+                                    <h:graphicImage alt="edit" library="images" name="edit.png" width="20"
+                                                    styleClass="img-responsive"/>
+                                </h:link>
+                            </td>
+                            <td>
+                                <h:commandLink action="#{operationCodeController.delete(operationCode.id)}">
+                                    <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
+                                                    styleClass="img-responsive"/>
+                                    <!--<f:ajax execute="@form" render="@form" />-->
+                                </h:commandLink>
+                            </td>
+                            <td>
+                                <h:commandLink action="#{operationCodeController.refresh}">
+                                    <h:graphicImage alt="reload" library="images" name="reload.png" width="20"
+                                                    styleClass="img-responsive"/>
+                                </h:commandLink>
+                            </td>
+                        </tr>
+                    </table>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

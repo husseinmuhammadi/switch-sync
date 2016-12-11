@@ -1,21 +1,21 @@
 package com.dpi.financial.ftcom.service.base.atm;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
 import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
-import com.dpi.financial.ftcom.api.base.atm.JournalTransactionService;
+import com.dpi.financial.ftcom.api.base.atm.TerminalTransactionService;
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.dao.atm.JournalTransactionDao;
 import com.dpi.financial.ftcom.model.dao.atm.SwipeCardDao;
-import com.dpi.financial.ftcom.model.to.atm.JournalFile;
-import com.dpi.financial.ftcom.model.to.atm.JournalTransaction;
+import com.dpi.financial.ftcom.model.dao.atm.TerminalTransactionDao;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.model.to.atm.transaction.SwipeCard;
+import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.terminal.transaction.TerminalTransactionState;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 import com.dpi.financial.ftcom.service.exception.OperationTerminatedException;
+import com.dpi.financial.ftcom.service.exception.atm.journal.OperationNotAllowedException;
+import com.dpi.financial.ftcom.service.exception.atm.journal.StateProcessNotDefinedException;
 import com.dpi.financial.ftcom.service.exception.atm.journal.TerminalTransactionStateException;
-import com.dpi.financial.ftcom.service.exception.atm.journal.UnexpectedLineException;
 import com.dpi.financial.ftcom.utility.exception.MultipleMatchException;
 import com.dpi.financial.ftcom.utility.regex.RegexConstant;
 import com.dpi.financial.ftcom.utility.regex.RegexMatches;
@@ -23,45 +23,48 @@ import com.dpi.financial.ftcom.utility.regex.RegexMatches;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.xml.transform.Source;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.MatchResult;
 
 @Stateless
-@Local(JournalTransactionService.class)
-public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTransaction>
-        implements JournalTransactionService {
+@Local(TerminalTransactionService.class)
+public class TerminalTransactionServiceImpl extends GeneralServiceImpl<TerminalTransaction>
+        implements TerminalTransactionService {
 
     @EJB
     private JournalFileService journalFileService;
 
     @EJB
-    private JournalTransactionDao dao;
+    private TerminalTransactionDao dao;
 
     @EJB
     SwipeCardDao swipeCardDao;
 
     @Override
-    public GenericDao<JournalTransaction> getGenericDao() {
+    public GenericDao<TerminalTransaction> getGenericDao() {
         return dao;
     }
 
 
     @Override
-    public void prepareSwipeCard(String baseFolder, Terminal terminal) throws IOException {
+    public void prepareSwipeCard(String baseFolder, Terminal terminal, Date journalDateFrom, Date journalDateTo) throws IOException {
+        TerminalTransactionState state = TerminalTransactionState.IDLE;
+        TerminalTransactionState previousState = TerminalTransactionState.IDLE;
+
         SwipeCard swipeCard = null;
-        TerminalTransactionState state = TerminalTransactionState.TERMINAL_IDLE;
-        TerminalTransactionState previousState = TerminalTransactionState.TERMINAL_IDLE;
+        TerminalTransaction transaction = null;
+
         BufferedReader br = null;
 
-        for (JournalFile journalFile : journalFileService.getJournalFileList(baseFolder, terminal)) {
+        for (JournalFile journalFile : journalFileService.getJournalFileList(baseFolder, terminal, journalDateFrom, journalDateTo)) {
             try {
                 File file = new JournalPhysicalFile(baseFolder).getJournalFile(terminal.getLuno(), journalFile.getFileName());
 
@@ -85,16 +88,135 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                     if (line.contains(endOfTransmission))
                         line = line.replaceAll(endOfTransmission, "");
 
-                    if (terminal.getLuno().equals("01003") &&
-                            journalFile.getFileName().equals("20150704.jrn") &&
-                            index + 1 == 440) {
+                    if (terminal.getLuno().equals("01301") &&
+                            journalFile.getFileName().equals("20140925.jrn") &&
+                            index + 1 == 66) {
                         System.out.println("I am here.");
                     }
 
-                    if (state != TerminalTransactionState.INVALID_STATE)
+                    if (state != TerminalTransactionState.INVALID)
                         previousState = state;
 
                     // state always depends on former line read and the current line is not state
+
+                    switch (state) {
+                        case IDLE:
+                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null) {
+                                swipeCard = createSwipeCard(journalFile, index, line);
+                                transaction = null;
+                            }
+                            break;
+
+                        case TRANSACTION_START:
+                            /* Do not remove this comment
+                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null) {
+                                throw new UnexpectedLineException(
+                                        MessageFormat.format("Transaction start is not allowed here. See journal {0}/{1} line {2}",
+                                                terminal.getLuno(), journalFile.getFileName(), index + 1)
+                                );
+                            }
+                            */
+
+                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_DATA, line) != null) {
+                                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_1_DATA, line) != null) {
+                                    swipeCard.setTrack1Data(getTrackData(line));
+                                }
+                                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_2_DATA, line) != null) {
+                                    swipeCard.setTrack2Data(getTrackData(line));
+                                    swipeCard.setPan(getTrackData(line));
+                                }
+                                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_3_DATA, line) != null) {
+                                    swipeCard.setTrack3Data(getTrackData(line));
+                                }
+                            } else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null
+                                    || RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null
+                                    || RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null
+                                    || RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null) {
+                                saveSwipeCard(swipeCard, index);
+
+                                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null) {
+                                    if (transaction != null) {
+                                        throw new OperationNotAllowedException(
+                                                MessageFormat.format("Unsaved transaction not allowed in state {0} on {1}/{2}:{3}",
+                                                        state, journalFile.getLuno(), journalFile.getName(), index + 1)
+                                        );
+                                    }
+                                }
+                            } else {
+                                swipeCard.setOperationState(OperationState.ERROR);
+                            }
+
+                            break;
+
+                        case PIN_ENTERED:
+                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REQUEST, line) != null) {
+                                transaction = new TerminalTransaction();
+
+                                transaction.setSwipeCard(swipeCard);
+                                transaction.setLuno(journalFile.getLuno());
+                                transaction.setFileName(journalFile.getFileName());
+                                transaction.setLineStart(index + 1);
+                                transaction.setOperationState(OperationState.START);
+                                transaction.setTransactionDate(journalFile.getJournalDate());
+                                DateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+                                Date transactionStartTime = format.parse(journalFile.getName() + " " + getTime(line));
+                                transaction.setTransactionTime(transactionStartTime);
+                                transaction.setTransactionRequest(getTransactionRequest(line));
+                                /*
+                                put(getTransactionTypeProp(), getTransactionType(transactionRequest));
+                                put(getTransactionAmountProp(), String.valueOf(getTransactionAmount(transactionRequest)));
+                                put(getTerminalTransactionTimeProp(), getTerminalTransactionTime(line));
+                                put(getLineIndexProp(), String.valueOf(iterator.previousIndex()));
+                                line = readAtmStatusMessage();
+                                */
+                            }
+
+                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null) {
+                                if (transaction != null) {
+                                    saveTransaction(transaction, index);
+                                    transaction = null;
+                                }
+                            }
+
+                            break;
+
+                        case TRANSACTION_REQUEST:
+                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null) {
+                                saveTransaction(transaction, index);
+                                transaction = null;
+                            }
+
+
+                            break;
+
+                        case TRANSACTION_END:
+                            if (transaction != null) {
+                                saveTransaction(transaction, index);
+                                transaction = null;
+                            }
+                            swipeCard = null;
+                            if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null) {
+                                swipeCard = createSwipeCard(journalFile, index, line);
+                                transaction = null;
+                            }
+                            break;
+
+                        default: // INVALID_STATE
+                            if (state != TerminalTransactionState.INVALID)
+                                throw new StateProcessNotDefinedException(
+                                        MessageFormat.format("State {0} not defined for processing. Please add case for this state.", state)
+                                );
+
+                            throw new TerminalTransactionStateException(
+                                    MessageFormat.format("Reading this line from previous state {0} lead to unknown state. See journal {1}/{2}:{3}",
+                                            previousState, terminal.getLuno(), journalFile.getFileName(), index)
+                            );
+                            // break;
+                    }
+
+                    state = getNextState(state, line);
+
+                    /*
                     switch (state) {
                         case TERMINAL_IDLE:
                             if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null) {
@@ -152,11 +274,6 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
 
                             break;
 
-                        /*
-                        case TRACK_DATA:
-                            break;
-                        */
-
                         case PIN_ENTERED:
                             break;
 
@@ -184,7 +301,6 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                         case TRANSACTION_END:
                             break;
 
-                        // TODO: if state is not INVALID_STATE and come come to default add exception to inform developer to add new state as case
                         default: // INVALID_STATE
                             throw new TerminalTransactionStateException(
                                     MessageFormat.format("Reading this line from previous state {0} lead to unknown state. See journal {1}/{2}:{3}",
@@ -192,9 +308,7 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                             );
                             // break;
                     }
-
-                    state = getNextState(state, line);
-
+                    */
 
 
                             /*
@@ -242,18 +356,134 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
         }
     }
 
-    private TerminalTransactionState getNextState(TerminalTransactionState currentState, String line) throws MultipleMatchException {
-        TerminalTransactionState nextState = TerminalTransactionState.INVALID_STATE;
+    private SwipeCard createSwipeCard(JournalFile journalFile, long index, String line) throws MultipleMatchException, ParseException {
+        SwipeCard swipeCard = new SwipeCard();
+        // swipeCard.setTerminal(terminal);
 
-        if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TERMINAL_MESSAGE, line) != null ||
-                line.equals("/~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\") ||
-                line.equals("\\______________________________________/"))
+        swipeCard.setJournalFile(journalFile);
+        swipeCard.setLuno(journalFile.getLuno());
+        swipeCard.setSwipeDate(journalFile.getJournalDate());
+        swipeCard.setFileName(journalFile.getFileName());
+        swipeCard.setLineStart(index + 1);
+        swipeCard.setOperationState(OperationState.START);
+
+        DateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        Date transactionStartTime = format.parse(journalFile.getName() + " " + getTime(line));
+        swipeCard.setSwipeTime(transactionStartTime);
+        return swipeCard;
+    }
+
+    private TerminalTransaction saveTransaction(TerminalTransaction transaction, Long index) {
+        transaction.setLineEnd(index);
+
+        if (!transaction.getOperationState().equals(OperationState.ERROR))
+            transaction.setOperationState(OperationState.FINISHED);
+
+        System.out.println(
+                MessageFormat.format("Terminal transaction: {0}/{1}/{2}/{3}",
+                        transaction.getLuno(), transaction.getSwipeCard().getJournalFile().getName(),
+                        transaction.getLineStart(), transaction.getLineEnd())
+        );
+
+        return dao.create(transaction);
+    }
+
+    private void saveSwipeCard(SwipeCard swipeCard, Long index) {
+        // end set by previous line number
+        swipeCard.setLineEnd(index);
+
+        if (!swipeCard.getOperationState().equals(OperationState.ERROR))
+            swipeCard.setOperationState(OperationState.FINISHED);
+
+        System.out.println(
+                MessageFormat.format("          Swipe card: {0}/{1}/{2}/{3}",
+                        swipeCard.getLuno(), swipeCard.getJournalFile().getName(),
+                        swipeCard.getLineStart(), swipeCard.getLineEnd())
+        );
+
+        swipeCardDao.create(swipeCard);
+    }
+
+    private TerminalTransactionState getNextState(TerminalTransactionState currentState, String line) throws MultipleMatchException {
+        TerminalTransactionState nextState = TerminalTransactionState.INVALID;
+
+        if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_IGNORE, line) != null)
+            return currentState;
+
+        if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TERMINAL_MESSAGE, line) != null)
             return currentState;
 
         /*
         if (db.getNextState(cur, pattern) != null)
             nextState = db.getNextState(cur, pattern);
         */
+
+        switch (currentState) {
+            case IDLE:
+                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_START;
+                else { // EXCEPTION
+                    if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) == null
+                            || RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REQUEST, line) == null
+                            || RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) == null
+                            || RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) == null)
+                        nextState = currentState;
+                }
+                break;
+
+            case TRANSACTION_START:
+                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRACK_DATA, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_START;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_START;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_END;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_START;
+                break;
+
+            case PIN_ENTERED:
+                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REQUEST, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_REQUEST;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_INFORMATION_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_AMOUNT_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REPLY, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_CARD_TAKEN, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_END;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_APPLICATION_STARTED, line) != null)
+                    nextState = TerminalTransactionState.IDLE;
+                break;
+
+            case TRANSACTION_REQUEST:
+                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_PIN_ENTERED, line) != null)
+                    nextState = TerminalTransactionState.PIN_ENTERED;
+                else if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_END, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_END;
+                else { // EXCEPTION
+                    // if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REQUEST, line) == null)
+                    nextState = currentState;
+                }
+                break;
+
+            case TRANSACTION_END:
+                if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null)
+                    nextState = TerminalTransactionState.TRANSACTION_START;
+                else { // EXCEPTION
+                    nextState = TerminalTransactionState.IDLE;
+                }
+                break;
+        }
+
+        /*
         switch (currentState) {
             case TERMINAL_IDLE:
                 if (RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_START, line) != null)
@@ -362,6 +592,7 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
                     nextState = TerminalTransactionState.TERMINAL_IDLE;
                 break;
         }
+        */
 
         return nextState;
     }
@@ -397,6 +628,16 @@ public class JournalTransactionServiceImpl extends GeneralServiceImpl<JournalTra
         return value.trim();
     }
 
+    protected String getTransactionRequest(String line) throws MultipleMatchException {
+        String value = null;
+        MatchResult match;
+
+        match = RegexMatches.getSingleResult(RegexConstant.ATM_REGEX_TRANSACTION_REQUEST, line);
+        if (match != null)
+            value = line.substring(match.end());
+
+        return value.trim();
+    }
     /*
     @Override
     public List<JournalFile> prepareAtmTransactions(String baseFolder, Terminal terminal) {

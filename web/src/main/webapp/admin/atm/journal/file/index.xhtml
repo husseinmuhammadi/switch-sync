@@ -3,8 +3,9 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                template="/base/template.xhtml"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="/base/template.xhtml">
 
     <ui:define name="metadata">
         <f:metadata>
@@ -32,7 +33,7 @@
             </p:ajaxStatus>
 
             <h:commandLink>
-                <h:graphicImage alt="delete" library="images" name="mind.png" width="36"
+                <h:graphicImage alt="prepare atm transactions" library="images" name="mind.png" width="36"
                                 styleClass="img-responsive"/>
                 <f:ajax execute="@form" render="@form :messages" listener="#{journalFileManager.prepareAtmTransactions}"/>
             </h:commandLink>
@@ -52,6 +53,32 @@
                         <f:ajax event="valueChange" execute="@this" render="journalFileList :messages"
                                 listener="#{journalFileManager.lunoValueChange}"/>
                     </h:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="journalDateFrom" value="#{lbl['label.journalFile.journalDateFrom']}"/>
+                    </div>
+                    <h:inputText value="#{journalFileManager.journalDateFrom}"
+                                 id="journalDateFrom" label="#{lbl['label.journalFile.journalDateFrom']}"
+                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                        <f:convertDateTime pattern="d-M-yyyy"/>
+                    </h:inputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
+                    </div>
+                    <h:inputText value="#{journalFileManager.journalDateTo}"
+                                 id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
+                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                        <f:convertDateTime pattern="d-M-yyyy"/>
+                    </h:inputText>
                 </div>
             </div>
 

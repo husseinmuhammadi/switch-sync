@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://xmlns.dpi.com/jsf/component"
+                template="/base/template.xhtml">
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="id" value="#{operationCodeController.id}"/>
+            <f:viewAction action="#{operationCodeController.onLoad}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="header">
+        <h2>#{lbl['label.cardMaster.profile']}</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form class="form-group" style="direction: rtl">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="processingCode"
+                                       value="#{lbl['label.atm.ndc.operationCode.processingCode']}"/>
+                    </div>
+                    <h:outputText value="#{lbl[operationCodeController.operationCode.processingCode.fullName]}"
+                                  id="processingCode" label="#{lbl['label.atm.ndc.operationCode.processingCode']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="transactionType"
+                                       value="#{lbl['label.atm.ndc.operationCode.transactionType']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.transactionType}"
+                                  id="transactionType" label="#{lbl['label.atm.ndc.operationCode.transactionType']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="transactionDescription"
+                                       value="#{lbl['label.atm.ndc.operationCode.transactionDescription']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.transactionDescription}"
+                                  id="transactionDescription"
+                                  label="#{lbl['label.atm.ndc.operationCode.transactionDescription']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="operationCodeBuffer"
+                                       value="#{lbl['label.atm.ndc.operationCode.operationCodeBuffer']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.operationCodeBuffer}"
+                                  id="operationCodeBuffer"
+                                  label="#{lbl['label.atm.ndc.operationCode.operationCodeBuffer']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="fromAccount" value="#{lbl['label.atm.ndc.operationCode.fromAccount']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.fromAccount}"
+                                  id="fromAccount" label="#{lbl['label.atm.ndc.operationCode.fromAccount']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="toAccount" value="#{lbl['label.atm.ndc.operationCode.toAccount']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.toAccount}"
+                                  id="toAccount" label="#{lbl['label.atm.ndc.operationCode.toAccount']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="language" value="#{lbl['label.atm.ndc.operationCode.language']}"/>
+                    </div>
+                    <h:outputText value="#{lbl[operationCodeController.operationCode.language.fullName]}"
+                                  id="language" label="#{lbl['label.atm.ndc.operationCode.language']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="printReceipt" value="#{lbl['label.atm.ndc.operationCode.printReceipt']}"/>
+                    </div>
+                    <h:outputText value="#{lbl[operationCodeController.operationCode.printReceipt.fullName]}"
+                                  id="printReceipt" label="#{lbl['label.atm.ndc.operationCode.printReceipt']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="otherAccount" value="#{lbl['label.atm.ndc.operationCode.otherAccount']}"/>
+                    </div>
+                    <h:outputText value="#{lbl[operationCodeController.operationCode.otherAccount.fullName]}"
+                                  id="otherAccount" label="#{lbl['label.atm.ndc.operationCode.otherAccount']}"
+                                  styleClass="form-control" required="true">
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="selectedAccountNo"
+                                       value="#{lbl['label.atm.ndc.operationCode.selectedAccountNo']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.selectedAccountNo}"
+                                  id="selectedAccountNo" label="#{lbl['label.atm.ndc.operationCode.selectedAccountNo']}"
+                                  styleClass="form-control" required="true">
+                        <f:convertNumber integerOnly="true"/>
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="amount" value="#{lbl['label.atm.ndc.operationCode.amount']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.amount}"
+                                  id="amount" label="#{lbl['label.atm.ndc.operationCode.amount']}"
+                                  styleClass="form-control" required="true">
+                        <f:convertNumber integerOnly="true"/>
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="effectiveDate" value="#{lbl['label.atm.ndc.operationCode.effectiveDate']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.effectiveDate}"
+                                  id="effectiveDate" label="#{lbl['label.atm.ndc.operationCode.effectiveDate']}"
+                                  styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                        <f:convertDateTime type="date" pattern="d-M-yyyy"/>
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="effectiveTime" value="#{lbl['label.atm.ndc.operationCode.effectiveTime']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.effectiveTime}"
+                                  id="effectiveTime" label="#{lbl['label.atm.ndc.operationCode.effectiveTime']}"
+                                  styleClass="form-control" required="true" pt:placeholder="d-M-yyyy HH:mm:ss">
+                        <f:convertDateTime type="both" pattern="d-M-yyyy HH:mm:ss"/>
+                    </h:outputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="description" value="#{lbl['label.entity.description']}"/>
+                    </div>
+                    <h:outputText value="#{operationCodeController.operationCode.description}"
+                                  id="description" label="#{lbl['label.entity.description']}"
+                                  styleClass="form-control" required="false"/>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>

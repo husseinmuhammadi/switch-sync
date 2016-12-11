@@ -1,9 +1,8 @@
 package com.dpi.financial.ftcom.web.controller.base.atm.journal;
 
-
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
-import com.dpi.financial.ftcom.model.to.atm.JournalFile;
+import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 
 import javax.ejb.EJB;

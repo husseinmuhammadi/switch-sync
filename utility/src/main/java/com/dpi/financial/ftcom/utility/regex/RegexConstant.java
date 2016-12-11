@@ -9,8 +9,8 @@ public class RegexConstant {
     public static final String ATM_PROP_TRANSACTION_DESCRIPTION = "TRANSACTION_DESCRIPTION";
     public static final String ATM_PROP_ID = "ID";
     public static final String ATM_PROP_NAME = "NAME";
-    public static final String ATM_PROP_PCODE = "PCODE";
-    public static final String ATM_PROP_VALUE = "VALUE";
+    public static final String ATM_PROP_PROCESSING_CODE = "PCODE";
+    public static final String ATM_PROP_OPERATION_CODE_BUFFER = "VALUE";
     public static final String ATM_PROP_FROM_ACCOUNT = "FROM_ACCOUNT";
     public static final String ATM_PROP_TO_ACCOUNT = "TO_ACCOUNT";
     public static final String ATM_PROP_LANG = "LANG";
@@ -181,6 +181,7 @@ public class RegexConstant {
 
     public static final String ATM_REGEX_TERMINAL_MESSAGE = "^\\*";
     public static final String ATM_REGEX_PUNCTUATION = "\\p{Punct}";
+    public static final String ATM_REGEX_IGNORE = "^\\p{Punct}+";
     public static final String ATM_REGEX_APPLICATION_STARTED = "APPLICATION STARTED";
 
     // BOTTOM CASSETTE INSERTED

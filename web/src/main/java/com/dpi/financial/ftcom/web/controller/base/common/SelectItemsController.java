@@ -3,6 +3,7 @@ package com.dpi.financial.ftcom.web.controller.base.common;
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.model.type.*;
+import com.dpi.financial.ftcom.model.type.atm.ndc.Language;
 import com.dpi.financial.ftcom.web.controller.base.AbstractController;
 
 import javax.ejb.EJB;
@@ -47,6 +48,24 @@ public class SelectItemsController extends AbstractController implements Seriali
         items.put("", getLabel("label.select.empty"));
         for (ProcessingCode processingCode : ProcessingCode.values()) {
             items.put(processingCode.name(), getLabel(processingCode.getFullName()));
+        }
+        return items;
+    }
+
+    public Map<String, String> getNdcOperationCodeLanguageItems() {
+        Map<String, String> items = new HashMap<String, String>();
+        items.put("", getLabel("label.select.empty"));
+        for (Language language : Language.values()) {
+            items.put(language.name(), getLabel(language.getFullName()));
+        }
+        return items;
+    }
+
+    public Map<String, String> getYesNoTypeItems() {
+        Map<String, String> items = new HashMap<String, String>();
+        items.put("", getLabel("label.select.empty"));
+        for (YesNoType type : YesNoType.values()) {
+            items.put(type.name(), getLabel(type.getFullName()));
         }
         return items;
     }

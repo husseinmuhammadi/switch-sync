@@ -3,8 +3,8 @@ package com.dpi.financial.ftcom.service.base.atm;
 import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
 import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.dao.atm.JournalFileDao;
-import com.dpi.financial.ftcom.model.to.atm.JournalFile;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 import org.apache.commons.io.FilenameUtils;
 
@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Stateless
 @Local(JournalFileService.class)
@@ -111,6 +112,13 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
 
         journalFiles = findAll(terminal);
         return journalFiles;
+    }
+
+    @Override
+    public List<JournalFile> getJournalFileList(String baseFolder, Terminal terminal, Date journalDateFrom, Date journalDateTo) {
+        return getJournalFileList(baseFolder, terminal).stream()
+                .filter(item -> item.getJournalDate().before(journalDateTo) && item.getJournalDate().after(journalDateFrom))
+                .collect(Collectors.toList());
     }
 
     private JournalFile updateFileInfo(JournalFile journal, File file) {
@@ -251,7 +259,6 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
         return lines;
     }
 
-
     private int getMaxLineNumber(String terminal, String fileNameWithOutExt) {
         int result = 0;
 
@@ -281,7 +288,6 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
         return result;
     }
 
-
     public String calcMD5() throws Exception{
         byte[] buffer = new byte[8192];
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -307,6 +313,4 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
 
         return new String(hexChars);
     }
-
-
 }

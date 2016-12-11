@@ -1,13 +1,9 @@
-package com.dpi.financial.ftcom.model.to.atm;
+package com.dpi.financial.ftcom.model.to.atm.journal;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.model.converter.*;
-import com.dpi.financial.ftcom.model.type.*;
-import com.dpi.financial.ftcom.utility.helper.DateHelper;
-import net.sf.ehcache.constructs.nonstop.concurrency.LockOperationTimedOutNonstopException;
+import com.dpi.financial.ftcom.model.to.atm.Terminal;
 
 import javax.persistence.*;
-import java.nio.file.attribute.FileTime;
 import java.util.Date;
 
 /**

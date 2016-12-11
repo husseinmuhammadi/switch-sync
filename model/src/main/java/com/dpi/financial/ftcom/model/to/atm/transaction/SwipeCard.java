@@ -2,9 +2,7 @@ package com.dpi.financial.ftcom.model.to.atm.transaction;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
-import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
-import com.dpi.financial.ftcom.model.to.atm.JournalFile;
-import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.model.type.OperationState;
 
 import javax.persistence.*;
@@ -17,7 +15,10 @@ import java.util.Date;
  */
 @Entity
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "ATM_SWIPE_CARD_SEQ")
-@Table(name = "ATM_SWIPE_CARD")
+@Table(name = "ATM_SWIPE_CARD", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"JOURNAL_FILE_ID", "LINE_START"}),
+        @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME", "LINE_START"}),
+})
 @NamedQueries({
         @NamedQuery(name = SwipeCard.FIND_ALL, query = "select t from SwipeCard t where t.deleted = false")
 })

@@ -2,11 +2,10 @@ package com.dpi.financial.ftcom.web.controller.base.atm.journal;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
-import com.dpi.financial.ftcom.api.base.atm.JournalTransactionService;
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
-import com.dpi.financial.ftcom.model.to.atm.JournalFile;
-import com.dpi.financial.ftcom.model.to.atm.JournalTransaction;
+import com.dpi.financial.ftcom.api.base.atm.TerminalTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import com.dpi.financial.ftcom.web.controller.conf.AtmConfiguration;
 
@@ -22,8 +21,7 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -38,13 +36,17 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     private TerminalService terminalService;
 
     @EJB
-    JournalTransactionService journalTransactionService;
+    TerminalTransactionService terminalTransactionService;
 
     @Inject
     private AtmConfiguration configuration;
 
     private Terminal terminal;
+
     private List<JournalFile> journalFileList;
+
+    Date journalDateFrom;
+    Date journalDateTo;
 
     public JournalFileManager() {
         super(JournalFile.class);
@@ -129,20 +131,37 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     /**
      * This method prepare ATM transactions based on journal content for specified terminal
+     *
      * @param event
      * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Monday, December 05, 2016
-     *  <li>Prepare ATM transactions based on journal content</li>
+     * <li>Prepare ATM transactions based on journal content</li>
      */
     public void prepareAtmTransactions(AjaxBehaviorEvent event) {
         String luno = terminal.getLuno();
         try {
             Terminal terminal = terminalService.findByLuno(luno);
             String journalPath = configuration.getJournalPath();
-            journalTransactionService.prepareSwipeCard(journalPath, terminal);
+            terminalTransactionService.prepareSwipeCard(journalPath, terminal, journalDateFrom, journalDateTo);
 
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
         }
+    }
+
+    public Date getJournalDateFrom() {
+        return journalDateFrom;
+    }
+
+    public void setJournalDateFrom(Date journalDateFrom) {
+        this.journalDateFrom = journalDateFrom;
+    }
+
+    public Date getJournalDateTo() {
+        return journalDateTo;
+    }
+
+    public void setJournalDateTo(Date journalDateTo) {
+        this.journalDateTo = journalDateTo;
     }
 }

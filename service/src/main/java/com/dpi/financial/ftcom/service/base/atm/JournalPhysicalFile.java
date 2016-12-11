@@ -1,6 +1,6 @@
 package com.dpi.financial.ftcom.service.base.atm;
 
-import com.dpi.financial.ftcom.model.to.atm.JournalFile;
+import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;

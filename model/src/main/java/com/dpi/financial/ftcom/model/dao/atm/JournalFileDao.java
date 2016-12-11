@@ -1,8 +1,8 @@
 package com.dpi.financial.ftcom.model.dao.atm;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.atm.JournalFile;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;

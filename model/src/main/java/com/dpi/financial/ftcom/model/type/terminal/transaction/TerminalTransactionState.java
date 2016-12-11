@@ -7,8 +7,14 @@ import com.dpi.financial.ftcom.utility.exception.model.TypeNotFoundException;
  * Created by h.mohammadi on 9/14/2016.
  */
 public enum TerminalTransactionState implements IEnumFieldValue<String> {
-    TERMINAL_IDLE("TI"),
-    INVALID_STATE("IS"), // Choose other name
+    IDLE("I"),
+    TRANSACTION_START("S"),
+    PIN_ENTERED("P"),
+    TRANSACTION_REQUEST("R"),
+    TRANSACTION_END("E"),
+    INVALID("N"), // NOT DEFINED, UNDEFINED
+
+    /*
     TRANSACTION_START("TS"),
     TRACK_DATA("TD"),
     PIN_ENTERED("PE"),
@@ -21,7 +27,6 @@ public enum TerminalTransactionState implements IEnumFieldValue<String> {
     CASH_TAKEN("CS"),
     TRANSACTION_END("TE"),
 
-    /*
     INTERACTIVE_TRANSACTION_REPLY(""),
     DOCUMENTS_TAKEN(""),
     CASH_REQUEST(""),
