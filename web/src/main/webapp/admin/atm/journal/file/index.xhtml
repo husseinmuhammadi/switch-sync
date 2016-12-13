@@ -21,22 +21,38 @@
     <ui:define name="content">
         <h:form style="direction: rtl">
 
-            <p:ajaxStatus style="width:36px;height:36px;">
-                <f:facet name="start">
-                    <h:graphicImage alt="loading" library="images" name="loader2.gif"
-                                    styleClass="img-responsive"/>
-                </f:facet>
-
-                <f:facet name="complete">
-                    <h:outputText value=""/>
-                </f:facet>
-            </p:ajaxStatus>
-
-            <h:commandLink>
-                <h:graphicImage alt="prepare atm transactions" library="images" name="mind.png" width="36"
-                                styleClass="img-responsive"/>
-                <f:ajax execute="@form" render="@form :messages" listener="#{journalFileManager.prepareAtmTransactions}"/>
-            </h:commandLink>
+            <table border="0">
+                <tr>
+                    <td>
+                        <p:ajaxStatus style="width:36px;height:36px;">
+                            <f:facet name="start">
+                                <h:graphicImage alt="loading" library="images" name="loader2.gif"
+                                                styleClass="img-responsive"/>
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value=""/>
+                            </f:facet>
+                        </p:ajaxStatus>
+                    </td>
+                    <td>
+                        <h:commandLink>
+                            <h:graphicImage alt="Prepare atm transactions" library="images" name="cloud-computing.png" width="36"
+                                            styleClass="img-responsive"/>
+                            <f:ajax execute="@form" render="@form :messages"
+                                    listener="#{journalFileManager.prepareAtmTransactions}"/>
+                        </h:commandLink>
+                    </td>
+                    <td>
+                        <h:commandLink>
+                            <h:graphicImage alt="Synchronize atm transactions" library="images"
+                                            name="synchronization.png" width="36"
+                                            styleClass="img-responsive"/>
+                            <f:ajax execute="@form" render="@form :messages"
+                                    listener="#{journalFileManager.synchronizeAtmTransactions}"/>
+                        </h:commandLink>
+                    </td>
+                </tr>
+            </table>
 
             <div class="form-group">
                 <div class="input-group">

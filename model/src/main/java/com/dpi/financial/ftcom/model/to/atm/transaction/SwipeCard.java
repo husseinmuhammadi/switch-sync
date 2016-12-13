@@ -16,8 +16,8 @@ import java.util.Date;
 @Entity
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "ATM_SWIPE_CARD_SEQ")
 @Table(name = "ATM_SWIPE_CARD", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"JOURNAL_FILE_ID", "LINE_START"}),
-        @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME", "LINE_START"}),
+        @UniqueConstraint(columnNames = {"JOURNAL_FILE_ID", "LINE_START"}, name = "UK_ATM_SWIPE_CARD_JLS"),
+        @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME", "LINE_START"}, name = "UK_ATM_SWIPE_CARD_LFLS"),
 })
 @NamedQueries({
         @NamedQuery(name = SwipeCard.FIND_ALL, query = "select t from SwipeCard t where t.deleted = false")
@@ -32,7 +32,7 @@ public class SwipeCard extends EntityBase {
     */
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "JOURNAL_FILE_ID", nullable = false)
+    @JoinColumn(name = "JOURNAL_FILE_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_JF_SC"))
     private JournalFile journalFile;
 
     // Logical Unit Number

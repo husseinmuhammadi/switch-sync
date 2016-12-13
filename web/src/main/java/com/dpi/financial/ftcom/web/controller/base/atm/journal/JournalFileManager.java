@@ -6,6 +6,7 @@ import com.dpi.financial.ftcom.api.base.atm.TerminalService;
 import com.dpi.financial.ftcom.api.base.atm.TerminalTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
+import com.dpi.financial.ftcom.utility.date.DateUtil;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import com.dpi.financial.ftcom.web.controller.conf.AtmConfiguration;
 
@@ -21,6 +22,7 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -50,6 +52,15 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     public JournalFileManager() {
         super(JournalFile.class);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2016);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        journalDateFrom = cal.getTime();
+
+        cal.set(Calendar.DAY_OF_MONTH, 10);
+        journalDateTo = cal.getTime();
 
         terminal = new Terminal();
     }
@@ -141,8 +152,26 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
         try {
             Terminal terminal = terminalService.findByLuno(luno);
             String journalPath = configuration.getJournalPath();
-            terminalTransactionService.prepareSwipeCard(journalPath, terminal, journalDateFrom, journalDateTo);
+            terminalTransactionService.prepareAtmTransactions(journalPath, terminal, journalDateFrom, journalDateTo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            printErrorMessage(e);
+        }
+    }
 
+    /**
+     * This method prepare ATM transactions based on journal content for specified terminal
+     *
+     * @param event
+     * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Tuesday, December 13, 2016 3:10:02 PM
+     * <li>Synchronize ATM transactions based on switch transactions</li>
+     */
+    public void synchronizeAtmTransactions(AjaxBehaviorEvent event) {
+        String luno = terminal.getLuno();
+        try {
+            Terminal terminal = terminalService.findByLuno(luno);
+            String journalPath = configuration.getJournalPath();
+            terminalTransactionService.synchronizeAtmTransactions(journalDateFrom, journalDateTo);
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);

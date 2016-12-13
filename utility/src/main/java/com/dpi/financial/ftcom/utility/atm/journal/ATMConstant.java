@@ -1,9 +1,9 @@
-package com.dpi.financial.ftcom.utility.regex;
+package com.dpi.financial.ftcom.utility.atm.journal;
 
 /**
  * Created by h.mohammadi on 12/6/2016.
  */
-public class RegexConstant {
+public class ATMConstant {
     public static final String ATM_PROP_OPERATION_CODE = "OPCODE";
     public static final String ATM_PROP_TRANSACTION_TYPE = "TRANSACTION_TYPE";
     public static final String ATM_PROP_TRANSACTION_DESCRIPTION = "TRANSACTION_DESCRIPTION";
@@ -50,14 +50,16 @@ public class RegexConstant {
     public static final String ATM_STATE_AMOUNT_ENTERED = "AMOUNT ENTERED";
     // public static final String ATM_REGEX_AMOUNT_ENTERED = "AMOUNT\\s+\\d*\\s+ENTERED";
     public static final String ATM_REGEX_AMOUNT_ENTERED = "AMOUNT\\s+\\p{Alnum}*\\s+ENTERED";
-    public static final String ATM_REGEX_AMOUNT_ENTERED_VALUE = "\\s+\\d*\\s+";
+    // public static final String ATM_REGEX_AMOUNT_ENTERED_VALUE = "\\s+\\d*\\s+";
+    public static final String ATM_REGEX_AMOUNT_ENTERED_VALUE = "\\s+\\p{Alnum}*\\s+";
 
     public static final String ATM_STATE_INFORMATION_ENTERED = "INFORMATION ENTERED";
     // Standard edition id commented for unexpected forms
     // public static final String ATM_REGEX_INFORMATION_ENTERED = "INFORMATION\\s+\\d*\\s+ENTERED";
     // public static final String ATM_REGEX_INFORMATION_ENTERED = "INFORMATION\\s+[\\p{Alpha}\\p{Digit}]*\\s+ENTERED";
     public static final String ATM_REGEX_INFORMATION_ENTERED = "INFORMATION\\s+\\p{Alnum}*\\s+ENTERED";
-    public static final String ATM_REGEX_INFORMATION_ENTERED_VALUE = "\\s+\\d*\\s+";
+    // public static final String ATM_REGEX_INFORMATION_ENTERED_VALUE = "\\s+\\d*\\s+";
+    public static final String ATM_REGEX_INFORMATION_ENTERED_VALUE = "\\s+\\p{Alnum}*\\s+";
 
     public static final String ATM_STATE_TRANSACTION_FAILED = "TRANSACTION FAILED";
     public static final String ATM_REGEX_TRANSACTION_FAILED = "TRANSACTION\\s+\\d+\\s+FAILED";
@@ -79,7 +81,7 @@ public class RegexConstant {
     public static final String ATM_REGEX_CASH_REQUEST = "CASH\\s+REQUEST:\\s+";
 
     public static final String ATM_STATE_CASH = "CASH";
-    public static final String ATM_REGEX_CASH = "CASH\\s+(\\d:\\d,\\d+;)*";
+    public static final String ATM_REGEX_CASH = "CASH\\s+(\\d:\\d,\\d+;)+";
     public static final String ATM_REGEX_CASH_VALUE = "\\s+(\\d:\\d,\\d+;)*";
 
     public static final String ATM_STATE_ATM_STATUS_MESSAGE = "STATUS MESSAGE";

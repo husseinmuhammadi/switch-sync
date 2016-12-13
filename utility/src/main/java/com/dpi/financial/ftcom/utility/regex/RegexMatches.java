@@ -1,5 +1,6 @@
 package com.dpi.financial.ftcom.utility.regex;
 
+import com.dpi.financial.ftcom.utility.atm.journal.ATMConstant;
 import com.dpi.financial.ftcom.utility.exception.MultipleMatchException;
 
 import java.util.Iterator;
@@ -112,7 +113,7 @@ public class RegexMatches {
         if (!iterator.hasNext())
             return null;
         MatchResult result = iterator.next();
-        if (!regex.equals(RegexConstant.ATM_REGEX_TRANSACTION_ANY) && iterator.hasNext())
+        if (!regex.equals(ATMConstant.ATM_REGEX_TRANSACTION_ANY) && iterator.hasNext())
             throw new MultipleMatchException();
 
         return result;
