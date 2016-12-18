@@ -34,6 +34,7 @@ public enum  ProcessingCode implements IEnumFieldValue<String> {
     ACCOUNT_INQUIRY("98"),
     UPDATE_CASSETTE_COUNTERS_1_AND_2("99"),
     // UPDATE_CASSETTE_COUNTERS_3_AND_4("00"),
+    NOT_DEFINED("ND"),
     ;
 
     private String processingCode;

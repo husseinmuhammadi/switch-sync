@@ -27,8 +27,7 @@ public class MagneticStripe extends EntityBase {
     @Column(name = "TRACK2", nullable = false, length = 200)
     private String track2;
 
-    @OneToOne
-    @JoinColumn(name = "CARD_MASTER_ID", foreignKey=@ForeignKey(name="FK_MAGNETIC_STRIPE_CARD_MASTER"))
+    @OneToOne(mappedBy = "magneticStripe", fetch = FetchType.LAZY)
     private CardMaster cardMaster;
 
     public String getTrack1() {

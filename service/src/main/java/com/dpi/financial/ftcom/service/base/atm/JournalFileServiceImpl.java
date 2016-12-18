@@ -2,11 +2,14 @@ package com.dpi.financial.ftcom.service.base.atm;
 
 import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.dao.atm.JournalFileDao;
+import com.dpi.financial.ftcom.model.dao.atm.journal.JournalFileDao;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
+import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
+import com.dpi.financial.ftcom.utility.date.DateUtil;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -49,11 +52,12 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
     /**
      * This method sync files on disk to database JOURNAL_FILE and
      * return list of journal file info in journal date order.
+     *
      * @param baseFolder
      * @param terminal
      * @return
      * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Monday, December 05, 2016
-     *  <li>Prepare ATM transactions based on journal content</li>
+     * <li>Prepare ATM transactions based on journal content</li>
      */
     @Override
     public List<JournalFile> getJournalFileList(String baseFolder, Terminal terminal) {
@@ -71,7 +75,7 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
                 journal.setTerminal(terminal);
                 updateFileInfo(journal, file);
 
-                journal.setPrepared(false);
+                journal.setState(JournalFileState.ENTRY);
 
                 // http://stackoverflow.com/questions/13138990/how-to-search-in-a-list-of-java-object
                 /*
@@ -96,7 +100,7 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
                                 MessageFormat.format("Journal {0}/{1} content is different.", journalFile.getLuno(), journalFile.getFileName())
                         );
                         updateFileInfo(journalFile, file);
-                        journalFile.setPrepared(false);
+                        journalFile.setState(JournalFileState.ENTRY);
                         update(journalFile);
                     }
                 } else {
@@ -115,9 +119,9 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
     }
 
     @Override
-    public List<JournalFile> getJournalFileList(String baseFolder, Terminal terminal, Date journalDateFrom, Date journalDateTo) {
-        return getJournalFileList(baseFolder, terminal).stream()
-                .filter(item -> item.getJournalDate().before(journalDateTo) && item.getJournalDate().after(journalDateFrom))
+    public List<JournalFile> getJournalFileList(Terminal terminal, Date journalDateFrom, Date journalDateTo) {
+        return findAll(terminal).stream()
+                .filter(item -> DateUtil.isBetweenDate(item.getJournalDate(), journalDateFrom, journalDateTo))
                 .collect(Collectors.toList());
     }
 
@@ -152,6 +156,7 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
 
     /**
      * see whats going on calcMD5
+     *
      * @param file
      * @return
      * @throws IOException
@@ -195,7 +200,6 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
         System.out.println("Digest(in hex format):: " + sb.toString());
         return sb.toString();
     }
-
 
 
     public void listFilesForFolder(final File folder, final boolean recurse) {
@@ -288,14 +292,14 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
         return result;
     }
 
-    public String calcMD5() throws Exception{
+    public String calcMD5() throws Exception {
         byte[] buffer = new byte[8192];
         MessageDigest md = MessageDigest.getInstance("MD5");
 
         DigestInputStream dis = new DigestInputStream(new FileInputStream(new File("Path to file")), md);
         try {
-            while (dis.read(buffer) != -1);
-        }finally{
+            while (dis.read(buffer) != -1) ;
+        } finally {
             dis.close();
         }
 
@@ -303,7 +307,7 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
 
         // bytesToHex-method
         char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             /* comment by Hossein - uncomment it
             hexChars[j * 2] = hexArray[v >>> 4];

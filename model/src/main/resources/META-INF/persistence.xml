@@ -43,4 +43,25 @@
             <!--<property name="eclipselink.logging.parameters" value="true"/>-->
         </properties>
     </persistence-unit>
+
+    <!--
+    <persistence-unit name="switch2-unit" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <jta-data-source>java:/jdbc/Switch2DS</jta-data-source>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>NONE</shared-cache-mode>
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="none"/>
+
+            <property name="hibernate.dialect" value="com.dpi.financial.ftcom.model.base.hibernate.EnhancedOracle10gDialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+
+            <property name="hibernate.max_fetch_depth" value="3"/>
+        </properties>
+    </persistence-unit>
+    -->
 </persistence>

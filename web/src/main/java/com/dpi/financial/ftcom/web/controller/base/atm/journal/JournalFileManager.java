@@ -3,7 +3,8 @@ package com.dpi.financial.ftcom.web.controller.base.atm.journal;
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
-import com.dpi.financial.ftcom.api.base.atm.TerminalTransactionService;
+import com.dpi.financial.ftcom.api.base.atm.transaction.TerminalTransactionService;
+import com.dpi.financial.ftcom.api.base.swt.transaction.SwitchTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
@@ -22,6 +23,8 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +43,9 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     @EJB
     TerminalTransactionService terminalTransactionService;
 
+    @EJB
+    SwitchTransactionService switchTransactionService;
+
     @Inject
     private AtmConfiguration configuration;
 
@@ -54,12 +60,22 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
         super(JournalFile.class);
 
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2016);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
+
+        cal.set(Calendar.YEAR, 2014);
+        cal.set(Calendar.MONTH, Calendar.AUGUST);
         cal.set(Calendar.DAY_OF_MONTH, 1);
+        /*
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        */
         journalDateFrom = cal.getTime();
 
-        cal.set(Calendar.DAY_OF_MONTH, 10);
+        cal.set(Calendar.YEAR, 2017);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
         journalDateTo = cal.getTime();
 
         terminal = new Terminal();
@@ -152,7 +168,13 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
         try {
             Terminal terminal = terminalService.findByLuno(luno);
             String journalPath = configuration.getJournalPath();
-            terminalTransactionService.prepareAtmTransactions(journalPath, terminal, journalDateFrom, journalDateTo);
+
+            Date current = journalDateFrom;
+
+            while (current.before(journalDateTo)) {
+                terminalTransactionService.prepareAtmTransactions(journalPath, terminal, current, current);
+                current = DateUtil.addDays(current, 1);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
@@ -162,20 +184,26 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     /**
      * This method prepare ATM transactions based on journal content for specified terminal
      *
-     * @param event
-     * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Tuesday, December 13, 2016 3:10:02 PM
-     * <li>Synchronize ATM transactions based on switch transactions</li>
+     * @param date
+     * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Monday, December 05, 2016
+     * <li>Prepare ATM transactions based on journal content</li>
      */
-    public void synchronizeAtmTransactions(AjaxBehaviorEvent event) {
+    public void prepareAtmTransactions(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(":::::::::" + sdf.format(date));
+
         String luno = terminal.getLuno();
         try {
             Terminal terminal = terminalService.findByLuno(luno);
             String journalPath = configuration.getJournalPath();
-            terminalTransactionService.synchronizeAtmTransactions(journalDateFrom, journalDateTo);
+            terminalTransactionService.prepareAtmTransactions(journalPath, terminal, DateUtil.getDate(2014, Month.FEBRUARY, 1), date);
+            journalFileList.clear();
+            journalFileList = service.getJournalFileList(journalPath, terminal);
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
         }
+
     }
 
     public Date getJournalDateFrom() {

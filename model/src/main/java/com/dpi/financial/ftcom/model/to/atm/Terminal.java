@@ -1,8 +1,6 @@
 package com.dpi.financial.ftcom.model.to.atm;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.model.converter.*;
-import com.dpi.financial.ftcom.model.type.*;
 
 import javax.persistence.*;
 

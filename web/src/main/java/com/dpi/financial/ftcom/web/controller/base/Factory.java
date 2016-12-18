@@ -18,9 +18,7 @@ public class Factory<T extends EntityBase> implements IFactory<T> {
         T t = null;
         try {
             t = entityBeanType.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return t;

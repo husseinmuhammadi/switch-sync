@@ -1,15 +1,15 @@
 package com.dpi.financial.ftcom.utility.date;
 
 import com.ibm.icu.util.Calendar;
+import org.apache.commons.lang3.time.DateUtils;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.Date;
 
 public class DateUtil {
-    public static String getShortData(Calendar calendar) {
+    public static String getShortDate(Calendar calendar) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(calendar.get(Calendar.YEAR));
         stringBuilder.append("/");
@@ -45,5 +45,50 @@ public class DateUtil {
 
     public static LocalDateTime asLocalDateTime(Date date) {
         return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    public static Date addDays(Date date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
+    }
+
+    public static boolean isBetweenDate(Date date, Date from, Date to) {
+        {
+            DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+            sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+            if (date.equals(removeTime(from)))
+                return true;
+
+            if (date.equals(removeTime(to)))
+                return true;
+
+            if (date.before(removeTime(to)) && date.after(removeTime(from)))
+                return true;
+
+            return false;
+        }
+    }
+
+    public static Date removeTime(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    public static Date getDate(int year, int month, int dayOfMonth) {
+        LocalDate localDate = LocalDate.of(year, month, dayOfMonth);
+        return asDate(localDate);
+    }
+
+    public static Date getDate(int year, Month month, int dayOfMonth) {
+        LocalDate localDate = LocalDate.of(year, month, dayOfMonth);
+        return asDate(localDate);
     }
 }

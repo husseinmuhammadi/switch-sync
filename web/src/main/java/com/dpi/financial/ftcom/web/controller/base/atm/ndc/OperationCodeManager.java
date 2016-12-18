@@ -99,7 +99,7 @@ public class OperationCodeManager extends ControllerManagerBase<OperationCode> i
             }
             service.createBatch(operationCodes);
             entityList = service.findAllByEffectiveDate(DateUtil.getCurrentDate());
-        } catch (ParserConfigurationException | SAXException | IOException | ParseException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
             printErrorMessage(e);
         }

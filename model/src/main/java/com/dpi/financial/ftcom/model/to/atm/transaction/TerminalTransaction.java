@@ -4,6 +4,7 @@ import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
 import com.dpi.financial.ftcom.model.converter.YesNoTypeConverter;
+import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
 import com.dpi.financial.ftcom.model.type.YesNoType;
@@ -19,14 +20,19 @@ import java.util.Date;
         @UniqueConstraint(columnNames = {"SWIPE_CARD_ID", "LINE_START"}, name = "UK_TERMINAL_TRANSACTION_SLS")
 })
 @NamedQueries({
-        @NamedQuery(name = TerminalTransaction.FIND_ALL, query = "select t from TerminalTransaction t where t.deleted = false")
+        @NamedQuery(name = TerminalTransaction.FIND_ALL, query = "select t from TerminalTransaction t where t.deleted = false"),
+        @NamedQuery(name = TerminalTransaction.FIND_ALL_BY_LUNO_CARD_NUMBER, query = "select t from TerminalTransaction t where t.deleted = false and t.luno = :luno and t.swipeCard.pan = :pan order by t.transactionTime"),
 })
 public class TerminalTransaction extends EntityBase {
     public static final String FIND_ALL = "JournalTransaction.findAll";
+    public static final String FIND_ALL_BY_LUNO_CARD_NUMBER = "TerminalTransaction.findAllByLunoCardNumber";
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SWIPE_CARD_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_SC_TT"))
     private SwipeCard swipeCard;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "terminalTransaction")
+    private SwitchTransaction switchTransaction;
 
     /*
     @OneToOne
@@ -88,7 +94,7 @@ public class TerminalTransaction extends EntityBase {
     @Column(name = "CASH_REQUEST", length = 8)
     private String cashRequest;
 
-    @Column(name = "CASH", length = 24)
+    @Column(name = "CASH", length = 30)
     private String cash;
 
     @Column(name = "CASH_NOTE_FROM_CASSETTE_ONE")
@@ -148,6 +154,9 @@ public class TerminalTransaction extends EntityBase {
     @Column(name = "RRN", length = 12)
     private String rrn;
 
+    @Column(name = "RETRIEVED_RRN", length = 12)
+    private String retrievedRrn;
+
     // @Column(name = "SYSTEM_TRACE_AUDIT_NUMBER")
     @Column(name = "STAN")
     private Integer stan;
@@ -155,7 +164,7 @@ public class TerminalTransaction extends EntityBase {
     @Column(name = "AMOUNT")
     private BigDecimal amount;
 
-    @Column(name = "RESPONSE_CODE", length = 2)
+    @Column(name = "RESPONSE_CODE", length = 3)
     private String responseCode;
 
     @Column(name = "RESPONSE", length = 100)
@@ -524,5 +533,43 @@ public class TerminalTransaction extends EntityBase {
 
     public void setCardJammed(YesNoType cardJammed) {
         this.cardJammed = cardJammed;
+    }
+
+    public SwitchTransaction getSwitchTransaction() {
+        return switchTransaction;
+    }
+
+    public void setSwitchTransaction(SwitchTransaction switchTransaction) {
+        this.switchTransaction = switchTransaction;
+    }
+
+    public String getRetrievedRrn() {
+        return retrievedRrn;
+    }
+
+    public void setRetrievedRrn(String retrievedRrn) {
+        this.retrievedRrn = retrievedRrn;
+    }
+
+    @Transient
+    public int switchTransactionIndex = -1;
+
+    @Transient
+    public int index;
+
+    public int getSwitchTransactionIndex() {
+        return switchTransactionIndex;
+    }
+
+    public void setSwitchTransactionIndex(int switchTransactionIndex) {
+        this.switchTransactionIndex = switchTransactionIndex;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

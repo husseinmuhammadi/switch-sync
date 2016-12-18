@@ -1,7 +1,7 @@
-package com.dpi.financial.ftcom.web.controller.base.atm.journal;
+package com.dpi.financial.ftcom.web.controller.base.atm.transaction;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
-import com.dpi.financial.ftcom.api.base.atm.TerminalTransactionService;
+import com.dpi.financial.ftcom.api.base.atm.transaction.TerminalTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 

@@ -4,7 +4,6 @@ import com.dpi.financial.ftcom.model.base.EntityBase;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "CARD_MASTER_SEQ")
@@ -37,7 +36,10 @@ public class CardMaster extends EntityBase {
     @Column(name = "DISCRETIONARY_DATA", nullable = true, length = 4)
     private String discretionaryData;
 
-    @OneToOne(mappedBy = "cardMaster", fetch = FetchType.LAZY)
+    // https://en.wikibooks.org/wiki/Java_Persistence/OneToOne
+    // Each card has a magnetic stripe
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MAGNETIC_STRIPE_ID")
     private MagneticStripe magneticStripe;
 
     public String getPan() {

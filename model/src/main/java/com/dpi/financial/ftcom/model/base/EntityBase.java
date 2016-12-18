@@ -20,15 +20,15 @@ public abstract class EntityBase {
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CREATE_ON", columnDefinition = "Date", nullable = false)
+    @Column(name = "CREATE_ON", columnDefinition = "Date default sysdate", nullable = false)
     private Date createOn;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "UPDATE_ON", columnDefinition = "Date", nullable = false)
+    @Column(name = "UPDATE_ON", columnDefinition = "Date default sysdate", nullable = false)
     private Date updateOn;
 
     @Version
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "NUMBER(19,0) default 0")
     private Long version;
 
     @Column(name = "IS_DELETED", nullable = false, columnDefinition = "NUMBER(1,0) default 0")

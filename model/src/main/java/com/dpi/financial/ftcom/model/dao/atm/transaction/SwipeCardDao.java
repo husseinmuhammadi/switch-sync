@@ -1,4 +1,4 @@
-package com.dpi.financial.ftcom.model.dao.atm;
+package com.dpi.financial.ftcom.model.dao.atm.transaction;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.to.atm.transaction.SwipeCard;

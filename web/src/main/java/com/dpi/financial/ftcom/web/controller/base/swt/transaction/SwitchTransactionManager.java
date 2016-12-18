@@ -1,7 +1,7 @@
-package com.dpi.financial.ftcom.web.controller.base.atm.journal;
+package com.dpi.financial.ftcom.web.controller.base.swt.transaction;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
-import com.dpi.financial.ftcom.api.base.atm.TerminalTransactionService;
+import com.dpi.financial.ftcom.api.base.atm.transaction.TerminalTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Named
 @ViewScoped
-public class TerminalTransactionManager extends ControllerManagerBase<TerminalTransaction>
+public class SwitchTransactionManager extends ControllerManagerBase<TerminalTransaction>
         implements Serializable {
 
     @EJB
@@ -24,7 +24,7 @@ public class TerminalTransactionManager extends ControllerManagerBase<TerminalTr
 
     private List<TerminalTransaction> terminalTransactionList;
 
-    public TerminalTransactionManager() {
+    public SwitchTransactionManager() {
         super(TerminalTransaction.class);
     }
 

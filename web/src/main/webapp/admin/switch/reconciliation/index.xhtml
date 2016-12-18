@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="/base/template.xhtml">
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="luno" value="#{switchReconciliationManager.terminal.luno}"/>
+            <f:viewAction action="#{switchReconciliationManager.onLoad}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="header">
+        <h2>#{lbl['label.switchReconciliation.list']}</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form style="direction: rtl">
+
+            <table border="0">
+                <tr>
+                    <td>
+                        <p:ajaxStatus style="width:36px;height:36px;">
+                            <f:facet name="start">
+                                <h:graphicImage alt="loading" library="images" name="loader2.gif"
+                                                styleClass="img-responsive"/>
+                            </f:facet>
+                            <f:facet name="complete">
+                                <h:outputText value=""/>
+                            </f:facet>
+                        </p:ajaxStatus>
+                    </td>
+                    <td>
+                        <h:commandLink>
+                            <h:graphicImage alt="Synchronize atm transactions" library="images"
+                                            name="synchronization.png" width="36"
+                                            styleClass="img-responsive"/>
+                            <f:ajax execute="@form" render="@form :messages"
+                                    listener="#{switchReconciliationManager.synchronizeSwitchTransactions}"/>
+                        </h:commandLink>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="luno"
+                                       value="#{lbl['label.terminal.luno']}"/>
+                    </div>
+                    <h:selectOneMenu value="#{switchReconciliationManager.terminal.luno}"
+                                     id="luno" label="#{lbl['label.terminal.luno']}"
+                                     required="true" styleClass="form-control">
+                        <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
+                        <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
+                                       var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                        <f:ajax event="valueChange" execute="@this" render="selectedCardNumber :messages"
+                                listener="#{switchReconciliationManager.lunoValueChange}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="selectedCardNumber"
+                                       value="#{lbl['label.switchTransaction.cardNumber']}"/>
+                    </div>
+                    <h:selectOneMenu value="#{switchReconciliationManager.selectedCardNumber}"
+                                     id="selectedCardNumber" label="#{lbl['label.switchTransaction.cardNumber']}"
+                                     required="true" styleClass="form-control">
+                        <f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>
+                        <f:selectItems value="#{switchReconciliationManager.cardNumbers}"/>
+                        <f:ajax event="valueChange" execute="@this" render="switchTransactionList terminalTransactionList :messages"
+                                listener="#{switchReconciliationManager.cardValueChange}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="switchTransactionDateFrom"
+                                       value="#{lbl['label.journalFile.journalDateFrom']}"/>
+                    </div>
+                    <h:inputText value="#{switchReconciliationManager.switchTransactionDateFrom}"
+                                 id="switchTransactionDateFrom" label="#{lbl['label.journalFile.journalDateFrom']}"
+                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                        <f:convertDateTime pattern="d-M-yyyy"/>
+                    </h:inputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
+                    </div>
+                    <h:inputText value="#{switchReconciliationManager.switchTransactionDateTo}"
+                                 id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
+                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                        <f:convertDateTime pattern="d-M-yyyy"/>
+                    </h:inputText>
+                </div>
+            </div>
+
+            <table border="0">
+                <tr>
+                    <td>
+                        <h:dataTable value="#{switchReconciliationManager.switchTransactionList}"
+                                     id="switchTransactionList" var="switchTransaction"
+                                     styleClass="table table-striped table-bordered dt-responsive nowrap"
+                                     headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
+                                #{switchTransaction.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.switchTransaction.processingCode']}</f:facet>
+                                #{lbl[switchTransaction.processingCode.fullName]}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.switchTransaction.rrn']}</f:facet>
+                                <h:link value="#{switchTransaction.rrn}" outcome="profile">
+                                    <f:param name="id" value="#{switchTransaction.id}"/>
+                                </h:link>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.switchTransaction.transactionDate']}</f:facet>
+                                <h:outputText value="#{switchTransaction.transactionDate}" style="direction: ltr">
+                                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                                </h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.switchTransaction.price']}</f:facet>
+                                #{switchTransaction.price}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.switchTransaction.responseCode']}</f:facet>
+                                #{switchTransaction.responseCode}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.switchTransaction.reveresed']}</f:facet>
+                                #{lbl[switchTransaction.reveresed]}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.switchTransaction.terminalTransaction']}</f:facet>
+                                #{switchTransaction.terminalTransaction.id}
+                            </h:column>
+
+                        </h:dataTable>
+                    </td>
+                    <td>
+                        <h:dataTable value="#{switchReconciliationManager.terminalTransactionList}"
+                                     id="terminalTransactionList" var="terminalTransaction"
+                                     styleClass="table table-striped table-bordered dt-responsive nowrap"
+                                     headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
+                                #{terminalTransaction.id}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.terminalTransaction.processingCode']}</f:facet>
+                                #{lbl[terminalTransaction.processingCode.fullName]}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.terminalTransaction.rrn']}</f:facet>
+                                <h:link value="#{terminalTransaction.rrn}" outcome="profile">
+                                    <f:param name="id" value="#{terminalTransaction.id}"/>
+                                </h:link>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.terminalTransaction.transactionTime']}</f:facet>
+                                <h:outputText value="#{terminalTransaction.transactionTime}" style="direction: ltr">
+                                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                                </h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.terminalTransaction.amount']}</f:facet>
+                                #{terminalTransaction.amount}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.terminalTransaction.cashTaken']}</f:facet>
+                                #{lbl[terminalTransaction.cashTaken.fullName]}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">#{lbl['label.terminalTransaction.switchTransaction']}</f:facet>
+                                #{terminalTransaction.switchTransaction.id}
+                            </h:column>
+
+                        </h:dataTable>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+    </ui:define>
+</ui:composition>

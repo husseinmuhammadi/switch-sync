@@ -2,6 +2,7 @@ package com.dpi.financial.ftcom.model.to.atm.journal;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -82,8 +83,10 @@ public class JournalFile extends EntityBase {
     @Column(name = "MESSAGE_DIGEST_ALGORITHM_5", nullable = false, length = 40)
     private String md5;
 
-    @Column(name = "IS_PREPARED", nullable = false, columnDefinition = "NUMBER(1,0) default 0")
-    private boolean prepared = false;
+    // @Column(name = "IS_PREPARED", nullable = false, columnDefinition = "NUMBER(1,0) default 0")
+    // private boolean prepared = false;
+
+    private JournalFileState state;
 
     public Terminal getTerminal() {
         return terminal;
@@ -205,11 +208,21 @@ public class JournalFile extends EntityBase {
         this.md5 = md5;
     }
 
+    /*
     public boolean isPrepared() {
         return prepared;
     }
 
     public void setPrepared(boolean prepared) {
         this.prepared = prepared;
+    }
+    */
+
+    public JournalFileState getState() {
+        return state;
+    }
+
+    public void setState(JournalFileState state) {
+        this.state = state;
     }
 }
