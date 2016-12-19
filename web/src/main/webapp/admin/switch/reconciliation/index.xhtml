@@ -43,6 +43,12 @@
                                     listener="#{switchReconciliationManager.synchronizeSwitchTransactions}"/>
                         </h:commandLink>
                     </td>
+                    <td>
+                        <h:commandLink action="#{switchReconciliationManager.showXLS}">
+                            <h:graphicImage alt="Download" library="images" name="download-button.png" width="36"
+                                            styleClass="img-responsive"/>
+                        </h:commandLink>
+                    </td>
                 </tr>
             </table>
 
@@ -72,49 +78,69 @@
                     </div>
                     <h:selectOneMenu value="#{switchReconciliationManager.selectedCardNumber}"
                                      id="selectedCardNumber" label="#{lbl['label.switchTransaction.cardNumber']}"
-                                     required="true" styleClass="form-control">
+                                     styleClass="form-control">
                         <f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>
                         <f:selectItems value="#{switchReconciliationManager.cardNumbers}"/>
-                        <f:ajax event="valueChange" execute="@this" render="switchTransactionList terminalTransactionList :messages"
+                        <f:ajax event="valueChange" execute="@this"
+                                render="switchTransactionDate switchTransactionList terminalTransactionList :messages"
                                 listener="#{switchReconciliationManager.cardValueChange}"/>
                     </h:selectOneMenu>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="switchTransactionDateFrom"
-                                       value="#{lbl['label.journalFile.journalDateFrom']}"/>
+            <h:panelGroup id="switchTransactionDate">
+                <h:panelGroup rendered="#{switchReconciliationManager.selectedCardNumber eq null}">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="switchTransactionDateFrom"
+                                               value="#{lbl['label.journalFile.journalDateFrom']}"/>
+                            </div>
+                            <h:inputText value="#{switchReconciliationManager.switchTransactionDateFrom}"
+                                         id="switchTransactionDateFrom"
+                                         label="#{lbl['label.journalFile.journalDateFrom']}"
+                                         styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                                <f:convertDateTime pattern="d-M-yyyy"/>
+                            </h:inputText>
+                        </div>
                     </div>
-                    <h:inputText value="#{switchReconciliationManager.switchTransactionDateFrom}"
-                                 id="switchTransactionDateFrom" label="#{lbl['label.journalFile.journalDateFrom']}"
-                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
-                        <f:convertDateTime pattern="d-M-yyyy"/>
-                    </h:inputText>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
+                            </div>
+                            <h:inputText value="#{switchReconciliationManager.switchTransactionDateTo}"
+                                         id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
+                                         styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                                <f:convertDateTime pattern="d-M-yyyy"/>
+                            </h:inputText>
+                        </div>
                     </div>
-                    <h:inputText value="#{switchReconciliationManager.switchTransactionDateTo}"
-                                 id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
-                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
-                        <f:convertDateTime pattern="d-M-yyyy"/>
-                    </h:inputText>
-                </div>
-            </div>
+                </h:panelGroup>
+            </h:panelGroup>
 
             <table border="0">
+                <thead>
                 <tr>
-                    <td>
+                    <th style="text-align: right"><h4>#{lbl['label.switchReconciliation.list']}</h4></th>
+                    <th style="text-align: right"><h4>#{lbl['label.terminalTransaction.list']}</h4></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td>#{lbl['label.switchReconciliation.list']}</td>
+                    <td>#{lbl['label.terminalTransaction.list']}</td>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr>
+                    <td style="vertical-align: top; padding-left: 3px;">
                         <h:dataTable value="#{switchReconciliationManager.switchTransactionList}"
                                      id="switchTransactionList" var="switchTransaction"
                                      styleClass="table table-striped table-bordered dt-responsive nowrap"
-                                     headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
+                                     headerClass="employeeTableHeader"
+                                     rowClasses="employeeTableOddRow,employeeTableEvenRow">
 
                             <h:column>
                                 <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
@@ -162,11 +188,12 @@
 
                         </h:dataTable>
                     </td>
-                    <td>
+                    <td style="vertical-align: top; padding-left: 3px;">
                         <h:dataTable value="#{switchReconciliationManager.terminalTransactionList}"
                                      id="terminalTransactionList" var="terminalTransaction"
                                      styleClass="table table-striped table-bordered dt-responsive nowrap"
-                                     headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
+                                     headerClass="employeeTableHeader"
+                                     rowClasses="employeeTableOddRow,employeeTableEvenRow">
 
                             <h:column>
                                 <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
@@ -210,6 +237,7 @@
                         </h:dataTable>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </h:form>
     </ui:define>

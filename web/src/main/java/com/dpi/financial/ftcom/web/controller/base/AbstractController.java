@@ -48,7 +48,7 @@ public abstract class AbstractController {
         return getRequest().getRemoteAddr();
     }
 
-    protected HttpServletResponse getResponse() {
+    protected HttpServletResponse getHttpServletResponse() {
         return (HttpServletResponse) getFacesContext().getExternalContext().getResponse();
     }
 

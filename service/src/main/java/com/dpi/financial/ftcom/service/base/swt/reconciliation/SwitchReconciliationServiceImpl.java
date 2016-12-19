@@ -55,31 +55,6 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
     }
 
     @Override
-    public void synchronizeAtmTransactions(String luno, Date transactionDateFrom, Date transactionDateTo) {
-        List<String> allUnbound = dao.findAllCard(luno, transactionDateFrom, transactionDateTo);
-        allUnbound.forEach(cardNo -> {
-            System.out.println(
-                    MessageFormat.format("Synchronize {0}/{1}", luno, cardNo)
-            );
-
-            List<SwitchTransaction> switchTransactionList = switchTransactionDao.findAllByLunoCardNumber(luno, cardNo);
-            List<TerminalTransaction> terminalTransactionList = terminalTransactionDao.findAllByLunoCardNumber(luno, cardNo);
-
-            switchTransactions = new SwitchTransaction[switchTransactionList.size()];
-            switchTransactionList.toArray(switchTransactions);
-            for (int i = 0; i < switchTransactions.length; i++)
-                switchTransactions[i].setIndex(i);
-
-            atmTransactions = new TerminalTransaction[terminalTransactionList.size()];
-            terminalTransactionList.toArray(atmTransactions);
-            for (int i = 0; i < atmTransactions.length; i++)
-                atmTransactions[i].setIndex(i);
-
-            synchronize();
-        });
-    }
-
-    @Override
     public void synchronizeAtmTransactions(String luno, String cardNumber) {
         List<SwitchTransaction> switchTransactionList = switchTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
         List<TerminalTransaction> terminalTransactionList = terminalTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
@@ -100,6 +75,11 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
     @Override
     public List<String> findAllCard(String luno, Date transactionDateFrom, Date transactionDateTo) {
         return dao.findAllCard(luno, transactionDateFrom, transactionDateTo);
+    }
+
+    @Override
+    public List<SwitchTransaction> findInconsistentTransactions(String luno, Date switchTransactionDateFrom, Date switchTransactionDateTo) {
+        return dao.findInconsistentTransactions(luno, switchTransactionDateFrom, switchTransactionDateTo);
     }
 
     private void synchronize() {

@@ -3,6 +3,7 @@ package com.dpi.financial.ftcom.model.dao.swt.reconciliation;
 import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
+import org.hibernate.Hibernate;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -34,5 +35,19 @@ public class SwitchReconciliationDao extends GenericDao<SwitchTransaction> {
         query.setParameter("transactionDateTo", DateUtil.removeTime(transactionDateTo));
 
         return query.getResultList();
+    }
+
+    public List<SwitchTransaction> findInconsistentTransactions(String luno, Date switchTransactionDateFrom, Date switchTransactionDateTo) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("luno", luno);
+        parameters.put("transactionDateFrom", DateUtil.removeTime(switchTransactionDateFrom));
+        parameters.put("transactionDateTo", DateUtil.removeTime(switchTransactionDateTo));
+
+        List<SwitchTransaction> switchTransactions = createNamedQuery(SwitchTransaction.FIND_INCONSISTENT_TRANSACTIONS, parameters).getResultList();
+
+        for(SwitchTransaction switchTransaction:switchTransactions )
+            Hibernate.initialize(switchTransaction.getTerminalTransaction());
+
+        return switchTransactions;
     }
 }
