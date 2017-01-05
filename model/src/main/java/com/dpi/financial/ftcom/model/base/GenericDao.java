@@ -22,7 +22,7 @@ public abstract class GenericDao<T extends EntityBase> {
     @Inject
     private EntityManager entityManager;
 
-    private Class<T> entityBeanType;
+    private final Class<T> entityBeanType;
 
     public GenericDao(Class<T> entityBeanType) {
         this.entityBeanType = entityBeanType;
