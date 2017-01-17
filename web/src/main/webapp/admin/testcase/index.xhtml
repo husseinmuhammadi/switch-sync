@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<h:body>
-    <ui:composition template="/base/template.xhtml">
-        <ui:define name="header">
-            <h2>#{lbl['label.testCase.list']}</h2>
-        </ui:define>
+<ui:composition template="/base/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-        <ui:define name="content">
-            <h:form style="direction: rtl">
-                <h:dataTable value="#{testCaseManager.testCaseList}" var="testCase"
-                             styleClass="table"
-                             headerClass="employeeTableHeader"
-                             rowClasses="employeeTableOddRow,employeeTableEvenRow">
-                    <h:column>
-                        <f:facet name="header">#{lbl['label.testCase.testCaseId']}</f:facet>
-                        #{testCase.testCaseID}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{lbl['label.testCase.testCaseDescription']}</f:facet>
-                        #{testCase.testCaseDescription}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{lbl['label.testCase.testScenario']}</f:facet>
-                        #{testCase.testScenario}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{lbl['label.testCase.comments']}</f:facet>
-                        #{testCase.comments}
-                    </h:column>
-                </h:dataTable>
-            </h:form>
-        </ui:define>
-    </ui:composition>
-</h:body>
-</html>
+    <ui:define name="header">
+        <h2>#{lbl['label.testCase.list']}</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form style="direction: rtl">
+            <h:link outcome="insert">
+                <h:graphicImage alt="add" library="images" name="add.png" width="36"
+                                styleClass="img-responsive"/>
+            </h:link>
+            <h:dataTable value="#{testCaseManager.testCaseList}" var="testCase"
+                         styleClass="table table-striped table-bordered dt-responsive nowrap">
+                <h:column>
+                    <f:facet name="header">#{lbl['label.testCase.testCaseId']}</f:facet>
+                    #{testCase.testCaseID}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{lbl['label.testCase.testCaseDescription']}</f:facet>
+                    #{testCase.testCaseDescription}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{lbl['label.testCase.testScenario']}</f:facet>
+                    #{testCase.testScenario}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{lbl['label.testCase.comments']}</f:facet>
+                    #{testCase.comments}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+
