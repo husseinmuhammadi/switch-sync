@@ -10,9 +10,10 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -46,7 +47,8 @@ public class SelectItemsController extends AbstractController implements Seriali
     public Map<String, String> getProcessingCodeItems() {
         Map<String, String> items = new HashMap<String, String>();
         items.put("", getLabel("label.select.empty"));
-        for (ProcessingCode processingCode : ProcessingCode.values()) {
+        for (ProcessingCode processingCode : Arrays.stream(ProcessingCode.values())
+                .filter(p -> !p.isNdc()).collect(Collectors.toList())) {
             items.put(processingCode.name(), getLabel(processingCode.getFullName()));
         }
         return items;
