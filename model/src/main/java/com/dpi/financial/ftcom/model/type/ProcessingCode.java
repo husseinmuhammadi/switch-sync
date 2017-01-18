@@ -28,19 +28,25 @@ public enum  ProcessingCode implements IEnumFieldValue<String> {
     PIN_VERIFICATION("92"),
     PIN2_CHANGE("93"),
     // For ndc purpose only
-    CASH_REVERSAL("15"),
-    BILL_PAYMENT_VALIDATE("19"),
-    PINPAD_PIN_VERIFICATION("94"),
-    ACCOUNT_INQUIRY("98"),
-    UPDATE_CASSETTE_COUNTERS_1_AND_2("99"),
+    CASH_REVERSAL("15", true),
+    BILL_PAYMENT_VALIDATE("19", true),
+    PINPAD_PIN_VERIFICATION("94", true),
+    ACCOUNT_INQUIRY("98", true),
+    UPDATE_CASSETTE_COUNTERS_1_AND_2("99", true),
     // UPDATE_CASSETTE_COUNTERS_3_AND_4("00"),
-    NOT_DEFINED("ND"),
+    NOT_DEFINED("ND", true),
     ;
 
     private String processingCode;
+    private final boolean ndc;
 
     ProcessingCode(String processingCode) {
+        this(processingCode, false);
+    }
+
+    ProcessingCode(String processingCode, boolean ndc) {
         this.processingCode = processingCode;
+        this.ndc = ndc;
     }
 
     public static ProcessingCode getInstance(String value) {
@@ -66,4 +72,7 @@ public enum  ProcessingCode implements IEnumFieldValue<String> {
         return this.getClass().getName() + "." + this.name();
     }
 
+    public boolean isNdc() {
+        return ndc;
+    }
 }
