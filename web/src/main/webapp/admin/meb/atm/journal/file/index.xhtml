@@ -9,8 +9,8 @@
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam name="luno" value="#{journalFileManager.terminal.luno}"/>
-            <f:viewAction action="#{journalFileManager.onLoad}"/>
+            <f:viewParam name="luno" value="#{middleEastBankJournalFileManager.terminal.luno}"/>
+            <f:viewAction action="#{middleEastBankJournalFileManager.onLoad}"/>
         </f:metadata>
     </ui:define>
 
@@ -39,7 +39,7 @@
                             <h:graphicImage alt="Prepare atm transactions" library="images" name="cloud-computing.png" width="36"
                                             styleClass="img-responsive"/>
                             <f:ajax execute="@form" render="@form :messages"
-                                    listener="#{journalFileManager.prepareAtmTransactions}"/>
+                                    listener="#{middleEastBankJournalFileManager.prepareAtmTransactions}"/>
                         </h:commandLink>
                     </td>
                     <td>
@@ -48,7 +48,7 @@
                                             name="synchronization.png" width="36"
                                             styleClass="img-responsive"/>
                             <f:ajax execute="@form" render="@form :messages"
-                                    listener="#{journalFileManager.synchronizeAtmTransactions}"/>
+                                    listener="#{middleEastBankJournalFileManager.synchronizeAtmTransactions}"/>
                         </h:commandLink>
                     </td>
                 </tr>
@@ -60,14 +60,14 @@
                         <h:outputLabel for="luno"
                                        value="#{lbl['label.terminal.luno']}"/>
                     </div>
-                    <h:selectOneMenu value="#{journalFileManager.terminal.luno}"
+                    <h:selectOneMenu value="#{middleEastBankJournalFileManager.terminal.luno}"
                                      id="luno" label="#{lbl['label.terminal.luno']}"
                                      required="true" styleClass="form-control">
                         <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
                         <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
                                        var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
                         <f:ajax event="valueChange" execute="@this" render="journalFileList :messages"
-                                listener="#{journalFileManager.lunoValueChange}"/>
+                                listener="#{middleEastBankJournalFileManager.lunoValueChange}"/>
                     </h:selectOneMenu>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                     <div class="input-group-addon">
                         <h:outputLabel for="journalDateFrom" value="#{lbl['label.journalFile.journalDateFrom']}"/>
                     </div>
-                    <h:inputText value="#{journalFileManager.journalDateFrom}"
+                    <h:inputText value="#{middleEastBankJournalFileManager.journalDateFrom}"
                                  id="journalDateFrom" label="#{lbl['label.journalFile.journalDateFrom']}"
                                  styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
                         <f:convertDateTime pattern="d-M-yyyy"/>
@@ -90,7 +90,7 @@
                     <div class="input-group-addon">
                         <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
                     </div>
-                    <h:inputText value="#{journalFileManager.journalDateTo}"
+                    <h:inputText value="#{middleEastBankJournalFileManager.journalDateTo}"
                                  id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
                                  styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
                         <f:convertDateTime pattern="d-M-yyyy"/>
@@ -99,7 +99,7 @@
             </div>
 
             <!--<h:outputText style="color:blue" value="Flash Variable Without Keep: #{flash.keep.message.summary}"/>-->
-            <h:dataTable value="#{journalFileManager.journalFileList}" var="journalFile" id="journalFileList"
+            <h:dataTable value="#{middleEastBankJournalFileManager.journalFileList}" var="journalFile" id="journalFileList"
                          styleClass="table table-striped table-bordered dt-responsive nowrap"
                          headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
 
@@ -202,7 +202,7 @@
                                 </h:link>
                             </td>
                             <td>
-                                <h:commandLink action="#{journalFileController.delete(journalFile.id)}"
+                                <h:commandLink action="#{middleEastBankJournalFileController.delete(journalFile.id)}"
                                                rendered="#{not empty journalFile.id}">
                                     <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
                                                     styleClass="img-responsive"/>
@@ -210,13 +210,13 @@
                                 </h:commandLink>
                             </td>
                             <td>
-                                <h:commandLink action="#{journalFileController.refresh}">
+                                <h:commandLink action="#{middleEastBankJournalFileController.refresh}">
                                     <h:graphicImage alt="reload" library="images" name="reload.png" width="20"
                                                     styleClass="img-responsive"/>
                                 </h:commandLink>
                             </td>
                             <td>
-                                <h:commandLink actionListener="#{journalFileManager.prepareAtmTransactions(journalFile.journalDate)}"
+                                <h:commandLink actionListener="#{middleEastBankJournalFileManager.prepareAtmTransactions(journalFile.journalDate)}"
                                         rendered="#{journalFile.state eq 'ENTRY'}">
                                     <h:graphicImage alt="Prepare atm transactions" library="images" name="upload.png" width="20"
                                                     styleClass="img-responsive"/>

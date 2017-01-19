@@ -29,7 +29,7 @@
                                      id="testConditionType" label="#{lbl['label.switchTestScenario.testConditionType']}"
                                      required="true" styleClass="form-control">
                         <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
-                        <f:selectItems value="#{selectItemsController.atmter.entrySet()}" var="items"
+                        <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}" var="items"
                                        itemLabel="#{items.value}" itemValue="#{items.key}"/>
                     </h:selectOneMenu>
                 </div>
