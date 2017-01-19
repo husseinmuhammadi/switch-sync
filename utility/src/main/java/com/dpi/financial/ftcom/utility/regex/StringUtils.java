@@ -11,6 +11,7 @@ public class StringUtils {
         Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build();
         return toLowercaseFirstLetter(originalStr, locale);
     }
+
     public static final String toLowercaseFirstLetter(final String originalStr, final Locale locale) {
         final int splitIndex = 1;
         final String result;
@@ -26,5 +27,18 @@ public class StringUtils {
             */
         }
         return result;
+    }
+
+    /**
+     * http://stackoverflow.com/questions/11208479/how-do-i-initialize-a-byte-array-in-java
+     */
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i + 1), 16));
+        }
+        return data;
     }
 }
