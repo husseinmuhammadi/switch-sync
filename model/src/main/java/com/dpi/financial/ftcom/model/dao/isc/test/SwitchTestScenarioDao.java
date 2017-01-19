@@ -1,7 +1,7 @@
-package com.dpi.financial.ftcom.model.dao;
+package com.dpi.financial.ftcom.model.dao.isc.test;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.SwitchTestScenario;
+import com.dpi.financial.ftcom.model.to.isc.test.SwitchTestScenario;
 
 import javax.ejb.Stateless;
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.dpi.financial.ftcom.model.dao.atm.transaction;
+package com.dpi.financial.ftcom.model.dao.meb.atm.transaction;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.atm.transaction.SwipeCard;
+import com.dpi.financial.ftcom.model.to.meb.atm.transaction.SwipeCard;
 
 import javax.ejb.Stateless;
 import java.util.List;

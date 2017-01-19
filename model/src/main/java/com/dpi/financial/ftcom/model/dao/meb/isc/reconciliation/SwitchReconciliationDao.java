@@ -1,7 +1,7 @@
-package com.dpi.financial.ftcom.model.dao.swt.reconciliation;
+package com.dpi.financial.ftcom.model.dao.meb.isc.reconciliation;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
 import org.hibernate.Hibernate;
 

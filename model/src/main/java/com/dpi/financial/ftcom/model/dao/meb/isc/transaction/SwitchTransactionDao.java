@@ -1,13 +1,10 @@
-package com.dpi.financial.ftcom.model.dao.swt.transaction;
+package com.dpi.financial.ftcom.model.dao.meb.isc.transaction;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
-import com.dpi.financial.ftcom.utility.date.DateUtil;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
 import org.hibernate.Hibernate;
 
 import javax.ejb.Stateless;
-import javax.persistence.TypedQuery;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
