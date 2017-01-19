@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<channel-adaptor name='SWITCH-NDC-ADAPTER-1'
+                 class="org.jpos.q2.iso.ChannelAdaptor" logger="Q2">
+    <channel class="com.dpi.financial.ftcom.core.channel.atm.NdcChannel" logger="Q2"
+             realm="ATM" packager="com.dpi.financial.ftcom.core.atm.ndc.jpos.packager.NdcBasePackager">
+        <!--<property name="host" value="172.20.35.238"/>-->
+        <!--<property name="port" value="9876"/>-->
+        <property name="host" value="localhost"/>
+        <property name="port" value="27015"/>
+        <property name="keep-alive" value="true"/>
+    </channel>
+    <in>switch-ndc-send</in>
+    <out>switch-ndc-receive</out>
+    <reconnect-delay>10000</reconnect-delay>
+</channel-adaptor>
+ 
+
+

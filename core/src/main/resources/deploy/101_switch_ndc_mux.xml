@@ -1,0 +1,13 @@
+<mux class="com.dpi.financial.ftcom.core.channel.atm.ATMMUX" logger="Q2" name="switch-ndc-mux">
+    <in>switch-ndc-receive</in>
+    <out>switch-ndc-send</out>
+    <unhandled>switch-ndc-unhandled</unhandled>
+    <key>message-coordination-number</key>
+    <!--
+    <request-listener class="my.request.listener" logger="Q2" realm="myrealm">
+        <property name="myproperty" value="abc" />
+        <property name="myotherproperty" value="xyz" />
+        <property file="cfg/myprop.cfg" />
+    </request-listener>
+    -->
+</mux>

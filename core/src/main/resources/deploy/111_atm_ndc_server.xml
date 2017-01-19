@@ -1,0 +1,12 @@
+<server name="atm-ndc-server" class="org.jpos.q2.iso.QServer" logger="Q2">
+    <attr name="port" type="java.lang.Integer">9876</attr>
+    <!--Since Ver-2.0.7 added by Chetan w.r.t Issue #8297 as on 20 Sept 2014 for increasing max pool size -->
+    <attr name="minSessions" type="java.lang.Integer">1</attr>
+    <attr name="maxSessions" type="java.lang.Integer">100</attr>
+    <channel name="atm.channel" class="com.dpi.financial.ftcom.core.atm.iso.ndc.channel.NdcChannel"
+             packager="com.dpi.financial.ftcom.core.atm.iso.ndc.packager.NdcBasePackager" logger="Q2">
+    </channel>
+    <request-listener
+            class="com.dpi.financial.ftcom.core.listener.atm.AtmRequestListener" logger="Q2">
+    </request-listener>
+</server>

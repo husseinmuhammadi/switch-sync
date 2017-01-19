@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<channel-adaptor name='HSM-ADAPTER-1'
+                 class="org.jpos.q2.iso.ChannelAdaptor" logger="Q2">
+    <channel class="com.dpi.financial.ftcom.core.channel.hsm.HSMChannel"  header="01020304" logger="Q2"
+    realm="HSM" packager="org.jpos.iso.packager.DummyPackager">
+        <property name="host" value="127.0.0.1"/>
+        <property name="port" value="1500"/>
+        <property name="schema" value="file:./q2/cfg/hsm-resp-" /> 
+        <!-- <property name="timeout" value="600000" /> -->           
+        <property name="keep-alive" value="true" />     
+    </channel>
+    <in>hsm-send-1</in>
+    <out>hsm-receive-1</out>
+    <reconnect-delay>10000</reconnect-delay>
+</channel-adaptor>
+ 
+
+
