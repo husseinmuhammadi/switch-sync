@@ -1,13 +1,13 @@
-package com.dpi.financial.ftcom.web.controller.base.swt.reconciliation;
+package com.dpi.financial.ftcom.web.controller.base.meb.isc.reconciliation;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
-import com.dpi.financial.ftcom.api.base.atm.transaction.TerminalTransactionService;
-import com.dpi.financial.ftcom.api.base.swt.reconciliation.SwitchReconciliationService;
-import com.dpi.financial.ftcom.api.base.swt.transaction.SwitchTransactionService;
+import com.dpi.financial.ftcom.api.base.meb.atm.transaction.TerminalTransactionService;
+import com.dpi.financial.ftcom.api.base.meb.isc.reconciliation.SwitchReconciliationService;
+import com.dpi.financial.ftcom.api.base.meb.isc.transaction.SwitchTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
-import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
-import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -29,10 +29,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-@Named
+@Named("MiddleEastBankSwitchReconciliationManager")
 @ViewScoped
 public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTransaction>
         implements Serializable {
+
+    private static final long serialVersionUID = 680449549876328399L;
 
     @EJB
     private SwitchReconciliationService service;

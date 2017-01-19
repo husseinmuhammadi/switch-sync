@@ -1,20 +1,15 @@
-package com.dpi.financial.ftcom.web.controller.base.switchtestscenario;
+package com.dpi.financial.ftcom.web.controller.base.isc.test.switchtestscenario;
 
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
-import com.dpi.financial.ftcom.api.base.SwitchTestScenarioService;
-import com.dpi.financial.ftcom.model.to.SwitchTestScenario;
-import com.dpi.financial.ftcom.model.type.FinancialServiceProvider;
+import com.dpi.financial.ftcom.api.base.isc.test.SwitchTestScenarioService;
+import com.dpi.financial.ftcom.model.to.isc.test.SwitchTestScenario;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 @Named
 @ViewScoped

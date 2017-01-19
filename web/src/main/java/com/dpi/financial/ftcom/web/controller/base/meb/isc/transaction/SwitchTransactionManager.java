@@ -1,8 +1,8 @@
-package com.dpi.financial.ftcom.web.controller.base.swt.transaction;
+package com.dpi.financial.ftcom.web.controller.base.meb.isc.transaction;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
-import com.dpi.financial.ftcom.api.base.atm.transaction.TerminalTransactionService;
-import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
+import com.dpi.financial.ftcom.api.base.meb.atm.transaction.TerminalTransactionService;
+import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 
 import javax.annotation.PostConstruct;
@@ -14,10 +14,12 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-@Named
+@Named("MiddleEastBankSwitchTransactionManager")
 @ViewScoped
 public class SwitchTransactionManager extends ControllerManagerBase<TerminalTransaction>
         implements Serializable {
+
+    private static final long serialVersionUID = 937311323537976839L;
 
     @EJB
     private TerminalTransactionService service;

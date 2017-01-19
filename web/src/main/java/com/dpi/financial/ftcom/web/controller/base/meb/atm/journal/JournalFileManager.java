@@ -1,12 +1,12 @@
-package com.dpi.financial.ftcom.web.controller.base.atm.journal;
+package com.dpi.financial.ftcom.web.controller.base.meb.atm.journal;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
-import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
-import com.dpi.financial.ftcom.api.base.atm.transaction.TerminalTransactionService;
-import com.dpi.financial.ftcom.api.base.swt.transaction.SwitchTransactionService;
+import com.dpi.financial.ftcom.api.base.meb.atm.JournalFileService;
+import com.dpi.financial.ftcom.api.base.meb.atm.transaction.TerminalTransactionService;
+import com.dpi.financial.ftcom.api.base.meb.isc.transaction.SwitchTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
-import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
+import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import com.dpi.financial.ftcom.web.controller.conf.AtmConfiguration;
@@ -30,9 +30,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-@Named
+@Named("MiddleEastBankJournalFileManager")
 @ViewScoped
 public class JournalFileManager extends ControllerManagerBase<JournalFile> implements Serializable {
+
+    private static final long serialVersionUID = -3032343937325405624L;
 
     @EJB
     private JournalFileService service;
