@@ -9,8 +9,8 @@
 
     <ui:define name="metadata">
         <f:metadata>
-            <f:viewParam name="luno" value="#{switchReconciliationManager.terminal.luno}"/>
-            <f:viewAction action="#{switchReconciliationManager.onLoad}"/>
+            <f:viewParam name="luno" value="#{middleEastBankSwitchReconciliationManager.terminal.luno}"/>
+            <f:viewAction action="#{middleEastBankSwitchReconciliationManager.onLoad}"/>
         </f:metadata>
     </ui:define>
 
@@ -40,11 +40,11 @@
                                             name="synchronization.png" width="36"
                                             styleClass="img-responsive"/>
                             <f:ajax execute="@form" render="@form :messages"
-                                    listener="#{switchReconciliationManager.synchronizeSwitchTransactions}"/>
+                                    listener="#{middleEastBankSwitchReconciliationManager.synchronizeSwitchTransactions}"/>
                         </h:commandLink>
                     </td>
                     <td>
-                        <h:commandLink action="#{switchReconciliationManager.showXLS}">
+                        <h:commandLink action="#{middleEastBankSwitchReconciliationManager.showXLS}">
                             <h:graphicImage alt="Download" library="images" name="download-button.png" width="36"
                                             styleClass="img-responsive"/>
                         </h:commandLink>
@@ -60,14 +60,14 @@
                                 <h:outputLabel for="selectedCardNumber"
                                                value="#{lbl['label.switchTransaction.cardNumber']}"/>
                             </div>
-                            <h:selectOneMenu value="#{switchReconciliationManager.selectedCardNumber}"
+                            <h:selectOneMenu value="#{middleEastBankSwitchReconciliationManager.selectedCardNumber}"
                                              id="selectedCardNumber" label="#{lbl['label.switchTransaction.cardNumber']}"
                                              styleClass="form-control">
                                 <f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>
-                                <f:selectItems value="#{switchReconciliationManager.cardNumbers}"/>
+                                <f:selectItems value="#{middleEastBankSwitchReconciliationManager.cardNumbers}"/>
                                 <f:ajax event="valueChange" execute="@this"
                                         render="switchTransactionDate switchTransactionList terminalTransactionList :messages"
-                                        listener="#{switchReconciliationManager.cardValueChange}"/>
+                                        listener="#{middleEastBankSwitchReconciliationManager.cardValueChange}"/>
                             </h:selectOneMenu>
                         </div>
                     </div>
@@ -79,14 +79,14 @@
                                 <h:outputLabel for="luno"
                                                value="#{lbl['label.terminal.luno']}"/>
                             </div>
-                            <h:selectOneMenu value="#{switchReconciliationManager.terminal.luno}"
+                            <h:selectOneMenu value="#{middleEastBankSwitchReconciliationManager.terminal.luno}"
                                              id="luno" label="#{lbl['label.terminal.luno']}"
                                              required="true" styleClass="form-control">
                                 <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
                                 <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
                                                var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
                                 <f:ajax event="valueChange" execute="@this" render="selectedCardNumber :messages"
-                                        listener="#{switchReconciliationManager.lunoValueChange}"/>
+                                        listener="#{middleEastBankSwitchReconciliationManager.lunoValueChange}"/>
                             </h:selectOneMenu>
                         </div>
                     </div>
@@ -96,14 +96,14 @@
 
 
             <h:panelGroup id="switchTransactionDate">
-                <h:panelGroup rendered="#{switchReconciliationManager.selectedCardNumber eq null}">
+                <h:panelGroup rendered="#{middleEastBankSwitchReconciliationManager.selectedCardNumber eq null}">
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <h:outputLabel for="switchTransactionDateFrom"
                                                value="#{lbl['label.journalFile.journalDateFrom']}"/>
                             </div>
-                            <h:inputText value="#{switchReconciliationManager.switchTransactionDateFrom}"
+                            <h:inputText value="#{middleEastBankSwitchReconciliationManager.switchTransactionDateFrom}"
                                          id="switchTransactionDateFrom"
                                          label="#{lbl['label.journalFile.journalDateFrom']}"
                                          styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
@@ -117,7 +117,7 @@
                             <div class="input-group-addon">
                                 <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
                             </div>
-                            <h:inputText value="#{switchReconciliationManager.switchTransactionDateTo}"
+                            <h:inputText value="#{middleEastBankSwitchReconciliationManager.switchTransactionDateTo}"
                                          id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
                                          styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
                                 <f:convertDateTime pattern="d-M-yyyy"/>
@@ -129,7 +129,7 @@
 
             <div class="row">
                 <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1" style="background-color:lavender;">
-                    <h:dataTable value="#{switchReconciliationManager.switchTransactionList}"
+                    <h:dataTable value="#{middleEastBankSwitchReconciliationManager.switchTransactionList}"
                                  id="switchTransactionList" var="switchTransaction"
                                  styleClass="table table-striped table-bordered dt-responsive nowrap"
                                  headerClass="employeeTableHeader"
@@ -183,7 +183,7 @@
 
                 </div>
                 <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1" style="background-color:lavenderblush;">
-                    <h:dataTable value="#{switchReconciliationManager.terminalTransactionList}"
+                    <h:dataTable value="#{middleEastBankSwitchReconciliationManager.terminalTransactionList}"
                                  id="terminalTransactionList" var="terminalTransaction"
                                  styleClass="table table-striped table-bordered dt-responsive nowrap"
                                  headerClass="employeeTableHeader"

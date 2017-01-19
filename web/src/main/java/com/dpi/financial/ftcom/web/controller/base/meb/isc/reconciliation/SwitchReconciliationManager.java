@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-@Named("MiddleEastBankSwitchReconciliationManager")
+@Named("middleEastBankSwitchReconciliationManager")
 @ViewScoped
 public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTransaction>
         implements Serializable {
