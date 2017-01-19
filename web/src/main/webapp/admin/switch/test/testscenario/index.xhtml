@@ -11,11 +11,9 @@
 
     <ui:define name="content">
         <h:form style="direction: rtl">
-            <!--<h:outputText style="color:blue" value="Flash Variable Without Keep: #{flash.keep.message.summary}"/>-->
             <h:commandButton action="#{switchTestScenarioManager.showNewEntityView}"/>
             <h:dataTable value="#{switchTestScenarioManager.switchTestScenarioList}" var="switchTestScenario"
-                         styleClass="table table-striped table-bordered dt-responsive nowrap"
-                         headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
+                         styleClass="table table-striped table-bordered dt-responsive nowrap">
 
                 <h:column>
                     <f:facet name="header">#{lbl['label.switchTestScenario.scenario']}</f:facet>

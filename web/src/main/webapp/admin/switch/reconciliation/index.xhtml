@@ -52,41 +52,48 @@
                 </tr>
             </table>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="luno"
-                                       value="#{lbl['label.terminal.luno']}"/>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="selectedCardNumber"
+                                               value="#{lbl['label.switchTransaction.cardNumber']}"/>
+                            </div>
+                            <h:selectOneMenu value="#{switchReconciliationManager.selectedCardNumber}"
+                                             id="selectedCardNumber" label="#{lbl['label.switchTransaction.cardNumber']}"
+                                             styleClass="form-control">
+                                <f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>
+                                <f:selectItems value="#{switchReconciliationManager.cardNumbers}"/>
+                                <f:ajax event="valueChange" execute="@this"
+                                        render="switchTransactionDate switchTransactionList terminalTransactionList :messages"
+                                        listener="#{switchReconciliationManager.cardValueChange}"/>
+                            </h:selectOneMenu>
+                        </div>
                     </div>
-                    <h:selectOneMenu value="#{switchReconciliationManager.terminal.luno}"
-                                     id="luno" label="#{lbl['label.terminal.luno']}"
-                                     required="true" styleClass="form-control">
-                        <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
-                        <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
-                                       var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
-                        <f:ajax event="valueChange" execute="@this" render="selectedCardNumber :messages"
-                                listener="#{switchReconciliationManager.lunoValueChange}"/>
-                    </h:selectOneMenu>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="luno"
+                                               value="#{lbl['label.terminal.luno']}"/>
+                            </div>
+                            <h:selectOneMenu value="#{switchReconciliationManager.terminal.luno}"
+                                             id="luno" label="#{lbl['label.terminal.luno']}"
+                                             required="true" styleClass="form-control">
+                                <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
+                                <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
+                                               var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                                <f:ajax event="valueChange" execute="@this" render="selectedCardNumber :messages"
+                                        listener="#{switchReconciliationManager.lunoValueChange}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="selectedCardNumber"
-                                       value="#{lbl['label.switchTransaction.cardNumber']}"/>
-                    </div>
-                    <h:selectOneMenu value="#{switchReconciliationManager.selectedCardNumber}"
-                                     id="selectedCardNumber" label="#{lbl['label.switchTransaction.cardNumber']}"
-                                     styleClass="form-control">
-                        <f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>
-                        <f:selectItems value="#{switchReconciliationManager.cardNumbers}"/>
-                        <f:ajax event="valueChange" execute="@this"
-                                render="switchTransactionDate switchTransactionList terminalTransactionList :messages"
-                                listener="#{switchReconciliationManager.cardValueChange}"/>
-                    </h:selectOneMenu>
-                </div>
-            </div>
+
 
             <h:panelGroup id="switchTransactionDate">
                 <h:panelGroup rendered="#{switchReconciliationManager.selectedCardNumber eq null}">
@@ -120,11 +127,117 @@
                 </h:panelGroup>
             </h:panelGroup>
 
+            <div class="row">
+                <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1" style="background-color:lavender;">
+                    <h:dataTable value="#{switchReconciliationManager.switchTransactionList}"
+                                 id="switchTransactionList" var="switchTransaction"
+                                 styleClass="table table-striped table-bordered dt-responsive nowrap"
+                                 headerClass="employeeTableHeader"
+                                 rowClasses="employeeTableOddRow,employeeTableEvenRow">
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
+                            #{switchTransaction.id}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.switchTransaction.processingCode']}</f:facet>
+                            #{lbl[switchTransaction.processingCode.fullName]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.switchTransaction.rrn']}</f:facet>
+                            <h:link value="#{switchTransaction.rrn}" outcome="profile">
+                                <f:param name="id" value="#{switchTransaction.id}"/>
+                            </h:link>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.switchTransaction.transactionDate']}</f:facet>
+                            <h:outputText value="#{switchTransaction.transactionDate}" style="direction: ltr">
+                                <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.switchTransaction.price']}</f:facet>
+                            #{switchTransaction.price}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.switchTransaction.responseCode']}</f:facet>
+                            #{switchTransaction.responseCode}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.switchTransaction.reveresed']}</f:facet>
+                            #{lbl[switchTransaction.reveresed]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.switchTransaction.terminalTransaction']}</f:facet>
+                            #{switchTransaction.terminalTransaction.id}
+                        </h:column>
+
+                    </h:dataTable>
+
+                </div>
+                <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1" style="background-color:lavenderblush;">
+                    <h:dataTable value="#{switchReconciliationManager.terminalTransactionList}"
+                                 id="terminalTransactionList" var="terminalTransaction"
+                                 styleClass="table table-striped table-bordered dt-responsive nowrap"
+                                 headerClass="employeeTableHeader"
+                                 rowClasses="employeeTableOddRow,employeeTableEvenRow">
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
+                            #{terminalTransaction.id}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.terminalTransaction.processingCode']}</f:facet>
+                            #{lbl[terminalTransaction.processingCode.fullName]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.terminalTransaction.rrn']}</f:facet>
+                            <h:link value="#{terminalTransaction.rrn}" outcome="profile">
+                                <f:param name="id" value="#{terminalTransaction.id}"/>
+                            </h:link>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.terminalTransaction.transactionTime']}</f:facet>
+                            <h:outputText value="#{terminalTransaction.transactionTime}" style="direction: ltr">
+                                <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.terminalTransaction.amount']}</f:facet>
+                            #{terminalTransaction.amount}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.terminalTransaction.cashTaken']}</f:facet>
+                            #{lbl[terminalTransaction.cashTaken.fullName]}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">#{lbl['label.terminalTransaction.switchTransaction']}</f:facet>
+                            #{terminalTransaction.switchTransaction.id}
+                        </h:column>
+
+                    </h:dataTable>
+
+                </div>
+            </div>
+
             <table border="0">
                 <thead>
                 <tr>
-                    <th style="text-align: right"><h4>#{lbl['label.switchReconciliation.list']}</h4></th>
-                    <th style="text-align: right"><h4>#{lbl['label.terminalTransaction.list']}</h4></th>
+                    <th><h4>#{lbl['label.switchReconciliation.list']}</h4></th>
+                    <th><h4>#{lbl['label.terminalTransaction.list']}</h4></th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -136,105 +249,8 @@
                 <tbody>
                 <tr>
                     <td style="vertical-align: top; padding-left: 3px;">
-                        <h:dataTable value="#{switchReconciliationManager.switchTransactionList}"
-                                     id="switchTransactionList" var="switchTransaction"
-                                     styleClass="table table-striped table-bordered dt-responsive nowrap"
-                                     headerClass="employeeTableHeader"
-                                     rowClasses="employeeTableOddRow,employeeTableEvenRow">
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
-                                #{switchTransaction.id}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.switchTransaction.processingCode']}</f:facet>
-                                #{lbl[switchTransaction.processingCode.fullName]}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.switchTransaction.rrn']}</f:facet>
-                                <h:link value="#{switchTransaction.rrn}" outcome="profile">
-                                    <f:param name="id" value="#{switchTransaction.id}"/>
-                                </h:link>
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.switchTransaction.transactionDate']}</f:facet>
-                                <h:outputText value="#{switchTransaction.transactionDate}" style="direction: ltr">
-                                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
-                                </h:outputText>
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.switchTransaction.price']}</f:facet>
-                                #{switchTransaction.price}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.switchTransaction.responseCode']}</f:facet>
-                                #{switchTransaction.responseCode}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.switchTransaction.reveresed']}</f:facet>
-                                #{lbl[switchTransaction.reveresed]}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.switchTransaction.terminalTransaction']}</f:facet>
-                                #{switchTransaction.terminalTransaction.id}
-                            </h:column>
-
-                        </h:dataTable>
                     </td>
                     <td style="vertical-align: top; padding-left: 3px;">
-                        <h:dataTable value="#{switchReconciliationManager.terminalTransactionList}"
-                                     id="terminalTransactionList" var="terminalTransaction"
-                                     styleClass="table table-striped table-bordered dt-responsive nowrap"
-                                     headerClass="employeeTableHeader"
-                                     rowClasses="employeeTableOddRow,employeeTableEvenRow">
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.entity.id']}</f:facet>
-                                #{terminalTransaction.id}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.terminalTransaction.processingCode']}</f:facet>
-                                #{lbl[terminalTransaction.processingCode.fullName]}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.terminalTransaction.rrn']}</f:facet>
-                                <h:link value="#{terminalTransaction.rrn}" outcome="profile">
-                                    <f:param name="id" value="#{terminalTransaction.id}"/>
-                                </h:link>
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.terminalTransaction.transactionTime']}</f:facet>
-                                <h:outputText value="#{terminalTransaction.transactionTime}" style="direction: ltr">
-                                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
-                                </h:outputText>
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.terminalTransaction.amount']}</f:facet>
-                                #{terminalTransaction.amount}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.terminalTransaction.cashTaken']}</f:facet>
-                                #{lbl[terminalTransaction.cashTaken.fullName]}
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header">#{lbl['label.terminalTransaction.switchTransaction']}</f:facet>
-                                #{terminalTransaction.switchTransaction.id}
-                            </h:column>
-
-                        </h:dataTable>
                     </td>
                 </tr>
                 </tbody>

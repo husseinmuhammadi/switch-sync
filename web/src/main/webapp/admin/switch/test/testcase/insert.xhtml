@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/base/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="id" value="#{switchTestCaseController.id}"/>
+            <f:viewAction action="#{switchTestCaseController.onLoad}"/>
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="header">
+        <h2>#{lbl['label.switchTestCase.new']}</h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form class="form-group" style="direction: rtl">
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="scenario" value="#{lbl['label.switchTestCase.scenario']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.scenario}"
+                                 id="scenario" label="#{lbl['label.switchTestCase.scenario']}"
+                                 styleClass="form-control" required="true"/>
+                </div>
+            </div>
+
+            <div class="row" style="direction: rtl;">
+                <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1"
+                     style="background-color:lavender;">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="primaryAccountNumber"
+                                               value="#{lbl['label.switchTestCase.primaryAccountNumber']}"/>
+                            </div>
+                            <h:inputText value="#{switchTestCaseController.switchTestCase.primaryAccountNumber}"
+                                         id="primaryAccountNumber" label="#{lbl['label.switchTestCase.primaryAccountNumber']}"
+                                         styleClass="form-control" required="false"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1"
+                     style="background-color:lavenderblush;">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="financialServiceProvider"
+                                               value="#{lbl['label.switchTestCase.financialServiceProvider']}"/>
+                            </div>
+                            <h:selectOneMenu value="#{switchTestCaseController.switchTestCase.financialServiceProvider}"
+                                             id="financialServiceProvider"
+                                             label="#{lbl['label.switchTestCase.financialServiceProvider']}"
+                                             required="true" styleClass="form-control">
+                                <f:selectItems value="#{selectItemsController.financialServiceProviderItems.entrySet()}"
+                                               var="items"
+                                               itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="testCaseID" value="#{lbl['label.switchTestCase.testCaseId']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.testCaseID}"
+                                 id="testCaseID" label="#{lbl['label.switchTestCase.testCaseId']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="testCaseDescription"
+                                       value="#{lbl['label.switchTestCase.testCaseDescription']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.testCaseDescription}"
+                                 id="testCaseDescription" label="#{lbl['label.switchTestCase.testCaseDescription']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="retrievalReferenceNumber"
+                                       value="#{lbl['label.switchTestCase.retrievalReferenceNumber']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.rrn}"
+                                 id="retrievalReferenceNumber"
+                                 label="#{lbl['label.switchTestCase.retrievalReferenceNumber']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="systemTraceAuditNumber"
+                                       value="#{lbl['label.switchTestCase.systemTraceAuditNumber']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.stan}"
+                                 id="systemTraceAuditNumber"
+                                 label="#{lbl['label.switchTestCase.systemTraceAuditNumber']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="responseCode"
+                                       value="#{lbl['label.switchTestCase.responseCode']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.responseCode}"
+                                 id="responseCode" label="#{lbl['label.switchTestCase.responseCode']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="testScenario" value="#{lbl['label.switchTestCase.testScenario']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.testScenario}"
+                                 id="testScenario" label="#{lbl['label.switchTestCase.testScenario']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="comments" value="#{lbl['label.switchTestCase.comments']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.comments}"
+                                 id="comments" label="#{lbl['label.switchTestCase.comments']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="testConditionType"
+                                       value="#{lbl['label.switchTestCase.testConditionType']}"/>
+                    </div>
+                    <h:selectOneMenu value="#{switchTestCaseController.switchTestCase.testConditionType}"
+                                     id="testConditionType" label="#{lbl['label.switchTestCase.testConditionType']}"
+                                     required="true" styleClass="form-control">
+                        <f:selectItems value="#{selectItemsController.testConditionTypeItems.entrySet()}" var="items"
+                                       itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="processingCode"
+                                       value="#{lbl['label.switchTestCase.processingCode']}"/>
+                    </div>
+                    <h:selectOneMenu value="#{switchTestCaseController.switchTestCase.processingCode}"
+                                     id="processingCode" label="#{lbl['label.switchTestCase.processingCode']}"
+                                     styleClass="form-control" required="false">
+                        <f:selectItems value="#{selectItemsController.processingCodeItems.entrySet()}" var="items"
+                                       itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="deviceCode" value="#{lbl['label.switchTestCase.deviceCode']}"/>
+                    </div>
+                    <h:selectOneMenu value="#{switchTestCaseController.switchTestCase.deviceCode}"
+                                     id="deviceCode" label="#{lbl['label.switchTestCase.deviceCode']}"
+                                     styleClass="form-control" required="false">
+                        <f:selectItems value="#{selectItemsController.deviceCodeItems.entrySet()}" var="items"
+                                       itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="productCode" value="#{lbl['label.switchTestCase.productCode']}"/>
+                    </div>
+                    <h:selectOneMenu value="#{switchTestCaseController.switchTestCase.productCode}"
+                                     id="productCode" label="#{lbl['label.switchTestCase.productCode']}"
+                                     styleClass="form-control" required="false">
+                        <f:selectItems value="#{selectItemsController.productCodeItems.entrySet()}" var="items"
+                                       itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="transactionMode"
+                                       value="#{lbl['label.switchTestCase.transactionMode']}"/>
+                    </div>
+                    <h:selectOneMenu value="#{switchTestCaseController.switchTestCase.transactionMode}"
+                                     id="transactionMode" label="#{lbl['label.switchTestCase.transactionMode']}"
+                                     styleClass="form-control" required="false">
+                        <f:selectItems value="#{selectItemsController.transactionModeItems.entrySet()}" var="items"
+                                       itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="environmentInformation"
+                                       value="#{lbl['label.switchTestCase.environmentInformation']}"/>
+                    </div>
+                    <h:inputText value="#{switchTestCaseController.switchTestCase.environmentInformation}"
+                                 id="environmentInformation"
+                                 label="#{lbl['label.switchTestCase.environmentInformation']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+            <h:commandButton value="#{lbl['button.save']}" action="#{switchTestCaseController.create()}"
+                             styleClass="btn btn-default"/>
+            <h:commandButton value="#{lbl['button.edit']}" action="#{switchTestCaseController.update()}"
+                             styleClass="btn btn-default"/>
+            <h:commandButton value="#{lbl['button.cancel']}" action="#{switchTestCaseController.cancel()}"
+                             immediate="true" styleClass="btn btn-default"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
