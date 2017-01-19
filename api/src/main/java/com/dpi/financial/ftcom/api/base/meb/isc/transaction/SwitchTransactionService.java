@@ -1,9 +1,8 @@
-package com.dpi.financial.ftcom.api.base.swt.transaction;
+package com.dpi.financial.ftcom.api.base.meb.isc.transaction;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
-import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
 
-import java.util.Date;
 import java.util.List;
 
 public interface SwitchTransactionService extends GeneralServiceApi<SwitchTransaction> {

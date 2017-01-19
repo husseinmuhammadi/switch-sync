@@ -1,15 +1,15 @@
-package com.dpi.financial.ftcom.service.base.swt.reconciliation;
+package com.dpi.financial.ftcom.service.base.meb.isc.reconciliation;
 
-import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
 import com.dpi.financial.ftcom.api.base.atm.ndc.OperationCodeService;
-import com.dpi.financial.ftcom.api.base.swt.reconciliation.SwitchReconciliationService;
+import com.dpi.financial.ftcom.api.base.meb.atm.JournalFileService;
+import com.dpi.financial.ftcom.api.base.meb.isc.reconciliation.SwitchReconciliationService;
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.dao.atm.transaction.SwipeCardDao;
-import com.dpi.financial.ftcom.model.dao.atm.transaction.TerminalTransactionDao;
-import com.dpi.financial.ftcom.model.dao.swt.reconciliation.SwitchReconciliationDao;
-import com.dpi.financial.ftcom.model.dao.swt.transaction.SwitchTransactionDao;
-import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
-import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.dao.meb.atm.transaction.SwipeCardDao;
+import com.dpi.financial.ftcom.model.dao.meb.atm.transaction.TerminalTransactionDao;
+import com.dpi.financial.ftcom.model.dao.meb.isc.reconciliation.SwitchReconciliationDao;
+import com.dpi.financial.ftcom.model.dao.meb.isc.transaction.SwitchTransactionDao;
+import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 import com.dpi.financial.ftcom.service.exception.atm.transaction.InvalidAmountException;
 

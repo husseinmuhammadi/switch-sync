@@ -1,15 +1,14 @@
-package com.dpi.financial.ftcom.service.base.atm;
+package com.dpi.financial.ftcom.service.base.meb.atm.journal;
 
-import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
+import com.dpi.financial.ftcom.api.base.meb.atm.JournalFileService;
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.dao.atm.journal.JournalFileDao;
+import com.dpi.financial.ftcom.model.dao.meb.atm.journal.JournalFileDao;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
-import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
+import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;

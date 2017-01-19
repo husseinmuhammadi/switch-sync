@@ -1,10 +1,9 @@
-package com.dpi.financial.ftcom.api.base.atm;
+package com.dpi.financial.ftcom.api.base.meb.atm;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
-import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
+import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 

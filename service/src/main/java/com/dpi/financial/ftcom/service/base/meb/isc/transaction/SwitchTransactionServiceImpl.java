@@ -1,26 +1,20 @@
-package com.dpi.financial.ftcom.service.base.swt.transaction;
+package com.dpi.financial.ftcom.service.base.meb.isc.transaction;
 
-import com.dpi.financial.ftcom.api.base.atm.JournalFileService;
 import com.dpi.financial.ftcom.api.base.atm.ndc.OperationCodeService;
-import com.dpi.financial.ftcom.api.base.swt.transaction.SwitchTransactionService;
+import com.dpi.financial.ftcom.api.base.meb.atm.JournalFileService;
+import com.dpi.financial.ftcom.api.base.meb.isc.transaction.SwitchTransactionService;
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.dao.atm.transaction.SwipeCardDao;
-import com.dpi.financial.ftcom.model.dao.atm.transaction.TerminalTransactionDao;
-import com.dpi.financial.ftcom.model.dao.swt.transaction.SwitchTransactionDao;
-import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
-import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.dao.meb.atm.transaction.SwipeCardDao;
+import com.dpi.financial.ftcom.model.dao.meb.atm.transaction.TerminalTransactionDao;
+import com.dpi.financial.ftcom.model.dao.meb.isc.transaction.SwitchTransactionDao;
+import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
-import com.dpi.financial.ftcom.service.exception.atm.transaction.InvalidAmountException;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Stateless
 @Local(SwitchTransactionService.class)
@@ -50,7 +44,7 @@ public class SwitchTransactionServiceImpl extends GeneralServiceImpl<SwitchTrans
         return dao;
     }
 
-    public List<SwitchTransaction> findAllByLunoCardNumber(String luno, String cardNumber){
+    public List<SwitchTransaction> findAllByLunoCardNumber(String luno, String cardNumber) {
         return dao.findAllByLunoCardNumber(luno, cardNumber);
     }
 }

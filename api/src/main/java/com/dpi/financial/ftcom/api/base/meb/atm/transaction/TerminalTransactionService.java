@@ -1,9 +1,8 @@
-package com.dpi.financial.ftcom.api.base.atm.transaction;
+package com.dpi.financial.ftcom.api.base.meb.atm.transaction;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
-import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
-import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 
 import java.io.IOException;
 import java.util.Date;

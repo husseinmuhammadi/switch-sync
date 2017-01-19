@@ -1,9 +1,9 @@
-package com.dpi.financial.ftcom.service.base;
+package com.dpi.financial.ftcom.service.base.isc.test;
 
-import com.dpi.financial.ftcom.api.base.SwitchTestScenarioService;
+import com.dpi.financial.ftcom.api.base.isc.test.SwitchTestScenarioService;
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.dao.SwitchTestScenarioDao;
-import com.dpi.financial.ftcom.model.to.SwitchTestScenario;
+import com.dpi.financial.ftcom.model.dao.isc.test.SwitchTestScenarioDao;
+import com.dpi.financial.ftcom.model.to.isc.test.SwitchTestScenario;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 
 import javax.ejb.EJB;
