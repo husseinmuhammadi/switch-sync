@@ -1,7 +1,7 @@
 package com.dpi.financial.ftcom.api.base.meb.isc.transaction;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
-import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.isc.transaction.SwitchTransaction;
 
 import java.util.List;
 
