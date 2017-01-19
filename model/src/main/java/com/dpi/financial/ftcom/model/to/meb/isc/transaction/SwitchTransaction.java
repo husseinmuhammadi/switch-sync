@@ -1,8 +1,8 @@
-package com.dpi.financial.ftcom.model.to.swt.transaction;
+package com.dpi.financial.ftcom.model.to.meb.isc.transaction;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
-import com.dpi.financial.ftcom.model.to.atm.transaction.TerminalTransaction;
+import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
 
 import javax.persistence.*;
@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "SWITCH_TRANSACTION_SEQ")
-@Table(name = "SWITCH_TRANSACTION", uniqueConstraints = {
+@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "MEB_SWITCH_TRANSACTION_SEQ")
+@Table(name = "MEB_SWITCH_TRANSACTION", uniqueConstraints = {
         // @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME", "LINE_START"}, name = "UK_TERMINAL_TRANSACTION_LFLS"),
         // @UniqueConstraint(columnNames = {"SWIPE_CARD_ID", "LINE_START"}, name = "UK_TERMINAL_TRANSACTION_SLS")
 })

@@ -1,10 +1,10 @@
-package com.dpi.financial.ftcom.model.to.atm.transaction;
+package com.dpi.financial.ftcom.model.to.meb.atm.transaction;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
 import com.dpi.financial.ftcom.model.converter.YesNoTypeConverter;
-import com.dpi.financial.ftcom.model.to.swt.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
 import com.dpi.financial.ftcom.model.type.YesNoType;
@@ -14,10 +14,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "TERMINAL_TRANSACTION_SEQ")
-@Table(name = "TERMINAL_TRANSACTION", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME", "LINE_START"}, name = "UK_TERMINAL_TRANSACTION_LFLS"),
-        @UniqueConstraint(columnNames = {"SWIPE_CARD_ID", "LINE_START"}, name = "UK_TERMINAL_TRANSACTION_SLS")
+@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "MEB_TERMINAL_TRANSACTION_SEQ")
+@Table(name = "MEB_TERMINAL_TRANSACTION", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME", "LINE_START"}, name = "UK_MEB_TERMINAL_TRANSACTION_LFLS"),
+        @UniqueConstraint(columnNames = {"SWIPE_CARD_ID", "LINE_START"}, name = "UK_MEB_TERMINAL_TRANSACTION_SLS")
 })
 @NamedQueries({
         @NamedQuery(name = TerminalTransaction.FIND_ALL, query = "select t from TerminalTransaction t where t.deleted = false"),
@@ -27,8 +27,9 @@ public class TerminalTransaction extends EntityBase {
     public static final String FIND_ALL = "JournalTransaction.findAll";
     public static final String FIND_ALL_BY_LUNO_CARD_NUMBER = "TerminalTransaction.findAllByLunoCardNumber";
 
+    // http://www.dba-oracle.com/standards_schema_object_names.htm
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SWIPE_CARD_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_SC_TT"))
+    @JoinColumn(name = "SWIPE_CARD_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_MEB_ATM_SWIPE_CARD_ID_01"))
     private SwipeCard swipeCard;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "terminalTransaction")

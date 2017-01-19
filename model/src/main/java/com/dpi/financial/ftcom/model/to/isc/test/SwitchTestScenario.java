@@ -1,9 +1,8 @@
-package com.dpi.financial.ftcom.model.to;
+package com.dpi.financial.ftcom.model.to.isc.test;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.*;
 import com.dpi.financial.ftcom.model.type.*;
-import com.dpi.financial.ftcom.utility.helper.DateHelper;
 
 import javax.persistence.*;
 

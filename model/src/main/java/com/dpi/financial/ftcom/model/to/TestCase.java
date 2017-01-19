@@ -26,7 +26,7 @@ import javax.persistence.*;
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "TEST_CASE_SEQ")
 @Table(name = "TEST_CASE")
 @NamedQueries({
-        @NamedQuery(name = TestCase.FIND_ALL, query = "select t from TestCase t")
+        @NamedQuery(name = TestCase.FIND_ALL, query = "select t from TestCase t where t.deleted = false ")
 })
 public class TestCase extends EntityBase {
 

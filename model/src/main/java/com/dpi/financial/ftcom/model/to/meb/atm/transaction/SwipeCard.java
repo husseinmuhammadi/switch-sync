@@ -1,8 +1,8 @@
-package com.dpi.financial.ftcom.model.to.atm.transaction;
+package com.dpi.financial.ftcom.model.to.meb.atm.transaction;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
-import com.dpi.financial.ftcom.model.to.atm.journal.JournalFile;
+import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.model.type.OperationState;
 
 import javax.persistence.*;
@@ -14,10 +14,10 @@ import java.util.Date;
  *  <li>Prepare ATM swipe card based on journal content</li>
  */
 @Entity
-@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "ATM_SWIPE_CARD_SEQ")
-@Table(name = "ATM_SWIPE_CARD", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"JOURNAL_FILE_ID", "LINE_START"}, name = "UK_ATM_SWIPE_CARD_JLS"),
-        @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME", "LINE_START"}, name = "UK_ATM_SWIPE_CARD_LFLS"),
+@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "MEB_ATM_SWIPE_CARD_SEQ")
+@Table(name = "MEB_ATM_SWIPE_CARD", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"JOURNAL_FILE_ID", "LINE_START"}, name = "UK_MEB_ATM_SWIPE_CARD_JLS"),
+        @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME", "LINE_START"}, name = "UK_MEB_ATM_SWIPE_CARD_LFLS"),
 })
 @NamedQueries({
         @NamedQuery(name = SwipeCard.FIND_ALL, query = "select t from SwipeCard t where t.deleted = false")
@@ -31,8 +31,9 @@ public class SwipeCard extends EntityBase {
     private Terminal terminal;
     */
 
+    // http://www.dba-oracle.com/standards_schema_object_names.htm
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "JOURNAL_FILE_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_JF_SC"))
+    @JoinColumn(name = "JOURNAL_FILE_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_MEB_JOURNAL_FILE_ID_02"))
     private JournalFile journalFile;
 
     // Logical Unit Number

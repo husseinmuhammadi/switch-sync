@@ -1,4 +1,4 @@
-package com.dpi.financial.ftcom.model.to.atm.journal;
+package com.dpi.financial.ftcom.model.to.meb.atm.journal;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
@@ -13,8 +13,8 @@ import java.util.Date;
  *  <li>Prepare ATM transactions based on journal content</li>
  */
 @Entity
-@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "JOURNAL_FILE_SEQ")
-@Table(name = "JOURNAL_FILE", uniqueConstraints = {
+@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "MEB_JOURNAL_FILE_SEQ")
+@Table(name = "MEB_JOURNAL_FILE", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"LUNO", "NAME"}),
         @UniqueConstraint(columnNames = {"LUNO", "FILE_NAME"}),
         @UniqueConstraint(columnNames = {"LUNO", "JOURNAL_DATE"})
