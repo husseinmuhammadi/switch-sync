@@ -10,7 +10,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 
-@Named("MiddleEastBankJournalFileController")
+@Named("middleEastBankJournalFileController")
 @ViewScoped
 public class JournalFileController extends ControllerBase<JournalFile>
         implements Serializable {

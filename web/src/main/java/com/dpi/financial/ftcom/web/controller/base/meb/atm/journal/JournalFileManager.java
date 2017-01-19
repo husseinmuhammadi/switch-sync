@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-@Named("MiddleEastBankJournalFileManager")
+@Named("middleEastBankJournalFileManager")
 @ViewScoped
 public class JournalFileManager extends ControllerManagerBase<JournalFile> implements Serializable {
 
