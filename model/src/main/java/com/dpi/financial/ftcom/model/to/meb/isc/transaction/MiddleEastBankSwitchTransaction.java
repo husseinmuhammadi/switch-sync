@@ -16,22 +16,24 @@ import java.util.Date;
         // @UniqueConstraint(columnNames = {"SWIPE_CARD_ID", "LINE_START"}, name = "UK_TERMINAL_TRANSACTION_SLS")
 })
 @NamedQueries({
-        @NamedQuery(name = SwitchTransaction.FIND_ALL, query = "select t from SwitchTransaction t where t.deleted = false"),
-        @NamedQuery(name = SwitchTransaction.FIND_ALL_UNBOUND, query = "select distinct t.cardNumber from SwitchTransaction t where t.deleted = false and t.terminalTransaction is null and t.luno = :luno and t.transactionDate between :transactionDateFrom and :transactionDateTo"),
-        @NamedQuery(name = SwitchTransaction.FIND_ALL_BY_LUNO_CARD_NUMBER, query = "select t from SwitchTransaction t where t.deleted = false and t.luno = :luno and t.cardNumber = :cardNumber order by t.transactionDate asc"),
-        @NamedQuery(name = SwitchTransaction.FIND_INCONSISTENT_TRANSACTIONS, query = "select t " +
-                "from SwitchTransaction t " +
-                "where t.deleted = false " +
+        @NamedQuery(name = MiddleEastBankSwitchTransaction.FIND_ALL,
+                query = "select t from MiddleEastBankSwitchTransaction t where t.deleted = false"),
+        @NamedQuery(name = MiddleEastBankSwitchTransaction.FIND_ALL_UNBOUND,
+                query = "select distinct t.cardNumber from MiddleEastBankSwitchTransaction t where t.deleted = false and t.terminalTransaction is null and t.luno = :luno and t.transactionDate between :transactionDateFrom and :transactionDateTo"),
+        @NamedQuery(name = MiddleEastBankSwitchTransaction.FIND_ALL_BY_LUNO_CARD_NUMBER,
+                query = "select t from MiddleEastBankSwitchTransaction t where t.deleted = false and t.luno = :luno and t.cardNumber = :cardNumber order by t.transactionDate asc"),
+        @NamedQuery(name = MiddleEastBankSwitchTransaction.FIND_INCONSISTENT_TRANSACTIONS,
+                query = "select t from MiddleEastBankSwitchTransaction t where t.deleted = false " +
                 "and t.processingCode = com.dpi.financial.ftcom.model.type.ProcessingCode.CASH_WITHDRAWAL " +
                 "and coalesce(t.responseCode, '91') = '00' and t.reveresed = false " +
                 "and coalesce(t.terminalTransaction.cashTaken, 'N') = com.dpi.financial.ftcom.model.type.YesNoType.No " +
                 "and t.luno = :luno and t.transactionDate between :transactionDateFrom and :transactionDateTo"),
 })
-public class SwitchTransaction extends EntityBase {
-    public static final String FIND_ALL = "SwitchTransaction.findAll";
-    public static final String FIND_ALL_UNBOUND = "SwitchTransaction.findAllUnbound";
-    public static final String FIND_ALL_BY_LUNO_CARD_NUMBER = "SwitchTransaction.findAllByLunoCardNumber";
-    public static final java.lang.String FIND_INCONSISTENT_TRANSACTIONS = "SwitchTransaction.findInconsistentTransactions";
+public class MiddleEastBankSwitchTransaction extends EntityBase {
+    public static final String FIND_ALL = "MiddleEastBankSwitchTransaction.findAll";
+    public static final String FIND_ALL_UNBOUND = "MiddleEastBankSwitchTransaction.findAllUnbound";
+    public static final String FIND_ALL_BY_LUNO_CARD_NUMBER = "MiddleEastBankSwitchTransaction.findAllByLunoCardNumber";
+    public static final java.lang.String FIND_INCONSISTENT_TRANSACTIONS = "MiddleEastBankSwitchTransaction.findInconsistentTransactions";
 
     // https://en.wikibooks.org/wiki/Java_Persistence/OneToOne
     // Each switch transaction has a terminal transaction

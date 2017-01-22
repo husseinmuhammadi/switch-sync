@@ -25,7 +25,7 @@ public class SwitchTransaction extends EntityBase {
     @Convert(converter = FinancialServiceProviderConverter.class)
     private FinancialServiceProvider financialServiceProvider;
 
-    @Column(name = "PROCESSING_CODE", nullable = true, length = 2)
+    @Column(name = "PROCESSING_CODE", nullable = false, length = 2)
     @Convert(converter = ProcessingCodeConverter.class)
     private ProcessingCode processingCode;
 
@@ -33,7 +33,7 @@ public class SwitchTransaction extends EntityBase {
     @Convert(converter = ProductCodeConverter.class)
     private ProductCode productCode;
 
-    @Column(name = "DEVICE_CODE", nullable = true, length = 3)
+    @Column(name = "DEVICE_CODE", nullable = false, length = 3)
     @Convert(converter = DeviceCodeConverter.class)
     private DeviceCode deviceCode;
 

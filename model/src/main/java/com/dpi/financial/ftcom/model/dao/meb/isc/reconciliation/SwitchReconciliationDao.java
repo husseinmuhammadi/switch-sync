@@ -1,7 +1,7 @@
 package com.dpi.financial.ftcom.model.dao.meb.isc.reconciliation;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
 import org.hibernate.Hibernate;
 
@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 @Stateless
-public class SwitchReconciliationDao extends GenericDao<SwitchTransaction> {
+public class SwitchReconciliationDao extends GenericDao<MiddleEastBankSwitchTransaction> {
     public SwitchReconciliationDao() {
-        super(SwitchTransaction.class);
+        super(MiddleEastBankSwitchTransaction.class);
     }
 
-    public List<SwitchTransaction> findAll() {
-        return createNamedQuery(SwitchTransaction.FIND_ALL).getResultList();
+    public List<MiddleEastBankSwitchTransaction> findAll() {
+        return createNamedQuery(MiddleEastBankSwitchTransaction.FIND_ALL).getResultList();
     }
 
     public List<String> findAllCard(String luno, Date transactionDateFrom, Date transactionDateTo) {
@@ -28,7 +28,7 @@ public class SwitchReconciliationDao extends GenericDao<SwitchTransaction> {
         parameters.put("transactionDateFrom", DateUtil.removeTime(transactionDateFrom));
         parameters.put("transactionDateTo", DateUtil.removeTime(transactionDateTo));
 
-        TypedQuery<String> query = getEntityManager().createNamedQuery(SwitchTransaction.FIND_ALL_UNBOUND, String.class);
+        TypedQuery<String> query = getEntityManager().createNamedQuery(MiddleEastBankSwitchTransaction.FIND_ALL_UNBOUND, String.class);
 
         query.setParameter("luno", luno);
         query.setParameter("transactionDateFrom", DateUtil.removeTime(transactionDateFrom));
@@ -37,15 +37,15 @@ public class SwitchReconciliationDao extends GenericDao<SwitchTransaction> {
         return query.getResultList();
     }
 
-    public List<SwitchTransaction> findInconsistentTransactions(String luno, Date switchTransactionDateFrom, Date switchTransactionDateTo) {
+    public List<MiddleEastBankSwitchTransaction> findInconsistentTransactions(String luno, Date switchTransactionDateFrom, Date switchTransactionDateTo) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("luno", luno);
         parameters.put("transactionDateFrom", DateUtil.removeTime(switchTransactionDateFrom));
         parameters.put("transactionDateTo", DateUtil.removeTime(switchTransactionDateTo));
 
-        List<SwitchTransaction> switchTransactions = createNamedQuery(SwitchTransaction.FIND_INCONSISTENT_TRANSACTIONS, parameters).getResultList();
+        List<MiddleEastBankSwitchTransaction> switchTransactions = createNamedQuery(MiddleEastBankSwitchTransaction.FIND_INCONSISTENT_TRANSACTIONS, parameters).getResultList();
 
-        for(SwitchTransaction switchTransaction:switchTransactions )
+        for (MiddleEastBankSwitchTransaction switchTransaction : switchTransactions)
             Hibernate.initialize(switchTransaction.getTerminalTransaction());
 
         return switchTransactions;

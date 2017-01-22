@@ -4,7 +4,7 @@ import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
 import com.dpi.financial.ftcom.model.converter.YesNoTypeConverter;
-import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
 import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
 import com.dpi.financial.ftcom.model.type.YesNoType;
@@ -33,7 +33,7 @@ public class TerminalTransaction extends EntityBase {
     private SwipeCard swipeCard;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "terminalTransaction")
-    private SwitchTransaction switchTransaction;
+    private MiddleEastBankSwitchTransaction switchTransaction;
 
     /*
     @OneToOne
@@ -536,11 +536,11 @@ public class TerminalTransaction extends EntityBase {
         this.cardJammed = cardJammed;
     }
 
-    public SwitchTransaction getSwitchTransaction() {
+    public MiddleEastBankSwitchTransaction getSwitchTransaction() {
         return switchTransaction;
     }
 
-    public void setSwitchTransaction(SwitchTransaction switchTransaction) {
+    public void setSwitchTransaction(MiddleEastBankSwitchTransaction switchTransaction) {
         this.switchTransaction = switchTransaction;
     }
 

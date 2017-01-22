@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Named
 @ViewScoped
 public class SwitchTestCaseController extends ControllerBase<SwitchTestCase> implements Serializable {
+    private static final long serialVersionUID = -4262455280051344309L;
 
     // private SwitchTestCase switchTestCase;
 

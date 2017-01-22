@@ -7,7 +7,7 @@ import com.dpi.financial.ftcom.api.base.meb.isc.reconciliation.SwitchReconciliat
 import com.dpi.financial.ftcom.api.base.meb.isc.transaction.SwitchTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
-import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -31,7 +31,7 @@ import java.util.List;
 
 @Named("middleEastBankSwitchReconciliationManager")
 @ViewScoped
-public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTransaction>
+public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEastBankSwitchTransaction>
         implements Serializable {
 
     private static final long serialVersionUID = 680449549876328399L;
@@ -54,11 +54,11 @@ public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTra
     Date switchTransactionDateFrom;
     Date switchTransactionDateTo;
 
-    private List<SwitchTransaction> switchTransactionList;
+    private List<MiddleEastBankSwitchTransaction> switchTransactionList;
     private List<TerminalTransaction> terminalTransactionList;
 
     public SwitchReconciliationManager() {
-        super(SwitchTransaction.class);
+        super(MiddleEastBankSwitchTransaction.class);
 
         terminal = new Terminal();
 
@@ -78,7 +78,7 @@ public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTra
     }
 
     @Override
-    public GeneralServiceApi<SwitchTransaction> getGeneralServiceApi() {
+    public GeneralServiceApi<MiddleEastBankSwitchTransaction> getGeneralServiceApi() {
         return service;
     }
 
@@ -183,7 +183,7 @@ public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTra
 
     public void showXLS() {
         try {
-            List<SwitchTransaction> inconsistentSwitchTransactions = service.findInconsistentTransactions(terminal.getLuno(), switchTransactionDateFrom, switchTransactionDateTo);
+            List<MiddleEastBankSwitchTransaction> inconsistentSwitchTransactions = service.findInconsistentTransactions(terminal.getLuno(), switchTransactionDateFrom, switchTransactionDateTo);
 
             HttpServletResponse response = getHttpServletResponse();
             String fileName = "switch-transactions.xls";
@@ -199,7 +199,7 @@ public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTra
             int rownum = 0;
 
 
-            for (SwitchTransaction transaction : inconsistentSwitchTransactions) {
+            for (MiddleEastBankSwitchTransaction transaction : inconsistentSwitchTransactions) {
                 if (rownum == 0) {
                     WriteRow(sheet, rownum++, getFieldNames(transaction));
                 }
@@ -337,7 +337,7 @@ public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTra
         }
     }
 
-    private String[] getFieldNames(SwitchTransaction switchTransaction) {
+    private String[] getFieldNames(MiddleEastBankSwitchTransaction switchTransaction) {
         List<String> fieldNameList = new ArrayList<String>();
 
         for (String fieldName : switchTransaction.getFieldNames()) {
@@ -352,7 +352,7 @@ public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTra
         return fieldNameList.toArray(new String[fieldNameList.size()]);
     }
 
-    private Object[] getFieldValues(SwitchTransaction switchTransaction) {
+    private Object[] getFieldValues(MiddleEastBankSwitchTransaction switchTransaction) {
         List<Object> fieldNameList = new ArrayList<Object>();
 
         for (String fieldName : switchTransaction.getFieldNames()) {
@@ -1176,11 +1176,11 @@ public class SwitchReconciliationManager extends ControllerManagerBase<SwitchTra
         this.terminal = terminal;
     }
 
-    public List<SwitchTransaction> getSwitchTransactionList() {
+    public List<MiddleEastBankSwitchTransaction> getSwitchTransactionList() {
         return switchTransactionList;
     }
 
-    public void setSwitchTransactionList(List<SwitchTransaction> switchTransactionList) {
+    public void setSwitchTransactionList(List<MiddleEastBankSwitchTransaction> switchTransactionList) {
         this.switchTransactionList = switchTransactionList;
     }
 

@@ -9,7 +9,7 @@ import com.dpi.financial.ftcom.model.dao.meb.atm.transaction.TerminalTransaction
 import com.dpi.financial.ftcom.model.dao.meb.isc.reconciliation.SwitchReconciliationDao;
 import com.dpi.financial.ftcom.model.dao.meb.isc.transaction.SwitchTransactionDao;
 import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
-import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 import com.dpi.financial.ftcom.service.exception.atm.transaction.InvalidAmountException;
 
@@ -25,7 +25,7 @@ import java.util.Objects;
 
 @Stateless
 @Local(SwitchReconciliationService.class)
-public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTransaction>
+public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<MiddleEastBankSwitchTransaction>
         implements SwitchReconciliationService {
 
     @EJB
@@ -46,20 +46,20 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
     @EJB
     SwipeCardDao swipeCardDao;
 
-    private SwitchTransaction[] switchTransactions;
+    private MiddleEastBankSwitchTransaction[] switchTransactions;
     private TerminalTransaction[] atmTransactions;
 
     @Override
-    public GenericDao<SwitchTransaction> getGenericDao() {
+    public GenericDao<MiddleEastBankSwitchTransaction> getGenericDao() {
         return dao;
     }
 
     @Override
     public void synchronizeAtmTransactions(String luno, String cardNumber) {
-        List<SwitchTransaction> switchTransactionList = switchTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
+        List<MiddleEastBankSwitchTransaction> switchTransactionList = switchTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
         List<TerminalTransaction> terminalTransactionList = terminalTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
 
-        switchTransactions = new SwitchTransaction[switchTransactionList.size()];
+        switchTransactions = new MiddleEastBankSwitchTransaction[switchTransactionList.size()];
         switchTransactionList.toArray(switchTransactions);
         for (int i = 0; i < switchTransactions.length; i++)
             switchTransactions[i].setIndex(i);
@@ -78,7 +78,7 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
     }
 
     @Override
-    public List<SwitchTransaction> findInconsistentTransactions(String luno, Date switchTransactionDateFrom, Date switchTransactionDateTo) {
+    public List<MiddleEastBankSwitchTransaction> findInconsistentTransactions(String luno, Date switchTransactionDateFrom, Date switchTransactionDateTo) {
         return dao.findInconsistentTransactions(luno, switchTransactionDateFrom, switchTransactionDateTo);
     }
 
@@ -86,7 +86,7 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
 
         // Sync by RRN
         for (int i = 0; i < switchTransactions.length; i++) {
-            SwitchTransaction switchTransaction = switchTransactions[i];
+            MiddleEastBankSwitchTransaction switchTransaction = switchTransactions[i];
 
             int start = 0;
             if (i > 0)
@@ -112,9 +112,9 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
         do {
             matchAnyTransaction = false;
             for (int cur = 0; cur < switchTransactions.length; cur++) {
-                SwitchTransaction switchTransaction = switchTransactions[cur];
+                MiddleEastBankSwitchTransaction switchTransaction = switchTransactions[cur];
                 if (switchTransaction.getTerminalTransaction() == null) {
-                    List<SwitchTransaction> similarSwitchTransactionList = new ArrayList<SwitchTransaction>();
+                    List<MiddleEastBankSwitchTransaction> similarSwitchTransactionList = new ArrayList<MiddleEastBankSwitchTransaction>();
 
                     int last = cur;
                     while (last < switchTransactions.length
@@ -130,7 +130,7 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
                     if (similarSwitchTransactionList.size() == probabilityAtmTransactionList.size()) {
                         for (int i = 0; i < similarSwitchTransactionList.size(); i++) {
                             TerminalTransaction atmTransaction = probabilityAtmTransactionList.get(i);
-                            SwitchTransaction switchTransaction1 = similarSwitchTransactionList.get(i);
+                            MiddleEastBankSwitchTransaction switchTransaction1 = similarSwitchTransactionList.get(i);
 
                             switchTransaction1.setAtmTransactionIndex(atmTransaction.getIndex());
                             switchTransaction1.setTerminalTransaction(atmTransaction);
@@ -186,7 +186,7 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
     }
 
     private List<TerminalTransaction> getProbabilityAtmTransactionRestrictByAmount(int switchIndex) throws InvalidAmountException {
-        SwitchTransaction switchTransaction = switchTransactions[switchIndex];
+        MiddleEastBankSwitchTransaction switchTransaction = switchTransactions[switchIndex];
         List<TerminalTransaction> atmTransactionList = new ArrayList<TerminalTransaction>();
         List<TerminalTransaction> probability = getProbabilityAtmTransaction(switchIndex);
         for (TerminalTransaction atmTransaction : probability) {
@@ -204,7 +204,7 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
     }
 
     private List<TerminalTransaction> getProbabilityAtmTransaction(int switchIndex) {
-        SwitchTransaction switchTransaction = switchTransactions[switchIndex];
+        MiddleEastBankSwitchTransaction switchTransaction = switchTransactions[switchIndex];
 
         List<TerminalTransaction> atmTransactionList = new ArrayList<TerminalTransaction>();
 
@@ -228,7 +228,7 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
         switchIndex--;
         if (switchIndex < 0)
             return -1;
-        SwitchTransaction switchTransaction = switchTransactions[switchIndex];
+        MiddleEastBankSwitchTransaction switchTransaction = switchTransactions[switchIndex];
         if (switchTransaction.getTerminalTransaction() == null)
             return getFormerIndex(switchIndex);
         return switchTransaction.getAtmTransactionIndex();
@@ -238,7 +238,7 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<SwitchTr
         switchIndex++;
         if (switchIndex >= switchTransactions.length)
             return atmTransactions.length;
-        SwitchTransaction switchTransaction = switchTransactions[switchIndex];
+        MiddleEastBankSwitchTransaction switchTransaction = switchTransactions[switchIndex];
         if (switchTransaction.getTerminalTransaction() == null)
             return getFollowIndex(switchIndex);
         return switchTransaction.getAtmTransactionIndex();

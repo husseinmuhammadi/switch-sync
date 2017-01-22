@@ -8,14 +8,13 @@
                 template="/base/template.xhtml">
 
     <ui:define name="metadata">
-        <f:metadata>
-            <f:viewParam name="luno" value="#{middleEastBankJournalFileManager.terminal.luno}"/>
-            <f:viewAction action="#{journalFileManager.onLoad}"/>
+        <f:metadata>            
+            <f:viewAction action="#{switchTransactionManager.onLoad}"/>
         </f:metadata>
     </ui:define>
 
     <ui:define name="header">
-        <h2>#{lbl['label.journalFile.list']}</h2>
+        <h2>#{lbl['label.switchTransaction.list']}</h2>
     </ui:define>
 
     <ui:define name="content">
@@ -35,192 +34,62 @@
                         </p:ajaxStatus>
                     </td>
                     <td>
-                        <h:commandLink>
-                            <h:graphicImage alt="Prepare atm transactions" library="images" name="cloud-computing.png" width="36"
+                        <h:link outcome="insert">
+                            <h:graphicImage alt="add" library="images" name="add.png" width="36"
                                             styleClass="img-responsive"/>
-                            <f:ajax execute="@form" render="@form :messages"
-                                    listener="#{journalFileManager.prepareAtmTransactions}"/>
-                        </h:commandLink>
-                    </td>
-                    <td>
-                        <h:commandLink>
-                            <h:graphicImage alt="Synchronize atm transactions" library="images"
-                                            name="synchronization.png" width="36"
-                                            styleClass="img-responsive"/>
-                            <f:ajax execute="@form" render="@form :messages"
-                                    listener="#{journalFileManager.synchronizeAtmTransactions}"/>
-                        </h:commandLink>
+                        </h:link>
                     </td>
                 </tr>
             </table>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="luno"
-                                       value="#{lbl['label.terminal.luno']}"/>
-                    </div>
-                    <h:selectOneMenu value="#{journalFileManager.terminal.luno}"
-                                     id="luno" label="#{lbl['label.terminal.luno']}"
-                                     required="true" styleClass="form-control">
-                        <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
-                        <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
-                                       var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
-                        <f:ajax event="valueChange" execute="@this" render="journalFileList :messages"
-                                listener="#{journalFileManager.lunoValueChange}"/>
-                    </h:selectOneMenu>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="journalDateFrom" value="#{lbl['label.journalFile.journalDateFrom']}"/>
-                    </div>
-                    <h:inputText value="#{journalFileManager.journalDateFrom}"
-                                 id="journalDateFrom" label="#{lbl['label.journalFile.journalDateFrom']}"
-                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
-                        <f:convertDateTime pattern="d-M-yyyy"/>
-                    </h:inputText>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
-                    </div>
-                    <h:inputText value="#{journalFileManager.journalDateTo}"
-                                 id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
-                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
-                        <f:convertDateTime pattern="d-M-yyyy"/>
-                    </h:inputText>
-                </div>
-            </div>
-
-            <!--<h:outputText style="color:blue" value="Flash Variable Without Keep: #{flash.keep.message.summary}"/>-->
-            <h:dataTable value="#{journalFileManager.journalFileList}" var="journalFile" id="journalFileList"
-                         styleClass="table table-striped table-bordered dt-responsive nowrap"
-                         headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
-
-                <h:column rendered="#{not empty journalFile.id}">
-                    <f:facet name="header">#{lbl['label.journalFile.luno']}</f:facet>
-                    <h:link value="#{journalFile.luno}" outcome="profile">
-                        <f:param name="id" value="#{journalFile.id}"/>
+            
+            <h:dataTable value="#{switchTransactionManager.switchTransactions}" var="switchTransaction" id="switchTransactions"
+                         styleClass="table table-striped table-bordered dt-responsive nowrap">
+                
+                <h:column>
+                    <f:facet name="header">#{lbl['label.switchTransaction.financialServiceProvider']}</f:facet>
+                    <h:link value="#{lbl[switchTransaction.financialServiceProvider.fullName]}" outcome="profile">
+                        <f:param name="id" value="#{switchTransaction.id}"/>
                     </h:link>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.luno']}</f:facet>
-                    #{journalFile.luno}
+                    <f:facet name="header">#{lbl['label.switchTransaction.processingCode']}</f:facet>
+                    #{lbl[switchTransaction.processingCode.fullName]}
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.name']}</f:facet>
-                    #{journalFile.name}
+                    <f:facet name="header">#{lbl['label.switchTransaction.productCode']}</f:facet>
+                    #{lbl[switchTransaction.productCode.fullName]}
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.fileName']}</f:facet>
-                    #{journalFile.fileName}
+                    <f:facet name="header">#{lbl['label.switchTransaction.deviceCode']}</f:facet>
+                    #{lbl[switchTransaction.deviceCode.fullName]}
                 </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.journalDate']}</f:facet>
-                    <h:outputText value="#{journalFile.journalDate}">
-                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
-                    </h:outputText>
-                </h:column>
-
-                <!--
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.creationTime']}</f:facet>
-                    #{journalFile.creationTime}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.lastAccessTime']}</f:facet>
-                    #{journalFile.lastAccessTime}
-                </h:column>
-                -->
-
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.lastModifiedTime']}</f:facet>
-                    <h:outputText value="#{journalFile.lastModifiedTime}">
-                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
-                    </h:outputText>
-                </h:column>
-
-                <!--
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.directory']}</f:facet>
-                    #{journalFile.directory}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.other']}</f:facet>
-                    #{journalFile.other}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.regularFile']}</f:facet>
-                    #{journalFile.regularFile}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.symbolicLink']}</f:facet>
-                    #{journalFile.symbolicLink}
-                </h:column>
-                -->
-
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.size']}</f:facet>
-                    #{journalFile.size}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.state']}</f:facet>
-                    <h:outputText value="#{lbl[journalFile.state.fullName]}"/>
-                </h:column>
-
-                <!--
-                <h:column>
-                    <f:facet name="header">#{lbl['label.journalFile.digest']}</f:facet>
-                    #{journalFile.digest}
-                </h:column>
-                -->
 
                 <h:column>
                     <f:facet name="header">#{lbl['label.header.options']}</f:facet>
                     <table border="0">
                         <tr>
                             <td>
-                                <h:link outcome="insert" rendered="#{not empty journalFile.id}">
-                                    <f:param name="id" value="#{journalFile.id}"/>
+                                <h:link outcome="insert" rendered="#{not empty switchTransaction.id}">
+                                    <f:param name="id" value="#{switchTransaction.id}"/>
                                     <h:graphicImage alt="edit" library="images" name="edit.png" width="20"
                                                     styleClass="img-responsive"/>
                                 </h:link>
                             </td>
                             <td>
-                                <h:commandLink action="#{journalFileController.delete(journalFile.id)}"
-                                               rendered="#{not empty journalFile.id}">
+                                <h:commandLink action="#{switchTransactionController.delete(switchTransaction.id)}"
+                                               rendered="#{not empty switchTransaction.id}">
                                     <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
                                                     styleClass="img-responsive"/>
-                                    <!--<f:ajax execute="@form" render="@form" />-->
+                                    <f:ajax execute="@form" render="@form" />
                                 </h:commandLink>
                             </td>
                             <td>
-                                <h:commandLink action="#{journalFileController.refresh}">
+                                <h:commandLink action="#{switchTransactionController.refresh}">
                                     <h:graphicImage alt="reload" library="images" name="reload.png" width="20"
                                                     styleClass="img-responsive"/>
-                                </h:commandLink>
-                            </td>
-                            <td>
-                                <h:commandLink actionListener="#{journalFileManager.prepareAtmTransactions(journalFile.journalDate)}"
-                                        rendered="#{journalFile.state eq 'ENTRY'}">
-                                    <h:graphicImage alt="Prepare atm transactions" library="images" name="upload.png" width="20"
-                                                    styleClass="img-responsive"/>
-                                    <f:ajax execute="@form" render="@form :messages"/>
                                 </h:commandLink>
                             </td>
                         </tr>
