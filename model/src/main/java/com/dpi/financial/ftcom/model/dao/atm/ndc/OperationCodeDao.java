@@ -17,9 +17,9 @@ public class OperationCodeDao extends GenericDao<OperationCode> {
         return createNamedQuery(OperationCode.FIND_ALL).getResultList();
     }
 
-    public List<OperationCode> findAllByEffectiveDate(Date effectiveDate) {
+    public List<OperationCode> findAllByEffectiveDate(Date currentDate) {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("effectiveDate", effectiveDate);
+        parameters.put("currentDate", currentDate);
         return createNamedQuery(OperationCode.FIND_ALL_BY_EFFECTIVE_DATE, parameters).getResultList();
     }
 }

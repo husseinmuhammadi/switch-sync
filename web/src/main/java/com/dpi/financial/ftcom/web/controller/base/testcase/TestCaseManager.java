@@ -20,7 +20,7 @@ public class TestCaseManager extends ControllerManagerBase<TestCase> implements 
     @EJB
     private TestCaseService testCaseService;
 
-    private List<TestCase> testCaseList;
+    // private List<TestCase> testCases;
 
     public TestCaseManager() {
         super(TestCase.class);
@@ -32,16 +32,15 @@ public class TestCaseManager extends ControllerManagerBase<TestCase> implements 
     }
 
     @Override
-    @PostConstruct
-    public void init() {
-        testCaseList = testCaseService.findAll();
+    protected void onLoad() {
+
     }
 
-    public List<TestCase> getTestCaseList() {
-        return testCaseList;
+    public List<TestCase> getTestCases() {
+        return entityList;
     }
 
-    public void setTestCaseList(List<TestCase> testCaseList) {
-        this.testCaseList = testCaseList;
+    public void setTestCases(List<TestCase> testCases) {
+        this.entityList = testCases;
     }
 }

@@ -5,10 +5,7 @@ import com.dpi.financial.ftcom.api.base.meb.atm.transaction.TerminalTransactionS
 import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -24,7 +21,7 @@ public class SwitchTransactionManager extends ControllerManagerBase<TerminalTran
     @EJB
     private TerminalTransactionService service;
 
-    private List<TerminalTransaction> terminalTransactionList;
+    // private List<TerminalTransaction> terminalTransactionList;
 
     public SwitchTransactionManager() {
         super(TerminalTransaction.class);
@@ -35,28 +32,16 @@ public class SwitchTransactionManager extends ControllerManagerBase<TerminalTran
         return service;
     }
 
-    //TODO: Make this method private
     @Override
-    @PostConstruct
-    public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        // externalContext.getFlash().keep();
-        // if ()
+    protected void onLoad() {
 
-        try {
-            terminalTransactionList = service.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            printErrorMessage(e);
-        }
     }
 
     public List<TerminalTransaction> getTerminalTransactionList() {
-        return terminalTransactionList;
+        return entityList;
     }
 
     public void setTerminalTransactionList(List<TerminalTransaction> terminalTransactionList) {
-        this.terminalTransactionList = terminalTransactionList;
+        this.entityList = terminalTransactionList;
     }
 }

@@ -2,6 +2,8 @@ package com.dpi.financial.ftcom.web.controller.base;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.model.base.EntityBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -16,6 +18,8 @@ import java.util.List;
 public abstract class ControllerManagerBase<T extends EntityBase>
         extends AbstractController implements Manager {
 
+    Logger logger = LoggerFactory.getLogger(ControllerManagerBase.class);
+
     protected List<T> entityList;
 
     public ControllerManagerBase(Class<T> entityBeanClass) {
@@ -24,11 +28,9 @@ public abstract class ControllerManagerBase<T extends EntityBase>
     @Override
     @PostConstruct
     public void init() {
-        System.out.println(">>>>>> com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase.init");
+        logger.info("init list ...");
         entityList = getGeneralServiceApi().findAll();
     }
-
-    public abstract GeneralServiceApi<T> getGeneralServiceApi();
 
     public void showNewEntityView() {
         /*
@@ -47,7 +49,9 @@ public abstract class ControllerManagerBase<T extends EntityBase>
 
         // String url = FacesContext.getCurrentInstance().getViewRoot().getViewId().replace("insert", "index") + "?faces-redirect=true";
         // return url;
-
     }
 
+    protected abstract void onLoad();
+
+    public abstract GeneralServiceApi<T> getGeneralServiceApi();
 }

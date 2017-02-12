@@ -21,7 +21,7 @@ public class TerminalManager extends ControllerManagerBase<Terminal> implements 
     @EJB
     private TerminalService terminalService;
 
-    private List<Terminal> terminalList;
+    // private List<Terminal> terminals;
 
     public TerminalManager() {
         super(Terminal.class);
@@ -32,28 +32,16 @@ public class TerminalManager extends ControllerManagerBase<Terminal> implements 
         return terminalService;
     }
 
-    //TODO: Make this method private
     @Override
-    @PostConstruct
-    public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        // externalContext.getFlash().keep();
-        // if ()
+    protected void onLoad() {
 
-        try {
-            terminalList = terminalService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            printErrorMessage(e);
-        }
     }
 
-    public List<Terminal> getTerminalList() {
-        return terminalList;
+    public List<Terminal> getTerminals() {
+        return entityList;
     }
 
-    public void setTerminalList(List<Terminal> terminalList) {
-        this.terminalList = terminalList;
+    public void setTerminals(List<Terminal> terminals) {
+        this.entityList = terminals;
     }
 }

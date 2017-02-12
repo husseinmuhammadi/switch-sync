@@ -33,14 +33,8 @@ public class PersonManager extends ControllerManagerBase<Person> implements Seri
     }
 
     @Override
-    @PostConstruct
-    public void init() {
-        try {
-            personList = personService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            printErrorMessage(e);
-        }
+    protected void onLoad() {
+
     }
 
     public List<Person> getPersonList() {

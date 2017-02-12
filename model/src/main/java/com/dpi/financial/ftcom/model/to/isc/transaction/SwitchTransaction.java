@@ -21,7 +21,7 @@ import javax.persistence.*;
 public class SwitchTransaction extends EntityBase {
     public static final String FIND_ALL = "SwitchTransaction.findAll";
 
-    @Column(name = "FINANCIAL_SERVICE_PROVIDER", nullable = false, length = 1)
+    @Column(name = "FINANCIAL_SERVICE_PROVIDER", nullable = true, length = 1)
     @Convert(converter = FinancialServiceProviderConverter.class)
     private FinancialServiceProvider financialServiceProvider;
 
@@ -33,7 +33,7 @@ public class SwitchTransaction extends EntityBase {
     @Convert(converter = ProductCodeConverter.class)
     private ProductCode productCode;
 
-    @Column(name = "DEVICE_CODE", nullable = false, length = 3)
+    @Column(name = "DEVICE_CODE", nullable = true, length = 3)
     @Convert(converter = DeviceCodeConverter.class)
     private DeviceCode deviceCode;
 

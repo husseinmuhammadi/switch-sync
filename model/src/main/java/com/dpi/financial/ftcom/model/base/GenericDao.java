@@ -2,17 +2,21 @@ package com.dpi.financial.ftcom.model.base;
 
 
 import com.dpi.financial.ftcom.utility.exception.model.EntityIdIsNullException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Dependent
 public abstract class GenericDao<T extends EntityBase> {
+    Logger logger = LoggerFactory.getLogger(GenericDao.class);
 
     protected EntityManager getEntityManager() {
         return entityManager;
@@ -33,8 +37,12 @@ public abstract class GenericDao<T extends EntityBase> {
     }
 
     public void remove(T t) {
-        t.setDeleted(true);
-        entityManager.merge(t);
+        // t.setDeleted(true);
+        // entityManager.merge(t);
+
+        logger.info(MessageFormat.format("removing entity {0}", t.getId()));
+        entityManager.remove(t);
+        logger.info(MessageFormat.format("entity {0} removed.", t.getId()));
     }
 
     public T update(T t) {

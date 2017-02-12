@@ -12,6 +12,8 @@ import com.dpi.financial.ftcom.utility.date.DateUtil;
 import com.dpi.financial.ftcom.utility.xml.XmlHelper;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -33,6 +35,8 @@ import java.util.List;
 @ViewScoped
 public class OperationCodeManager extends ControllerManagerBase<OperationCode> implements Serializable {
 
+    Logger logger = LoggerFactory.getLogger(OperationCodeManager.class);
+
     @EJB
     private OperationCodeService service;
 
@@ -48,7 +52,8 @@ public class OperationCodeManager extends ControllerManagerBase<OperationCode> i
     }
 
     public void onLoad() {
-        entityList = service.findAllByEffectiveDate(DateUtil.getCurrentDate());
+        // entityList = service.findAllByEffectiveDate(DateUtil.getCurrentDate());
+        entityList = service.findAll();
     }
 
     public void loadFromXmlFile(AjaxBehaviorEvent event) {

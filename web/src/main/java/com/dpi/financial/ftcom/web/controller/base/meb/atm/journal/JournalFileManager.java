@@ -11,11 +11,8 @@ import com.dpi.financial.ftcom.utility.date.DateUtil;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import com.dpi.financial.ftcom.web.controller.conf.AtmConfiguration;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.component.UIInput;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -53,7 +50,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     private Terminal terminal;
 
-    private List<JournalFile> journalFileList;
+    // private List<JournalFile> journalFileList;
 
     Date journalDateFrom;
     Date journalDateTo;
@@ -88,18 +85,11 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
         return service;
     }
 
-    //TODO: Make this method private
     @Override
-    @PostConstruct
-    public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-    }
-
     public void onLoad() {
         try {
             Terminal terminal = terminalService.findByLuno(this.terminal.getLuno());
-            journalFileList = service.findAll(terminal);
+            setJournalFileList(service.findAll(terminal));
 
             String path = configuration.getJournalPath();
             // journalFileList = service.getJournalFileList(path);
@@ -110,11 +100,11 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     }
 
     public List<JournalFile> getJournalFileList() {
-        return journalFileList;
+        return entityList;
     }
 
     public void setJournalFileList(List<JournalFile> journalFileList) {
-        this.journalFileList = journalFileList;
+        this.entityList = journalFileList;
     }
 
     public Terminal getTerminal() {
@@ -133,8 +123,8 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
             Terminal terminal = terminalService.findByLuno(luno);
 
             String journalPath = configuration.getJournalPath();
-            journalFileList.clear();
-            journalFileList = service.getJournalFileList(journalPath, terminal);
+            getJournalFileList().clear();
+            setJournalFileList(service.getJournalFileList(journalPath, terminal));
             // } catch (JournalFilesNotExists e) {
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,8 +189,8 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
             Terminal terminal = terminalService.findByLuno(luno);
             String journalPath = configuration.getJournalPath();
             terminalTransactionService.prepareAtmTransactions(journalPath, terminal, DateUtil.getDate(2014, Month.FEBRUARY, 1), date);
-            journalFileList.clear();
-            journalFileList = service.getJournalFileList(journalPath, terminal);
+            getJournalFileList().clear();
+            setJournalFileList(service.getJournalFileList(journalPath, terminal));
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);

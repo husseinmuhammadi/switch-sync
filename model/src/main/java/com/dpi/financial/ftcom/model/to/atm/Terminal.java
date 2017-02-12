@@ -11,7 +11,7 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames = {"LUNO"})
 })
 @NamedQueries({
-        @NamedQuery(name = Terminal.FIND_ALL, query = "select t from Terminal t where t.deleted = false"),
+        @NamedQuery(name = Terminal.FIND_ALL, query = "select t from Terminal t where t.deleted = false order by t.luno"),
         @NamedQuery(name = Terminal.FIND_BY_LUNO, query = "select t from Terminal t where t.deleted = false and t.luno = :luno")
 })
 

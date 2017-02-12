@@ -20,7 +20,7 @@ import java.util.Date;
 })
 @NamedQueries({
         @NamedQuery(name = OperationCode.FIND_ALL, query = "select t from OperationCode t where t.deleted = false"),
-        @NamedQuery(name = OperationCode.FIND_ALL_BY_EFFECTIVE_DATE, query = "select t from OperationCode t where t.deleted = false and t.effectiveDate >= :effectiveDate"),
+        @NamedQuery(name = OperationCode.FIND_ALL_BY_EFFECTIVE_DATE, query = "select t from OperationCode t where t.deleted = false and t.effectiveDate <= :currentDate"),
 })
 public class OperationCode extends EntityBase {
     public static final String FIND_ALL = "OperationCode.findAll";

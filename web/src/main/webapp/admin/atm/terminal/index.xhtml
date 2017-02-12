@@ -14,7 +14,7 @@
         <ui:define name="content">
             <h:form style="direction: rtl">
                 <!--<h:outputText style="color:blue" value="Flash Variable Without Keep: #{flash.keep.message.summary}"/>-->
-                <h:dataTable value="#{terminalManager.terminalList}" var="terminal"
+                <h:dataTable value="#{terminalManager.terminals}" var="terminal"
                              styleClass="table table-striped table-bordered dt-responsive nowrap"
                              headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
 
@@ -47,20 +47,30 @@
 
                     <h:column>
                         <f:facet name="header">#{lbl['label.header.options']}</f:facet>
-                        <h:link outcome="insert">
-                            <f:param name="id" value="#{terminal.id}"/>
-                            <h:graphicImage alt="edit" library="images" name="edit.png" width="20"
-                                            styleClass="img-responsive"/>
-                        </h:link>
-                        <h:commandLink action="#{terminalController.delete(terminal.id)}">
-                            <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
-                                            styleClass="img-responsive"/>
-                            <!--<f:ajax execute="@form" render="@form" />-->
-                        </h:commandLink>
-                        <h:commandLink action="#{terminalController.refresh}">
-                            <h:graphicImage alt="reload" library="images" name="reload.png" width="20"
-                                            styleClass="img-responsive"/>
-                        </h:commandLink>
+                        <table border="0">
+                            <tr>
+                                <td>
+                                    <h:link outcome="insert">
+                                        <f:param name="id" value="#{terminal.id}"/>
+                                        <h:graphicImage alt="edit" library="images" name="edit.png" width="20"
+                                                        styleClass="img-responsive"/>
+                                    </h:link>
+                                </td>
+                                <td>
+                                    <h:commandLink action="#{terminalController.delete(terminal.id)}">
+                                        <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
+                                                        styleClass="img-responsive"/>
+                                        <!--<f:ajax execute="@form" render="@form" />-->
+                                    </h:commandLink>
+                                </td>
+                                <td>
+                                    <h:commandLink action="#{terminalController.refresh}">
+                                        <h:graphicImage alt="reload" library="images" name="reload.png" width="20"
+                                                        styleClass="img-responsive"/>
+                                    </h:commandLink>
+                                </td>
+                            </tr>
+                        </table>
                     </h:column>
                 </h:dataTable>
             </h:form>

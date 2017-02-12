@@ -24,7 +24,7 @@ public class TerminalTransactionManager extends ControllerManagerBase<TerminalTr
     @EJB
     private TerminalTransactionService service;
 
-    private List<TerminalTransaction> terminalTransactionList;
+    // private List<TerminalTransaction> terminalTransactions;
 
     public TerminalTransactionManager() {
         super(TerminalTransaction.class);
@@ -35,28 +35,16 @@ public class TerminalTransactionManager extends ControllerManagerBase<TerminalTr
         return service;
     }
 
-    //TODO: Make this method private
     @Override
-    @PostConstruct
-    public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        // externalContext.getFlash().keep();
-        // if ()
+    protected void onLoad() {
 
-        try {
-            terminalTransactionList = service.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            printErrorMessage(e);
-        }
     }
 
-    public List<TerminalTransaction> getTerminalTransactionList() {
-        return terminalTransactionList;
+    public List<TerminalTransaction> getTerminalTransactions() {
+        return entityList;
     }
 
-    public void setTerminalTransactionList(List<TerminalTransaction> terminalTransactionList) {
-        this.terminalTransactionList = terminalTransactionList;
+    public void setTerminalTransactions(List<TerminalTransaction> terminalTransactions) {
+        this.entityList = terminalTransactions;
     }
 }

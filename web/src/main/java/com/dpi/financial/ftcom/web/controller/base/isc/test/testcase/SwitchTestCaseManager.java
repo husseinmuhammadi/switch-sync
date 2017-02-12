@@ -31,9 +31,8 @@ public class SwitchTestCaseManager extends ControllerManagerBase<SwitchTestCase>
     }
 
     @Override
-    @PostConstruct
-    public void init() {
-        switchTestCases = service.findAll();
+    protected void onLoad() {
+
     }
 
     public List<SwitchTestCase> getSwitchTestCases() {

@@ -32,21 +32,9 @@ public class SwitchTestScenarioManager extends ControllerManagerBase<SwitchTestS
         return switchTestScenarioService;
     }
 
-    //TODO: Make this method private
     @Override
-    @PostConstruct
-    public void init() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-        // externalContext.getFlash().keep();
-        // if ()
+    protected void onLoad() {
 
-        try {
-            switchTestScenarioList = switchTestScenarioService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            printErrorMessage(e);
-        }
     }
 
     public List<SwitchTestScenario> getSwitchTestScenarioList() {
