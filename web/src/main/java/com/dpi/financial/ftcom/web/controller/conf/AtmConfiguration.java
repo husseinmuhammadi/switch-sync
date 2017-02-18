@@ -49,8 +49,8 @@ public class AtmConfiguration implements Runnable {
     /**
      * What journal path
      *
-     * @throws IOException
      * @param journalPath
+     * @throws IOException
      */
     public void watch(Path journalPath) throws IOException {
         WatchKey key;
@@ -184,7 +184,7 @@ public class AtmConfiguration implements Runnable {
         System.out.println("AtmConfiguration destroy() ...");
         try {
             // thread.doShutdown();
-            for (JournalWatcher watcher : journalDirectoryWatcher){
+            for (JournalWatcher watcher : journalDirectoryWatcher) {
                 watcher.destroy();
             }
 

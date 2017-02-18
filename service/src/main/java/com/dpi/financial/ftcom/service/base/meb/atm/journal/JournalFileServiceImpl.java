@@ -9,6 +9,8 @@ import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -35,6 +37,8 @@ import java.util.stream.Collectors;
 public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
         implements JournalFileService {
 
+    Logger logger = LoggerFactory.getLogger(JournalFileServiceImpl.class);
+
     @EJB
     private JournalFileDao dao;
 
@@ -45,6 +49,7 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
 
     @Override
     public List<JournalFile> findAll(Terminal terminal) {
+        logger.info(MessageFormat.format("Find journal files for terminal {0}", terminal.getLuno()));
         return dao.findAll(terminal);
     }
 
@@ -60,6 +65,8 @@ public class JournalFileServiceImpl extends GeneralServiceImpl<JournalFile>
      */
     @Override
     public List<JournalFile> getJournalFileList(String baseFolder, Terminal terminal) {
+        logger.info(MessageFormat.format("Find all physical journal file for {0} in path {1}",
+                terminal.getLuno(), baseFolder));
         List<JournalFile> journalFiles = findAll(terminal);
 
         JournalPhysicalFile journalPhysicalFile = new JournalPhysicalFile(baseFolder);

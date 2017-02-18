@@ -24,6 +24,31 @@
     <title>
         <ui:insert name="pageTitle">Switch Application</ui:insert>
     </title>
+
+    <script type="text/javascript">
+        jsf.ajax.addOnEvent(function (data) {
+            var ajaxstatus = data.status; // Can be "begin", "complete" and "success"
+            var ajaxloader = document.getElementById("ajaxloader");
+
+            switch (ajaxstatus) {
+                case "begin": // This is called right before ajax request is been sent.
+                    ajaxloader.style.display = 'block';
+                    break;
+
+                case "complete": // This is called right after ajax response is received.
+                    ajaxloader.style.display = 'none';
+                    break;
+
+                case "success": // This is called when ajax response is successfully processed.
+                    // NOOP.
+                    break;
+            }
+        });
+    </script>
+
+    <h:outputScript library="menu" name="script.js" target="head"/>
+    <h:outputStylesheet library="menu" name="styles.css"/>
+
     <ui:insert name="head"/>
 </h:head>
 
@@ -38,7 +63,14 @@
         </div>
         <br/>
 
-        <h:messages id="messages" errorClass="alert-danger" infoClass="alert-info" warnClass="alert-warning" fatalClass="alert-danger" styleClass="alert fade in" style="direction:rtl; margin: 10px"/>
+        <div style="position: fixed;left: 0px;top: 0px;width: 100%;height: 100%;z-index: 9999;background: url('#{resource['images:pre-loader.gif']}') center no-repeat #fff; display: none;opacity: 0.7;"
+             id="ajaxloader">
+        </div>
+
+        <h:messages id="messages" errorClass="alert-danger" infoClass="alert-info" warnClass="alert-warning"
+                    fatalClass="alert-danger" styleClass="alert fade in" style="direction:rtl; margin: 10px"/>
+
+        <ui:include src="_theme.xhtml"/>
 
         <div>
             <ui:insert name="content">

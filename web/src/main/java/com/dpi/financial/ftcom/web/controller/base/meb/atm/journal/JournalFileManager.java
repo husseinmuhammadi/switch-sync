@@ -10,6 +10,8 @@ import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import com.dpi.financial.ftcom.web.controller.conf.AtmConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
 import javax.faces.component.UIInput;
@@ -20,6 +22,7 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.Calendar;
@@ -32,6 +35,8 @@ import java.util.Properties;
 public class JournalFileManager extends ControllerManagerBase<JournalFile> implements Serializable {
 
     private static final long serialVersionUID = -3032343937325405624L;
+
+    Logger logger = LoggerFactory.getLogger(JournalFileManager.class);
 
     @EJB
     private JournalFileService service;
@@ -88,11 +93,12 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     @Override
     public void onLoad() {
         try {
-            Terminal terminal = terminalService.findByLuno(this.terminal.getLuno());
-            setJournalFileList(service.findAll(terminal));
+            String luno = terminal.getLuno();
+            if (luno == null)
+                return;
 
-            String path = configuration.getJournalPath();
-            // journalFileList = service.getJournalFileList(path);
+            // String path = configuration.getJournalPath();
+            setJournalFileList(service.findAll(terminalService.findByLuno(luno)));
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
@@ -116,15 +122,15 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     }
 
     public void lunoValueChange(AjaxBehaviorEvent event) {
+        List<JournalFile> journalFiles = getJournalFileList();
+        if (journalFiles != null && !journalFiles.isEmpty())
+            journalFiles.clear();
+
         String luno = ((UIInput) event.getComponent()).getValue().toString();
-        System.out.println("Selected luno: " + luno);
-        System.out.println("Selected luno: " + getTerminal().getLuno());
+        logger.info(MessageFormat.format("Get all journal file for logical unit number: {0}/{1}", luno, getTerminal().getLuno()));
         try {
             Terminal terminal = terminalService.findByLuno(luno);
-
-            String journalPath = configuration.getJournalPath();
-            getJournalFileList().clear();
-            setJournalFileList(service.getJournalFileList(journalPath, terminal));
+            setJournalFileList(service.findAll(terminal));
             // } catch (JournalFilesNotExists e) {
         } catch (Exception e) {
             e.printStackTrace();

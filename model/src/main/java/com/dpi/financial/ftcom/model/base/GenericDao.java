@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -68,6 +69,8 @@ public abstract class GenericDao<T extends EntityBase> {
     }*/
 
     public TypedQuery<T> createNamedQuery(String queryName) {
+        logger.info(MessageFormat.format("Create named query: {0}", queryName));
+        Arrays.stream(Thread.currentThread().getStackTrace()).forEach(i -> logger.debug(i.getClassName() + ":" + i.getMethodName()));
         return entityManager.createNamedQuery(queryName, entityBeanType);
     }
 

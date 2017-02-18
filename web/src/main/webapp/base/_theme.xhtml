@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <div style="position: relative; width: 100%; min-width: 1024px; height: 100vh; overflow: auto;
+        background: #8e9eab;
+        background: -webkit-linear-gradient(to left, #8e9eab , #eef2f3);
+        background: linear-gradient(to left, #8e9eab , #DFE6EB);">
+        <div style="width: 100%; height: 40px; background-color: #313F51;">
+            <div style="margin: 0 auto; max-width: 1200px;top: 0;z-index: 1; width: 100%;height: 40px">
+                <div style="padding: 0 30px; height: 40px; float: right;vertical-align: middle; line-height: 35px; color: #ffffff"
+                     data-toggle="dropdown" class="dropdown"
+                     id="user-panel">
+                    <div id="username-div">
+                        <a href="#" data-toggle="dropdown"
+                           class="dropdown-toggle">#{templateController.userInformation.FName.concat(' ').concat(templateController.userInformation.LName)}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#{application.contextPath}/user/login.xhtml?logout">#{msg.logout}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div style="margin: 0 auto;max-width: 1200px">
+                <div id='cssmenu' style="z-index: 900">
+                    <ul>
+                        <li>
+                            <a href='#{request.contextPath}/index.xhtml'>#{lbl['menu.home']}</a>
+                        </li>
+                        <li class='has-sub'><a href='#'>#{lbl['menu.meb.atm']}</a>
+                            <ul>
+                                <li>
+                                    <a href='#{request.contextPath}/admin/atm/ndc/operation/index.xhtml'>#{lbl['menu.meb.atm.ndc.operationCode']}</a>
+                                </li>
+                                <li>
+                                    <a href='#{request.contextPath}/admin/meb/atm/journal/file/index.xhtml'>#{lbl['menu.meb.atm.journal.file']}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class='has-sub'><a href='#'>#{lbl['menu.reports']}</a>
+                            <ul>
+                                <li class='has-sub'><a href='#'>#{lbl['menu.report.insured']}</a>
+                                    <ul>
+                                        <li>
+                                            <a href='#{request.contextPath}/admin/report/insured/insuredCancelDateReport.xhtml'>#{lbl['menu.report.insured.list']}</a>
+                                        </li>
+                                        <li>
+                                            <a href='#{request.contextPath}/admin/report/insured/summary.xhtml'>#{lbl['menu.report.insured.list']}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class='has-sub'><a href='#'>#{lbl['menu.report.receipt']}</a>
+                                    <ul>
+                                        <li>
+                                            <a href='#{request.contextPath}/admin/report/receipt/receiptSummaryReport.xhtml'>#{lbl['menu.receiptsummaryreport.report']}</a>
+                                        </li>
+                                        <li>
+                                            <a href='#{request.contextPath}/admin/report/receipt/receiptSummaryReportByLiability.xhtml'>#{lbl['menu.receiptsummaryreportbyliability.report']}</a>
+                                        </li>
+                                        <li>
+                                            <a href='#{request.contextPath}/admin/report/receiptcategory/receiptCategoryReport.xhtml'>#{lbl['menu.receiptcategory.report']}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class='has-sub'><a href='#'>#{lbl['menu.report.payment']}</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#{request.contextPath}/admin/report/payment/paymentReceiptsSummary.xhtml">#{lbl['menu.report.payment.receipts.summary']}</a>
+                                        </li>
+                                        <li>
+                                            <a href="#{request.contextPath}/admin/report/payment/receiptPayableAmount.xhtml">#{lbl['menu.report.payment.receipt.paid.amount']}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <c:if test="#{templateController.administrator}">
+                            <li class='has-sub'><a href='#'>#{lbl['user.management']}</a>
+                                <ul>
+                                    <li>
+                                        <a href='#{request.contextPath}/user/signUp.xhtml'>#{lbl['user.singUp']}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </c:if>
+                    </ul>
+                </div>
+                <div style="padding: 10px; background-color: #E6EDF2;border-radius: 0 0 5px 5px;">
+                    <ui:insert name="content"/>
+                </div>
+                <div style="padding: 20px 10px 10px 10px; text-align: center">
+                    <p style="color: #ffffff; font-size: 10px">
+                        #{msg.copyright}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:fragment>

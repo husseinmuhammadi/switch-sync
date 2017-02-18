@@ -131,7 +131,7 @@ public class BalanceEnquiry extends FinancialBase {
             keyIndexStr = "0" + keyIndexStr;
 
         String[] csdKey={"1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C",""};
-        String track2 = com.en.panels.Mac.instance.encTrack2(ISOUtil.hex2byte(csdKey[0]), messageDetails.getTrack2(), csdKey[1].equals("1"));
+        String track2 = Mac.instance.encTrack2(ISOUtil.hex2byte(csdKey[0]), messageDetails.getTrack2(), csdKey[1].equals("1"));
         isoMsg.set(35,track2);
 
         String[] pinKey = getKey("02", keyIndex);
