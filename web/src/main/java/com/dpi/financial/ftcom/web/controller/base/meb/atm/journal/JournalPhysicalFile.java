@@ -1,4 +1,4 @@
-package com.dpi.financial.ftcom.service.base.meb.atm.journal;
+package com.dpi.financial.ftcom.web.controller.base.meb.atm.journal;
 
 import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
 import org.apache.commons.io.FilenameUtils;

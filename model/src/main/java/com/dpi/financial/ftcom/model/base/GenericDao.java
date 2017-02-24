@@ -1,6 +1,8 @@
 package com.dpi.financial.ftcom.model.base;
 
 
+import com.dpi.financial.ftcom.model.type.terminal.TerminalOperationType;
+import com.dpi.financial.ftcom.model.type.terminal.transaction.TerminalTransactionState;
 import com.dpi.financial.ftcom.utility.exception.model.EntityIdIsNullException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,4 +91,6 @@ public abstract class GenericDao<T extends EntityBase> {
         }
         return typedQuery;
     }
+
+
 }

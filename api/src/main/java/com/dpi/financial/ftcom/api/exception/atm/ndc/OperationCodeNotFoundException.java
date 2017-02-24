@@ -1,4 +1,4 @@
-package com.dpi.financial.ftcom.service.exception.atm.ndc;
+package com.dpi.financial.ftcom.api.exception.atm.ndc;
 
 public class OperationCodeNotFoundException extends RuntimeException {
     public OperationCodeNotFoundException() {

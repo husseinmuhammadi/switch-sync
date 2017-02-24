@@ -4,6 +4,8 @@ import com.dpi.financial.ftcom.api.base.atm.TerminalService;
 import com.dpi.financial.ftcom.model.dao.atm.TerminalDao;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import org.omnifaces.cdi.Startup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -20,6 +22,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
 @Named
 @Startup
 public class AtmConfiguration implements Runnable {
+    Logger logger = LoggerFactory.getLogger(AtmConfiguration.class);
 
     @EJB
     private TerminalService terminalService;
@@ -152,7 +155,7 @@ public class AtmConfiguration implements Runnable {
             String journalPath = getJournalPath();
 
             Path dir = Paths.get(journalPath);
-            System.out.println("Journal path: " + journalPath);
+            logger.info("Journal path: " + journalPath);
 
             registerAll(dir);
 
@@ -181,7 +184,7 @@ public class AtmConfiguration implements Runnable {
 
     @PreDestroy
     protected void destroy() {
-        System.out.println("AtmConfiguration destroy() ...");
+        logger.info("AtmConfiguration destroy() ...");
         try {
             // thread.doShutdown();
             for (JournalWatcher watcher : journalDirectoryWatcher) {
@@ -215,7 +218,6 @@ public class AtmConfiguration implements Runnable {
                         } else {
                             System.out.println("Path " + dir.getFileName() + " ignored ...");
                         }
-
 
                         return FileVisitResult.CONTINUE;
                     }

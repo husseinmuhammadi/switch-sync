@@ -3,23 +3,22 @@ package com.dpi.financial.ftcom.model.to.atm;
 import com.dpi.financial.ftcom.model.base.EntityBase;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "ATM_TERMINAL_SEQ")
-@Table(name = "ATM_TERMINAL_MASTER", uniqueConstraints = {
+@SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "TERMINAL_INFO_SEQ")
+@Table(name = "TERMINAL_INFO", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"TERMINAL_ID"}),
         @UniqueConstraint(columnNames = {"LUNO"})
 })
 @NamedQueries({
-        @NamedQuery(name = Terminal.FIND_ALL, query = "select t from Terminal t where t.deleted = false order by t.luno"),
-        @NamedQuery(name = Terminal.FIND_BY_LUNO, query = "select t from Terminal t where t.deleted = false and t.luno = :luno")
+        @NamedQuery(name = TerminalInfo.FIND_ALL, query = "select t from TerminalInfo t where t.deleted = false order by t.luno"),
+        @NamedQuery(name = TerminalInfo.FIND_BY_LUNO, query = "select t from TerminalInfo t where t.deleted = false and t.luno = :luno")
 })
 
-public class Terminal extends EntityBase {
+public class TerminalInfo extends EntityBase {
 
-    public static final String FIND_ALL = "Terminal.findAll";
-    public static final String FIND_BY_LUNO = "Terminal.findByLuno";
+    public static final String FIND_ALL = "TerminalInfo.findAll";
+    public static final String FIND_BY_LUNO = "TerminalInfo.findByLuno";
 
     @Column(name = "TERMINAL_ID", nullable = false, length = 10)
     private String terminalId;
@@ -57,32 +56,6 @@ public class Terminal extends EntityBase {
 
 
 
-
-    ///////////////////////////////////////
-    // MOVE TO TERMINAL INFO
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "LAST_JOURNAL_DATE")
-    private Date lastJournalDate;
-
-    @Column(name = "LAST_JOURNAL_LINE_NUMBER")
-    private Long lastJournalLineNumber;
-
-    public Date getLastJournalDate() {
-        return lastJournalDate;
-    }
-
-    public void setLastJournalDate(Date lastJournalDate) {
-        this.lastJournalDate = lastJournalDate;
-    }
-
-    public Long getLastJournalLineNumber() {
-        return lastJournalLineNumber;
-    }
-
-    public void setLastJournalLineNumber(Long lastJournalLineNumber) {
-        this.lastJournalLineNumber = lastJournalLineNumber;
-    }
 }
 
 

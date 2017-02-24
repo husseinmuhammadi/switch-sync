@@ -1,4 +1,4 @@
-package com.dpi.financial.ftcom.service.exception;
+package com.dpi.financial.ftcom.api.exception;
 
 public class OperationTerminatedException extends RuntimeException {
     public OperationTerminatedException() {

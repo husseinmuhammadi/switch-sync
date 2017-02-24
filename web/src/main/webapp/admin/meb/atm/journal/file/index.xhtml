@@ -21,74 +21,94 @@
     <ui:define name="content">
         <h:form style="direction: rtl">
 
-            <table border="0">
-                <tr>
-                    <td>
-                        <h:commandLink rendered="false">
-                            <h:graphicImage alt="Prepare atm transactions" library="images" name="cloud-computing.png" width="36"
-                                            styleClass="img-responsive"/>
-                            <f:ajax execute="@form" render="@form :messages"
-                                    listener="#{middleEastBankJournalFileManager.prepareAtmTransactions}"/>
-                        </h:commandLink>
-                    </td>
-                    <td>
-                        <h:commandLink rendered="false">
-                            <h:graphicImage alt="Synchronize atm transactions" library="images"
-                                            name="synchronization.png" width="36"
-                                            styleClass="img-responsive"/>
-                            <f:ajax execute="@form" render="@form :messages"
-                                    listener="#{middleEastBankJournalFileManager.synchronizeAtmTransactions}"/>
-                        </h:commandLink>
-                    </td>
-                </tr>
-            </table>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="luno"
-                                       value="#{lbl['label.terminal.luno']}"/>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="luno"
+                                               value="#{lbl['label.terminal.luno']}"/>
+                            </div>
+                            <h:selectOneMenu value="#{middleEastBankJournalFileManager.terminal.luno}"
+                                             id="luno" label="#{lbl['label.terminal.luno']}"
+                                             required="true" styleClass="form-control">
+                                <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
+                                <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
+                                               var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
+                                <f:ajax event="valueChange" execute="@this" render="journalFileList :messages"
+                                        listener="#{middleEastBankJournalFileManager.lunoValueChange}"/>
+                            </h:selectOneMenu>
+                        </div>
                     </div>
-                    <h:selectOneMenu value="#{middleEastBankJournalFileManager.terminal.luno}"
-                                     id="luno" label="#{lbl['label.terminal.luno']}"
-                                     required="true" styleClass="form-control">
-                        <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
-                        <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
-                                       var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
-                        <f:ajax event="valueChange" execute="@this" render="journalFileList :messages"
-                                listener="#{middleEastBankJournalFileManager.lunoValueChange}"/>
-                    </h:selectOneMenu>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="journalDateFrom" value="#{lbl['label.journalFile.journalDateFrom']}"/>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="journalDateFrom"
+                                               value="#{lbl['label.journalFile.journalDateFrom']}"/>
+                            </div>
+                            <h:inputText value="#{middleEastBankJournalFileManager.journalDateFrom}"
+                                         id="journalDateFrom" label="#{lbl['label.journalFile.journalDateFrom']}"
+                                         styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                                <f:convertDateTime pattern="d-M-yyyy"/>
+                            </h:inputText>
+                        </div>
                     </div>
-                    <h:inputText value="#{middleEastBankJournalFileManager.journalDateFrom}"
-                                 id="journalDateFrom" label="#{lbl['label.journalFile.journalDateFrom']}"
-                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
-                        <f:convertDateTime pattern="d-M-yyyy"/>
-                    </h:inputText>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
+                            </div>
+                            <h:inputText value="#{middleEastBankJournalFileManager.journalDateTo}"
+                                         id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
+                                         styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                                <f:convertDateTime pattern="d-M-yyyy"/>
+                            </h:inputText>
+                        </div>
                     </div>
-                    <h:inputText value="#{middleEastBankJournalFileManager.journalDateTo}"
-                                 id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
-                                 styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
-                        <f:convertDateTime pattern="d-M-yyyy"/>
-                    </h:inputText>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                    <table>
+                        <tr>
+                            <td>
+                                <h:commandLink>
+                                    <h:graphicImage alt="Reload physical file information from disk" library="images"
+                                                    name="reload.png" width="36" styleClass="img-responsive"/>
+                                    <f:ajax execute="@form" render="journalFileList :messages"
+                                            listener="#{middleEastBankJournalFileManager.reload}"/>
+                                </h:commandLink>
+                            </td>
+                            <td>
+                                <h:commandLink>
+                                    <h:graphicImage alt="Transfer journal content to database" library="images"
+                                                    name="transfer.png" width="36" styleClass="img-responsive"/>
+                                    <f:ajax execute="@form" render="journalFileList :messages"
+                                            listener="#{middleEastBankJournalFileManager.transfer}"/>
+                                </h:commandLink>
+                            </td>
+                            <td>
+                                <h:commandLink>
+                                    <h:graphicImage alt="Prepare atm transactions" library="images"
+                                                    name="cloud-computing.png"
+                                                    width="36" styleClass="img-responsive"/>
+                                    <f:ajax execute="@form" render="journalFileList :messages"
+                                            listener="#{middleEastBankJournalFileManager.prepareAtmTransactions}"/>
+                                </h:commandLink>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
             <!--<h:outputText style="color:blue" value="Flash Variable Without Keep: #{flash.keep.message.summary}"/>-->
-            <h:dataTable value="#{middleEastBankJournalFileManager.journalFileList}" var="journalFile" id="journalFileList"
+            <h:dataTable value="#{middleEastBankJournalFileManager.journalFileList}" var="journalFile"
+                         id="journalFileList"
                          styleClass="table table-striped table-bordered dt-responsive nowrap"
                          headerClass="employeeTableHeader" rowClasses="employeeTableOddRow,employeeTableEvenRow">
 
@@ -167,10 +187,12 @@
                     #{journalFile.size}
                 </h:column>
 
+                <!--
                 <h:column>
                     <f:facet name="header">#{lbl['label.journalFile.state']}</f:facet>
                     <h:outputText value="#{lbl[journalFile.state.fullName]}"/>
                 </h:column>
+                -->
 
                 <!--
                 <h:column>
@@ -205,10 +227,10 @@
                                 </h:commandLink>
                             </td>
                             <td>
-                                <h:commandLink actionListener="#{middleEastBankJournalFileManager.prepareAtmTransactions(journalFile.journalDate)}"
-                                        rendered="#{journalFile.state eq 'ENTRY'}">
-                                    <h:graphicImage alt="Prepare atm transactions" library="images" name="upload.png" width="20"
-                                                    styleClass="img-responsive"/>
+                                <h:commandLink
+                                        actionListener="#{middleEastBankJournalFileManager.prepareAtmTransactions(journalFile.journalDate)}">
+                                    <h:graphicImage alt="Prepare atm transactions" library="images" name="upload.png"
+                                                    width="20" styleClass="img-responsive"/>
                                     <f:ajax execute="@form" render="@form :messages"/>
                                 </h:commandLink>
                             </td>

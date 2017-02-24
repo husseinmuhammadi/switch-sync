@@ -1,4 +1,4 @@
-package com.dpi.financial.ftcom.service.exception.atm.journal;
+package com.dpi.financial.ftcom.api.exception.atm.journal;
 
 public class TerminalTransactionStateException extends RuntimeException {
     public TerminalTransactionStateException() {

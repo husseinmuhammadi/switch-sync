@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 public enum JournalFileState implements IEnumFieldValue<String> {
     ENTRY("E"),
     PREPARED("P"),
+    PROCESSED("C"),
     RECONCILED("R"),
     ;
 

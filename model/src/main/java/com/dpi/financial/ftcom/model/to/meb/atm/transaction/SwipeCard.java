@@ -2,10 +2,14 @@ package com.dpi.financial.ftcom.model.to.meb.atm.transaction;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
+import com.dpi.financial.ftcom.model.converter.YesNoTypeConverter;
+import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalContent;
 import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.model.type.OperationState;
+import com.dpi.financial.ftcom.model.type.YesNoType;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -72,6 +76,24 @@ public class SwipeCard extends EntityBase {
     @Column(name = "OPERATION_STATE", nullable = false, length = 1)
     @Convert(converter = OperationStateConverter.class)
     private OperationState operationState;
+
+    @Column(name = "CARD_TAKEN", length = 1)
+    @Convert(converter = YesNoTypeConverter.class)
+    private YesNoType cardTaken;
+
+    @Column(name = "CARD_JAMMED", length = 1)
+    @Convert(converter = YesNoTypeConverter.class)
+    private YesNoType cardJammed;
+
+    @Column(name = "CARD_RETAINED", length = 1)
+    @Convert(converter = YesNoTypeConverter.class)
+    private YesNoType cardRetained;
+
+    @Column(name = "TERMINAL_MESSAGE", length = 200)
+    private String terminalMessage;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "swipeCard", cascade = CascadeType.ALL)
+    private Collection<TerminalTransaction> terminalTransactions; // = new LinkedHashSet<Receipt>();
 
     /*
     public Terminal getTerminal() {
@@ -171,11 +193,51 @@ public class SwipeCard extends EntityBase {
         this.lineEnd = lineEnd;
     }
 
+    public YesNoType getCardJammed() {
+        return cardJammed;
+    }
+
+    public void setCardJammed(YesNoType cardJammed) {
+        this.cardJammed = cardJammed;
+    }
+
+    public YesNoType getCardRetained() {
+        return cardRetained;
+    }
+
+    public void setCardRetained(YesNoType cardRetained) {
+        this.cardRetained = cardRetained;
+    }
+
+    public String getTerminalMessage() {
+        return terminalMessage;
+    }
+
+    public void setTerminalMessage(String terminalMessage) {
+        this.terminalMessage = terminalMessage;
+    }
+
     public OperationState getOperationState() {
         return operationState;
     }
 
     public void setOperationState(OperationState operationState) {
         this.operationState = operationState;
+    }
+
+    public Collection<TerminalTransaction> getTerminalTransactions() {
+        return terminalTransactions;
+    }
+
+    public void setTerminalTransactions(Collection<TerminalTransaction> terminalTransactions) {
+        this.terminalTransactions = terminalTransactions;
+    }
+
+    public YesNoType getCardTaken() {
+        return cardTaken;
+    }
+
+    public void setCardTaken(YesNoType cardTaken) {
+        this.cardTaken = cardTaken;
     }
 }

@@ -1,10 +1,13 @@
 package com.dpi.financial.ftcom.model.to.meb.atm.journal;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
+import com.dpi.financial.ftcom.model.converter.JournalFileStateConverter;
+import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -28,7 +31,7 @@ public class JournalFile extends EntityBase {
     public static final String FIND_ALL = "JournalFile.findAll";
     public static final String FIND_BY_TERMINAL = "JournalFile.findByTerminal";
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "TERMINAL_ID")
     private Terminal terminal;
 
@@ -76,6 +79,7 @@ public class JournalFile extends EntityBase {
     @Column(name = "DIGEST", columnDefinition = "RAW(32) NOT NULL")
     private byte[] digest;
 
+    //todo: uncomment line below
     /*
     @Column(name = "DIGEST", nullable = false, length = 32)
     private String digest;
@@ -87,7 +91,14 @@ public class JournalFile extends EntityBase {
     @Column(name = "IS_PREPARED", nullable = false, columnDefinition = "NUMBER(1,0) default 0")
     private boolean prepared = false;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "journalFile", cascade = CascadeType.ALL)
+    private Collection<JournalContent> contents; // = new LinkedHashSet<Receipt>();
+
+    /*
+    @Column(name = "STATE", nullable = false, length = 1)
+    @Convert(converter = JournalFileStateConverter.class)
     private JournalFileState state;
+    */
 
     public Terminal getTerminal() {
         return terminal;
@@ -209,19 +220,19 @@ public class JournalFile extends EntityBase {
         this.md5 = md5;
     }
 
-    public JournalFileState getState() {
-        return state;
-    }
-
-    public void setState(JournalFileState state) {
-        this.state = state;
-    }
-
     public boolean isPrepared() {
         return prepared;
     }
 
     public void setPrepared(boolean prepared) {
         this.prepared = prepared;
+    }
+
+    public Collection<JournalContent> getContents() {
+        return contents;
+    }
+
+    public void setContents(Collection<JournalContent> contents) {
+        this.contents = contents;
     }
 }

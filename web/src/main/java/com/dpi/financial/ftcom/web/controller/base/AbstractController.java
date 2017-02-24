@@ -93,8 +93,10 @@ public abstract class AbstractController {
         ProjectStage projectStage = FacesContext.getCurrentInstance().getApplication().getProjectStage();
         if (projectStage != null && projectStage.equals(ProjectStage.Development)) {
             Throwable cause = e.getCause();
+            if (cause == null)
+                getFacesContext().addMessage(null, new FacesMessage(e.toString()));
             while (cause != null /* && !(cause instanceof SQLException)*/) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(cause.toString()));
+                getFacesContext().addMessage(null, new FacesMessage(cause.toString()));
 
                 // if (cause instanceof javax.persistence.PersistenceException) entity.setId(null);
 

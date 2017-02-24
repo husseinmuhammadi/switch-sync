@@ -33,7 +33,7 @@ public class ATMConstant {
     public static final String ATM_REGEX_CASH_NOTE_FROM_CASSETTE_FOUR = "4:4,\\d+;";
 
     public static final String ATM_STATE_TRANSACTION_START = "TRANSACTION START";
-    public static final String ATM_REGEX_TRANSACTION_START = "TRANSACTION START";
+    public static final String ATM_REGEX_TRANSACTION_START = "TRANSACTION\\s+START";
 
     public static final String ATM_STATE_TRACK_DATA = "TRACK DATA";
     public static final String ATM_REGEX_TRACK_DATA = "TRACK\\s+\\d\\s+DATA:\\s+";
@@ -65,17 +65,17 @@ public class ATMConstant {
     public static final String ATM_REGEX_TRANSACTION_FAILED = "TRANSACTION\\s+\\d+\\s+FAILED";
 
     public static final String ATM_STATE_PIN_ENTERED = "PIN ENTERED";
-    public static final String ATM_REGEX_PIN_ENTERED = "PIN ENTERED";
+    public static final String ATM_REGEX_PIN_ENTERED = "PIN\\s+ENTERED";
 
     public static final String ATM_STATE_TRANSACTION_REQUEST = "TRANSACTION REQUEST";
     public static final String ATM_STATE_TRANSACTION_REQUEST_NEXT = "TRANSACTION REQUEST NEXT";
     public static final String ATM_REGEX_TRANSACTION_REQUEST = "TRANSACTION\\s+REQUEST\\s+";
 
     public static final String ATM_STATE_CARD_TAKEN = "CARD TAKEN";
-    public static final String ATM_REGEX_CARD_TAKEN = "CARD TAKEN";
+    public static final String ATM_REGEX_CARD_TAKEN = "CARD\\s+TAKEN";
 
     public static final String ATM_STATE_TRANSACTION_REPLY = "TRANSACTION REPLY";
-    public static final String ATM_REGEX_TRANSACTION_REPLY = "TRANSACTION REPLY ";
+    public static final String ATM_REGEX_TRANSACTION_REPLY = "TRANSACTION\\s+REPLY\\s+";
 
     public static final String ATM_STATE_CASH_REQUEST = "CASH REQUEST";
     public static final String ATM_REGEX_CASH_REQUEST = "CASH\\s+REQUEST:\\s+";
@@ -87,34 +87,33 @@ public class ATMConstant {
     public static final String ATM_STATE_ATM_STATUS_MESSAGE = "STATUS MESSAGE";
     public static final String ATM_REGEX_CDM_ERROR = "CDM\\s+ERROR:\\s+";
     public static final String ATM_REGEX_RECEIVED_INVALID_MESSAGE_COORDINATION_NUMBER = "RECEIVED\\s+INVALID\\s+MESSAGE\\s+COORDINATION\\s+NUMBER";
-    public static final String ATM_REGEX_COMMUNICATION_ERROR = "COMMUNICATION\\s+ERROR";
-    public static final String ATM_REGEX_COMMUNICATION_OFFLINE = "COMMUNICATION\\s+OFFLINE";
     public static final String ATM_REGEX_JRN_REC_ERROR = "JRN/REC\\s+ERROR:\\s+";
     public static final String ATM_REGEX_LOGICAL_CASSETTE_LOW = "LOGICAL\\s+CASSETTE\\s+\\d\\s+LOW";
     public static final String ATM_REGEX_PHYSICAL_CASSETTE_LOW = "PHYSICAL\\s+CASSETTE\\s+\\d\\s+LOW";
     public static final String ATM_REGEX_LOGICAL_CASSETTE_EMPTY = "LOGICAL\\s+CASSETTE\\s+\\d\\s+EMPTY";
     public static final String ATM_REGEX_PHYSICAL_CASSETTE_EMPTY = "PHYSICAL\\s+CASSETTE\\s+\\d\\s+EMPTY";
-    public static final String ATM_REGEX_GO_OUT_OF_SERVICE_COMMAND = "GO\\s+OUT\\s+OF\\s+SERVICE\\s+COMMAND";
+
     public static final String ATM_REGEX_SAFE_DOOR_OPENED = "SAFE\\s+DOOR\\s+OPENED";
     public static final String ATM_REGEX_REJECT_CASSETTE_REMOVED = "REJECT\\s+CASSETTE\\s+REMOVED";
-    public static final String ATM_REGEX_CARD_RETAINED = "CARD\\s+RETAINED";
-    public static final String ATM_REGEX_CASH_RETRACTED = "CASH\\s+RETRACTED";
-    public static final String ATM_REGEX_CARD_JAMMED = "CARD\\s+JAMMED";
     public static final String ATM_REGEX_SAFE_DOOR_CLOSED = "SAFE\\s+DOOR\\s+CLOSED";
     public static final String ATM_REGEX_IDCU_ERROR = "IDCU\\s+ERROR";
 
     public static final String ATM_STATE_CASH_PRESENTED = "CASH PRESENTED";
-    public static final String ATM_REGEX_CASH_PRESENTED = "CASH PRESENTED";
+    public static final String ATM_REGEX_CASH_PRESENTED = "CASH\\s+PRESENTED";
 
-    public static final String ATM_STATE_CASH_WITHDRAWAL = "CASH WITHDRAWAL";
+    public static final String ATM_REGEX_FUND_TRANSFER = "^\\s*FUND\\s+TRANSFER";
+    public static final String ATM_REGEX_CUSTOMER_INQUIRY = "^\\s*CUSTOMER\\+INQUIRY";
     public static final String ATM_REGEX_CASH_WITHDRAWAL = "^\\s*CASH\\s+WITHDRAWAL";
+    public static final String ATM_REGEX_BALANCE_INQUIRY = "^\\s*BALANCE\\s+INQUIRY";
+    public static final String ATM_REGEX_PIN_CHNAGE = "^\\s+PIN\\s+\\d*\\s*CHNAGE";
+    public static final String ATM_REGEX_MINI_STATEMENT = "^\\s+MINI\\s+STATEMENT";
+
     public static final String ATM_REGEX_CASH_WITHDRAWAL_VALUE = "CASH\\s+WITHDRAWAL";
     public static final String ATM_REGEX_SWITCH_DATE_TIME_LUNO = "\\d\\d/\\d\\d/\\d\\d\\d\\d\\s+\\d\\d:\\d\\d:\\d\\d\\s+\\d+";
     public static final String ATM_PROP_SWITCH_DATE_TIME = "SWITCH_DATE_TIME";
     public static final String ATM_REGEX_SWITCH_DATE_TIME = "\\d\\d/\\d\\d/\\d\\d\\d\\d\\s+\\d\\d:\\d\\d:\\d\\d";
     public static final String ATM_PROP_LUNO = "LUNO";
 
-    public static final String ATM_REGEX_BALANCE_INQUIRY = "^\\s*BALANCE\\s+INQUIRY";
 
     public static final String ATM_STATE_CARD_NO = "CARD_NO";
     public static final String ATM_REGEX_CARD_NO = "CARD\\s+NO\\s+:\\s+";
@@ -141,7 +140,7 @@ public class ATMConstant {
     public static final String ATM_REGEX_UNSUCCESSFUL = "^\\s*UNSUCCESSFUL";
 
     public static final String ATM_STATE_CASH_TAKEN = "CASH TAKEN";
-    public static final String ATM_REGEX_CASH_TAKEN = "CASH TAKEN";
+    public static final String ATM_REGEX_CASH_TAKEN = "CASH\\s+TAKEN";
 
     public static final String ATM_STATE_TRANSACTION_END = "TRANSACTION END";
     public static final String ATM_REGEX_TRANSACTION_END = "TRANSACTION\\s+END";
@@ -163,7 +162,6 @@ public class ATMConstant {
     public static final String ATM_REGEX_REC_ERROR = "REC\\s+ERROR:\\s+";
     public static final String ATM_REGEX_EDM_ERROR = "EDM\\s+ERROR";
     public static final String ATM_REGEX_CHECK_KEYS = "CHECK\\s+KEYS";
-    public static final String ATM_REGEX_GO_IN_SERVICE_COMMAND = "GO\\s+IN\\s+SERVICE\\s+COMMAND";
     public static final String ATM_REGEX_TOP_CASSETTE_INSERTED = "TOP\\s+CASSETTE\\s+INSERTED";
     public static final String ATM_REGEX_BOTTOM_CASSETTE_INSERTED = "BOTTOM\\s+CASSETTE\\s+INSERTED";
 
@@ -181,7 +179,15 @@ public class ATMConstant {
     public static final String ATM_PROP_IDCU_ERROR = "IDCU ERROR";
     public static final String ATM_PROP_CASH_RETRACTED = "CASH_RETRACTED";
 
-    public static final String ATM_REGEX_TERMINAL_MESSAGE = "^\\*";
+    public static final String ATM_REGEX_TERMINAL_MESSAGE = "^\\*\\p{Digit}+\\*\\p{Digit}+\\:\\p{Digit}+\\:\\p{Digit}+\\s+";
+    public static final String ATM_REGEX_COMMUNICATION_ERROR = "^\\*\\p{Digit}+\\*\\p{Digit}+\\:\\p{Digit}+\\:\\p{Digit}+\\s+COMMUNICATION\\s+ERROR";
+    public static final String ATM_REGEX_COMMUNICATION_OFFLINE = "^\\*\\p{Digit}+\\*\\p{Digit}+\\:\\p{Digit}+\\:\\p{Digit}+\\s+COMMUNICATION\\s+OFFLINE";
+    public static final String ATM_REGEX_GO_OUT_OF_SERVICE_COMMAND = "^\\*\\p{Digit}+\\*\\p{Digit}+\\:\\p{Digit}+\\:\\p{Digit}+\\s+GO\\s+OUT\\s+OF\\s+SERVICE\\s+COMMAND";
+    public static final String ATM_REGEX_GO_IN_SERVICE_COMMAND = "^\\*\\p{Digit}+\\*\\p{Digit}+\\:\\p{Digit}+\\:\\p{Digit}+\\s+GO\\s+IN\\s+SERVICE\\s+COMMAND";
+    public static final String ATM_REGEX_CARD_JAMMED = "^\\*\\p{Digit}+\\*\\p{Digit}+\\:\\p{Digit}+\\:\\p{Digit}+\\s+CARD\\s+JAMMED";
+    public static final String ATM_REGEX_CARD_RETAINED = "^\\*\\p{Digit}+\\*\\p{Digit}+\\:\\p{Digit}+\\:\\p{Digit}+\\s+CARD\\s+RETAINED";
+    public static final String ATM_REGEX_CASH_RETRACTED = "^\\*\\p{Digit}+\\*\\p{Digit}+\\:\\p{Digit}+\\:\\p{Digit}+\\s+CASH\\s+RETRACTED";
+
     public static final String ATM_REGEX_PUNCTUATION = "\\p{Punct}";
     public static final String ATM_REGEX_IGNORE = "^\\p{Punct}+";
     public static final String ATM_REGEX_APPLICATION_STARTED = "APPLICATION STARTED";

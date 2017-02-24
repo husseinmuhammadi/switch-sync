@@ -192,6 +192,9 @@ public class TerminalTransaction extends EntityBase {
     @Column(name = "AMOUNT_ENTERED")
     private BigDecimal amountEntered;
 
+    @Column(name = "TERMINAL_MESSAGE", length = 200)
+    private String terminalMessage;
+
     public String getLuno() {
         return luno;
     }
@@ -542,6 +545,14 @@ public class TerminalTransaction extends EntityBase {
 
     public void setSwitchTransaction(MiddleEastBankSwitchTransaction switchTransaction) {
         this.switchTransaction = switchTransaction;
+    }
+
+    public String getTerminalMessage() {
+        return terminalMessage;
+    }
+
+    public void setTerminalMessage(String terminalMessage) {
+        this.terminalMessage = terminalMessage;
     }
 
     public String getRetrievedRrn() {
