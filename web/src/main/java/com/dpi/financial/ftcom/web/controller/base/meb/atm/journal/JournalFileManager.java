@@ -103,6 +103,8 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     Date journalDateFrom;
     Date journalDateTo;
 
+    private List<TerminalOperationState> operationStates;
+
     public JournalFileManager() {
         super(JournalFile.class);
 
@@ -401,6 +403,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
         // journalDateTo = DateUtil.addDays(journalDateTo, 1);
         List<JournalFile> journalFiles = journalFileService.findAll(terminal);
 
+        operationStates = terminalOperationStateService.findAll();
         /*
         JournalFile last = null;
         if (journalFiles.size() > 1)
@@ -435,13 +438,14 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                 String line;
                 // String terminalId = file.getParent().substring(file.getParent().lastIndexOf("\\") + 1);
 
-                if (journalFile.getJournalDate().equals(terminal.getLastJournalDate()))
-                    while (index < terminal.getLastJournalLineNumber()) {
-                        br.readLine();
+                while ((line = br.readLine()) != null) {
+
+                    if (journalFile.getJournalDate().equals(terminal.getLastJournalDate()) &&
+                            index < terminal.getLastJournalLineNumber()) {
                         index++;
+                        continue;
                     }
 
-                while ((line = br.readLine()) != null) {
                     //http://www.ascii-code.com/
                     String endOfTransmission = String.valueOf(Character.toChars(4)); // ASCII control character EOT
                     if (line.contains(endOfTransmission))
@@ -475,11 +479,14 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                                     swipeCard.setOperationState(OperationState.ERROR);
 
                                 if (swipeCard.getLineEnd() == null)
-                                    swipeCard.setLineEnd(swipeCard.getLineStart());
+                                    swipeCard.setLineEnd(index);
                                 /////////////////////////////////////////////////////////////
 
-                                if (transaction != null)
+                                if (transaction != null) {
+                                    if (transaction.getLineEnd() == null)
+                                        transaction.setLineEnd(index);
                                     swipeCard.getTerminalTransactions().add(transaction);
+                                }
                                 terminalTransactionService.saveSwipeCardAndTransactions(swipeCard);
                                 swipeCard = null;
                             }
@@ -1088,32 +1095,39 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     }
 
     private TerminalOperationState getNextOperationState(TerminalTransactionState state, TerminalOperationType operationType) {
-        TerminalTransactionState followingState = TerminalTransactionState.NOT_DEFINED;
+        // TerminalTransactionState followingState = TerminalTransactionState.NOT_DEFINED;
 
         if (state == null || state == TerminalTransactionState.NOT_DEFINED)
             return null;
 
-        TerminalOperationState terminalOperationState;
+        TerminalOperationState operationState;
+        Optional<TerminalOperationState> any = operationStates.stream().
+                filter(item -> item.getCurrentState().equals(state) && item.getOperationType().equals(operationType)).findAny();
 
-        try {
-            terminalOperationState = terminalOperationStateService.findByStateAndOperation(state, operationType);
-
-            followingState = terminalOperationState.getFollowingState();
-            terminalOperationState.setCount(terminalOperationState.getCount() + 1);
-            terminalOperationStateService.update(terminalOperationState);
-        } catch (Exception e) {
-            logger.error("No entity found for query", e);
-
-            terminalOperationState = new TerminalOperationState();
-            terminalOperationState.setCurrentState(state);
-            terminalOperationState.setOperationType(operationType);
-            terminalOperationState.setFollowingState(TerminalTransactionState.NOT_DEFINED);
-            terminalOperationState.setUserAction(UserAction.NOT_DEFINED);
-            terminalOperationState.setCount(1L);
-            terminalOperationState = terminalOperationStateService.create(terminalOperationState);
+        if (any.isPresent()) {
+            operationState = any.get();
+            // followingState = operationState.getFollowingState();
+            operationState.setCount(operationState.getCount() + 1);
+            // terminalOperationStateService.update(operationState);
+        } else {
+            operationState = new TerminalOperationState();
+            operationState.setCurrentState(state);
+            operationState.setOperationType(operationType);
+            operationState.setFollowingState(TerminalTransactionState.NOT_DEFINED);
+            operationState.setUserAction(UserAction.NOT_DEFINED);
+            operationState.setCount(1L);
+            operationState = terminalOperationStateService.create(operationState);
         }
 
-        return terminalOperationState;
+        /*
+        try {
+            // operationState = terminalOperationStateService.findByStateAndOperation(state, operationType);
+        } catch (Exception e) {
+            logger.error("No entity found for query", e);
+        }
+        */
+
+        return operationState;
 
         /*
         if (RegexMatches.getSingleResult(ATMConstant.ATM_REGEX_IGNORE, line) != null)
