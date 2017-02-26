@@ -630,6 +630,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                                             swipeCard.setCardJammed(YesNoType.Yes);
                                             break;
                                         case TRANSACTION_REQUEST:
+                                        case RECEIPT:
                                             transaction.setCardJammed(YesNoType.Yes);
                                             break;
                                         default:
