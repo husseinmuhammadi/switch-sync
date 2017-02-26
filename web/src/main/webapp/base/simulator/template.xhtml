@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/base/master.xhtml">
+
+    <ui:define name="pageTitle">Simulator</ui:define>
+
+    <ui:define name="head">
+        <h:outputScript library="menu" name="script.js" target="head"/>
+        <h:outputStylesheet library="menu" name="styles.css"/>
+    </ui:define>
+
+    <ui:define name="main">
+        <p:growl id="msgs" showDetail="true"/>
+
+        <div style="direction: rtl">
+            <ui:insert name="header">
+                <ui:include src="/base/header.xhtml"/>
+            </ui:insert>
+        </div>
+
+        <ui:include src="/base/_theme.xhtml"/>
+
+        <div>
+            <ui:insert name="footer">
+                <ui:include src="/base/footer.xhtml"/>
+            </ui:insert>
+        </div>
+    </ui:define>
+</ui:composition>
