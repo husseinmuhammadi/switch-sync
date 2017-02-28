@@ -27,7 +27,7 @@
                     <!--<skinnyWars>true</skinnyWars>-->
                     <archive>
                         <!--<manifest>-->
-                            <!--<addClasspath>true</addClasspath>-->
+                        <!--<addClasspath>true</addClasspath>-->
                         <!--</manifest>-->
                         <addMavenDescriptor>true</addMavenDescriptor>
                     </archive>
@@ -85,6 +85,16 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.0.2.Final</version>
+
+                <!--
+                <configuration>
+                    <hostname>172.20.35.178</hostname>
+                    <port>9990</port>
+                    <username>Hossein</username>
+                    <password>148941</password>
+                </configuration>
+                -->
+
                 <executions>
                     <!-- Undeploy the application on clean -->
                     <execution>
@@ -160,49 +170,49 @@
                                         <enabled>true</enabled>
                                         <driver-name>postgresql.jar</driver-name>
                                     </properties>-->
-                                    <!-- Add the XA data source properties. The nested addresses will prepended the address above. -->
-                                    <!--<resources>
-                                        <resource>
-                                            <address>
-                                                xa-datasource-properties=DatabaseName
-                                            </address>
-                                            <properties>
-                                                <value>myDatabase</value>
-                                            </properties>
-                                        </resource>
-                                        <resource>
-                                            <address>
-                                                xa-datasource-properties=ServerName
-                                            </address>
-                                            <properties>
-                                                <value>localhost</value>
-                                            </properties>
-                                        </resource>
-                                        <resource>
-                                            <address>
-                                                xa-datasource-properties=User
-                                            </address>
-                                            <properties>
-                                                <value>dbuser</value>
-                                            </properties>
-                                        </resource>
-                                        <resource>
-                                            <address>
-                                                xa-datasource-properties=Password
-                                            </address>
-                                            <properties>
-                                                <value>supersecret</value>
-                                            </properties>
-                                        </resource>
-                                    </resources>
-                                </resource>
-                            </resources>
-                        </configuration>
-                        <goals>
-                            <goal>add-resource</goal>
-                        </goals>
-                    </execution>
-                    -->
+                    <!-- Add the XA data source properties. The nested addresses will prepended the address above. -->
+                    <!--<resources>
+                        <resource>
+                            <address>
+                                xa-datasource-properties=DatabaseName
+                            </address>
+                            <properties>
+                                <value>myDatabase</value>
+                            </properties>
+                        </resource>
+                        <resource>
+                            <address>
+                                xa-datasource-properties=ServerName
+                            </address>
+                            <properties>
+                                <value>localhost</value>
+                            </properties>
+                        </resource>
+                        <resource>
+                            <address>
+                                xa-datasource-properties=User
+                            </address>
+                            <properties>
+                                <value>dbuser</value>
+                            </properties>
+                        </resource>
+                        <resource>
+                            <address>
+                                xa-datasource-properties=Password
+                            </address>
+                            <properties>
+                                <value>supersecret</value>
+                            </properties>
+                        </resource>
+                    </resources>
+                </resource>
+            </resources>
+        </configuration>
+        <goals>
+            <goal>add-resource</goal>
+        </goals>
+    </execution>
+    -->
 
                     <!-- Deploy the application on install -->
                     <execution>
