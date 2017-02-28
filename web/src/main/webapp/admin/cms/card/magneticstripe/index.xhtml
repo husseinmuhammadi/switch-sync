@@ -45,21 +45,30 @@
 
                 <h:column>
                     <f:facet name="header">#{lbl['label.header.options']}</f:facet>
-                    <h:link outcome="insert" rendered="#{not empty magneticStripe.id}">
-                        <f:param name="id" value="#{magneticStripe.id}"/>
-                        <h:graphicImage alt="edit" library="images" name="edit.png" width="20"
-                                        styleClass="img-responsive"/>
-                    </h:link>
-                    <h:commandLink action="#{magneticStripeController.delete(magneticStripe.id)}"
-                                   rendered="#{not empty magneticStripe.id}">
-                        <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
-                                        styleClass="img-responsive"/>
-                        <!--<f:ajax execute="@form" render="@form" />-->
-                    </h:commandLink>
-                    <h:commandLink action="#{magneticStripeController.refresh}">
-                        <h:graphicImage alt="reload" library="images" name="reload.png" width="20"
-                                        styleClass="img-responsive"/>
-                    </h:commandLink>
+
+                    <div>
+                        <div style="float: right;">
+                            <h:link outcome="insert" rendered="#{not empty magneticStripe.id}">
+                                <f:param name="id" value="#{magneticStripe.id}"/>
+                                <h:graphicImage alt="edit" library="images" name="edit.png" width="20"
+                                                styleClass="img-responsive"/>
+                            </h:link>
+                        </div>
+                        <div style="float: right;">
+                            <h:commandLink action="#{magneticStripeController.delete(magneticStripe.id)}"
+                                           rendered="#{not empty magneticStripe.id}">
+                                <h:graphicImage alt="delete" library="images" name="delete.png" width="20"
+                                                styleClass="img-responsive"/>
+                                <!--<f:ajax execute="@form" render="@form" />-->
+                            </h:commandLink>
+                        </div>
+                        <div style="float: right;">
+                            <h:commandLink action="#{magneticStripeController.refresh}">
+                                <h:graphicImage alt="reload" library="images" name="reload.png" width="20"
+                                                styleClass="img-responsive"/>
+                            </h:commandLink>
+                        </div>
+                    </div>
                 </h:column>
             </h:dataTable>
         </h:form>

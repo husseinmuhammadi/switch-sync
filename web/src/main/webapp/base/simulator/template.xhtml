@@ -13,21 +13,56 @@
         <h:outputStylesheet library="menu" name="styles.css"/>
     </ui:define>
 
-    <ui:define name="main">
-        <p:growl id="msgs" showDetail="true"/>
+    <ui:define name="body">
 
-        <div style="direction: rtl">
-            <ui:insert name="header">
-                <ui:include src="/base/header.xhtml"/>
-            </ui:insert>
-        </div>
+        <div style="position: relative; width: 100%; min-width: 1024px; height: 100vh; overflow: auto;
+        background: #8e9eab;
+        background: -webkit-linear-gradient(to left, #8e9eab , #eef2f3);
+        background: linear-gradient(to left, #8e9eab , #DFE6EB);">
+            <p:growl id="msgs" showDetail="true"/>
 
-        <ui:include src="/base/_theme.xhtml"/>
+            <div style="width: 100%; height: 40px; background-color: #313F51;">
+                <div style="margin: 0 auto; max-width: 1200px;top: 0;z-index: 1; width: 100%;height: 40px">
+                    <div style="padding: 0 30px; height: 40px; float: right;vertical-align: middle; line-height: 35px; color: #ffffff"
+                         data-toggle="dropdown" class="dropdown"
+                         id="user-panel">
+                        <div id="username-div">
+                            <a href="#" data-toggle="dropdown"
+                               class="dropdown-toggle">#{templateController.userInformation.FName.concat(' ').concat(templateController.userInformation.LName)}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#{application.contextPath}/user/login.xhtml?logout">#{msg.logout}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div>
-            <ui:insert name="footer">
-                <ui:include src="/base/footer.xhtml"/>
-            </ui:insert>
+            <div style="margin: 0 auto;max-width: 1200px">
+                <ui:include src="_menu.xhtml"/>
+
+                <div style="padding: 10px; background-color: #E6EDF2;border-radius: 0 0 5px 5px; direction: rtl;">
+                    <ui:insert name="header">
+                        <ui:include src="/base/header.xhtml"/>
+                    </ui:insert>
+                    <ui:insert name="content"/>
+                </div>
+
+                <div>
+                    <ui:insert name="footer">
+                        <ui:include src="/base/footer.xhtml"/>
+                    </ui:insert>
+                </div>
+
+                <div style="padding: 20px 10px 10px 10px; text-align: center">
+                    <p style="color: #ffffff; font-size: 10px">
+                        #{msg.copyright}
+                    </p>
+                </div>
+            </div>
         </div>
     </ui:define>
 </ui:composition>
