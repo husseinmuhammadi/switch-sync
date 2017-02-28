@@ -4,7 +4,6 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:p="http://primefaces.org/ui"
                 template="/base/template.xhtml">
 
     <ui:define name="metadata">
@@ -31,7 +30,7 @@
                             </div>
                             <h:selectOneMenu value="#{middleEastBankJournalFileManager.terminal.luno}"
                                              id="luno" label="#{lbl['label.terminal.luno']}"
-                                             required="true" styleClass="form-control">
+                                             styleClass="form-control">
                                 <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
                                 <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
                                                var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>

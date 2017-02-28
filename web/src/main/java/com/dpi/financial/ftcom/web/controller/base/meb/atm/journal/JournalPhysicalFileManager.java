@@ -1,12 +1,15 @@
 package com.dpi.financial.ftcom.web.controller.base.meb.atm.journal;
 
 import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
+import com.dpi.financial.ftcom.web.controller.conf.AtmConfiguration;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,16 +21,21 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class JournalPhysicalFile {
 
-    private final String baseFolder;
+@Named("middleEastBankJournalPhysicalFileManager")
+@ViewScoped
+public class JournalPhysicalFileManager implements Serializable {
+    private static final long serialVersionUID = 1354959322957824074L;
+    Logger logger = LoggerFactory.getLogger(JournalPhysicalFileManager.class);
 
-    public JournalPhysicalFile(String baseFolder) {
-        this.baseFolder = baseFolder;
+    @Inject
+    private AtmConfiguration configuration;
+
+    public JournalPhysicalFileManager() {
     }
 
     private File getTerminalPath(String luno) throws FileNotFoundException {
-        final File parent = new File(baseFolder);
+        final File parent = new File(configuration.getJournalPath());
 
         List<File> folders = Arrays.asList(parent.listFiles());
 
@@ -36,9 +44,7 @@ public class JournalPhysicalFile {
                 .findAny();
 
         if (!any.isPresent())
-            throw new FileNotFoundException(
-                    MessageFormat.format("Journal path not found for terminal {0}.", luno)
-            );
+            throw new FileNotFoundException(MessageFormat.format("Journal path not found for terminal {0}.", luno));
 
         return any.get();
     }
@@ -74,6 +80,8 @@ public class JournalPhysicalFile {
      */
     public List<File> getOrderedJournalFiles(String luno) throws FileNotFoundException {
         List<File> jrnFiles = new ArrayList<File>();
+        logger.info(MessageFormat.format("Find all physical journal file for {0} in path {1}", luno, configuration.getJournalPath()));
+
         final File terminalJournalFolder = getTerminalPath(luno);
 
         if (terminalJournalFolder.isDirectory()) {
@@ -133,7 +141,7 @@ public class JournalPhysicalFile {
         Map<String, File> atmJournalFolderMap = new HashMap<String, File>();
 
         try {
-            final File parent = new File(baseFolder);
+            final File parent = new File(configuration.getJournalPath());
 
             for (final File folder : parent.listFiles()) {
                 if (folder.isDirectory())

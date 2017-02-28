@@ -22,6 +22,7 @@ import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
 import com.dpi.financial.ftcom.model.type.YesNoType;
+import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 import com.dpi.financial.ftcom.model.type.terminal.TerminalMessageType;
 import com.dpi.financial.ftcom.model.type.terminal.TerminalOperation;
 import com.dpi.financial.ftcom.model.type.terminal.TerminalOperationType;
@@ -95,8 +96,13 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     @EJB
     private SwipeCardService swipeCardService;
 
+    // remove this configuration and all reference to physical files should managed by physical file manager
+    @Deprecated
     @Inject
     private AtmConfiguration configuration;
+
+    @Inject
+    private JournalPhysicalFileManager physicalFileManager;
 
     private Terminal terminal;
     // private List<JournalFile> journalFileList;
@@ -151,7 +157,13 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
     }
 
     public void lunoValueChange(AjaxBehaviorEvent event) throws AbortProcessingException {
-        String luno = ((UIInput) event.getComponent()).getValue().toString();
+        Object value = ((UIInput) event.getComponent()).getValue();
+        if (value == null) {
+            getJournalFileList().clear();
+            return;
+        }
+
+        String luno = value.toString();
         logger.info(MessageFormat.format("Get journal files for logical unit number: {0}/{1}", luno, getTerminal().getLuno()));
         try {
             Terminal terminal = terminalService.findByLuno(luno);
@@ -164,17 +176,19 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     public void reload(AjaxBehaviorEvent event) throws AbortProcessingException {
         String luno = terminal.getLuno();
+
         if (luno == null)
-            return;
+            terminalService.findAll().stream().forEach(this::reload);
+        else
+            reload(terminalService.findByLuno(luno));
+    }
 
-        Terminal terminal = terminalService.findByLuno(luno);
-
-        logger.info(MessageFormat.format("Find all physical journal file for {0} in path {1}", luno, configuration.getJournalPath()));
+    public void reload(Terminal terminal) {
         List<JournalFile> journalFiles = service.findAll(terminal);
 
-        JournalPhysicalFile journalPhysicalFile = new JournalPhysicalFile(configuration.getJournalPath());
+        // JournalPhysicalFileManager physicalFileManager = new JournalPhysicalFileManager();
         try {
-            List<File> journalPhysicalFiles = journalPhysicalFile.getOrderedJournalFiles(terminal.getLuno());
+            List<File> journalPhysicalFiles = physicalFileManager.getOrderedJournalFiles(terminal.getLuno());
             for (File file : journalPhysicalFiles) {
                 JournalFile journal = new JournalFile();
 
@@ -311,7 +325,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
             // if (journalFile.getState() != JournalFileState.ENTRY) continue;
 
             try {
-                File file = new JournalPhysicalFile(configuration.getJournalPath()).getJournalFile(terminal.getLuno(), journalFile.getFileName());
+                File file = physicalFileManager.getJournalFile(terminal.getLuno(), journalFile.getFileName());
 
                 /*
                 String fileNameWithOutExt = FilenameUtils.removeExtension(file.getName());
@@ -371,17 +385,22 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
      * <li>Prepare ATM transactions based on journal content</li>
      */
     public void prepareAtmTransactions(AjaxBehaviorEvent event) {
-        String luno = terminal.getLuno();
         try {
-            Terminal terminal = terminalService.findByLuno(luno);
-            prepareAtmTransactions(terminal);
+            String luno = terminal.getLuno();
+            if (luno == null)
+                terminalService.findAll().stream().forEach(this::prepareAtmTransactions);
+            else
+                prepareAtmTransactions(terminalService.findByLuno(luno));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error", e);
             printErrorMessage(e);
         }
     }
 
-    private void prepareAtmTransactions(Terminal terminal) throws IOException {
+    /**
+     * @param terminal
+     */
+    private void prepareAtmTransactions(Terminal terminal) {
         TerminalTransactionState state = TerminalTransactionState.IDLE;
         // TerminalTransactionState previousState = TerminalTransactionState.IDLE;
 
@@ -414,9 +433,12 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
         for (JournalFile journalFile : journalFiles) {
             logger.info("Journal date {}", journalFile.getJournalDate());
-            logger.info("Terminal last date {}", terminal.getLastJournalDate());
 
-            if (journalFile.getJournalDate().before(terminal.getLastJournalDate())) {
+            Date lastJournalDate = terminal.getLastJournalDate() != null ? terminal.getLastJournalDate() : new Date(Long.MIN_VALUE);
+            logger.info("Terminal last date {}", lastJournalDate);
+
+
+            if (journalFile.getJournalDate().before(lastJournalDate)) {
                 logger.info("File {} ignored", journalFile.getFileName());
                 continue;
             }
@@ -425,6 +447,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
             try {
                 File file = new File(configuration.getJournalPath() + "\\" + terminal.getLuno() + "\\" + journalFile.getFileName());
+                // File file = new File(configuration.getJournalPath() + "/" + terminal.getLuno() + "/" + journalFile.getFileName());
 
                 /*
                 String fileNameWithOutExt = FilenameUtils.removeExtension(file.getName());
@@ -439,9 +462,10 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                 // String terminalId = file.getParent().substring(file.getParent().lastIndexOf("\\") + 1);
 
                 while ((line = br.readLine()) != null) {
+                    Long lastJournalLineNumber = terminal.getLastJournalLineNumber() != null ? terminal.getLastJournalLineNumber() : 0L;
 
-                    if (journalFile.getJournalDate().equals(terminal.getLastJournalDate()) &&
-                            index < terminal.getLastJournalLineNumber()) {
+                    if (journalFile.getJournalDate().equals(lastJournalDate) &&
+                            index < lastJournalLineNumber) {
                         index++;
                         continue;
                     }
@@ -803,8 +827,6 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                             swipeCard.setLineEnd(index + 1);
                             swipeCard.setOperationState(OperationState.FINISHED);
                             break;
-
-
                     }
 
                     index++;
@@ -813,17 +835,21 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                 logger.error("Error", e);
                 throw new OperationTerminatedException(MessageFormat.format("Operation failed while preparing swipe card for terminal {0}", terminal.getLuno()));
             } finally {
-                if (br != null)
-                    br.close();
-                br = null;
+                try {
+                    if (br != null)
+                        br.close();
+                    br = null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
 
             if (journalFile.getJournalDate().before(DateUtil.removeTime(journalDateTo))) {
                 // journalFile.setState(JournalFileState.PREPARED);
-                journalFileService.update(journalFile);
+                // journalFileService.update(journalFile);
             }
         }
-
     }
 
     @Deprecated
@@ -919,9 +945,8 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                 terminal.getLuno(), baseFolder));
         List<JournalFile> journalFiles = service.findAll(terminal);
 
-        JournalPhysicalFile journalPhysicalFile = new JournalPhysicalFile(baseFolder);
         try {
-            List<File> journalPhysicalFiles = journalPhysicalFile.getOrderedJournalFiles(terminal.getLuno());
+            List<File> journalPhysicalFiles = physicalFileManager.getOrderedJournalFiles(terminal.getLuno());
             for (File file : journalPhysicalFiles) {
                 JournalFile journal = new JournalFile();
 
