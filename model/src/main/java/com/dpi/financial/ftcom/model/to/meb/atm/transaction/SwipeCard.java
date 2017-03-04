@@ -54,7 +54,10 @@ public class SwipeCard extends EntityBase {
     private String track3Data;
 
     @Column(name = "PRIMARY_ACCOUNT_NUMBER", length = 19)
-    private String pan;
+    private String primaryAccountNumber;
+
+    // @Column(name = "PRIMARY_ACCOUNT_NUMBER", length = 19)
+    // private String pan;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "SWIPE_DATE", nullable = false)
@@ -145,14 +148,6 @@ public class SwipeCard extends EntityBase {
         this.track3Data = track3Data;
     }
 
-    public String getPan() {
-        return pan;
-    }
-
-    public void setPan(String pan) {
-        this.pan = pan;
-    }
-
     public Date getSwipeDate() {
         return swipeDate;
     }
@@ -239,5 +234,13 @@ public class SwipeCard extends EntityBase {
 
     public void setCardTaken(YesNoType cardTaken) {
         this.cardTaken = cardTaken;
+    }
+
+    public String getPrimaryAccountNumber() {
+        return primaryAccountNumber;
+    }
+
+    public void setPrimaryAccountNumber(String primaryAccountNumber) {
+        this.primaryAccountNumber = primaryAccountNumber;
     }
 }

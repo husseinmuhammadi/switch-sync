@@ -22,7 +22,6 @@ import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
 import com.dpi.financial.ftcom.model.type.YesNoType;
-import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 import com.dpi.financial.ftcom.model.type.terminal.TerminalMessageType;
 import com.dpi.financial.ftcom.model.type.terminal.TerminalOperation;
 import com.dpi.financial.ftcom.model.type.terminal.TerminalOperationType;
@@ -446,8 +445,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
             // if (journalFile.getState() == JournalFileState.PREPARED || journalFile.getState() == JournalFileState.RECONCILED) continue;
 
             try {
-                File file = new File(configuration.getJournalPath() + "\\" + terminal.getLuno() + "\\" + journalFile.getFileName());
-                // File file = new File(configuration.getJournalPath() + "/" + terminal.getLuno() + "/" + journalFile.getFileName());
+                File file = new File(configuration.getJournalPath() + File.separatorChar + terminal.getLuno() + File.separatorChar + journalFile.getFileName());
 
                 /*
                 String fileNameWithOutExt = FilenameUtils.removeExtension(file.getName());
@@ -511,6 +509,13 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                                         transaction.setLineEnd(index);
                                     swipeCard.getTerminalTransactions().add(transaction);
                                 }
+
+                                logger.info("line number {}", terminal.getLuno(), journalFile.getFileName(), index + 1);
+
+                                if (swipeCard.getPrimaryAccountNumber() != null
+                                        && swipeCard.getPrimaryAccountNumber().length() > 19)
+                                    swipeCard.setPrimaryAccountNumber("INVALID CARD NUMBER");
+
                                 terminalTransactionService.saveSwipeCardAndTransactions(swipeCard);
                                 swipeCard = null;
                             }
@@ -540,7 +545,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                             }
                             if (RegexMatches.getSingleResult(ATMConstant.ATM_REGEX_TRACK_2_DATA, line) != null) {
                                 swipeCard.setTrack2Data(com.dpi.financial.ftcom.utility.atm.journal.JournalContent.getTrackData(line));
-                                swipeCard.setPan(com.dpi.financial.ftcom.utility.atm.journal.JournalContent.getTrackData(line));
+                                swipeCard.setPrimaryAccountNumber(com.dpi.financial.ftcom.utility.atm.journal.JournalContent.getTrackData(line));
                             }
                             if (RegexMatches.getSingleResult(ATMConstant.ATM_REGEX_TRACK_3_DATA, line) != null) {
                                 swipeCard.setTrack3Data(com.dpi.financial.ftcom.utility.atm.journal.JournalContent.getTrackData(line));
@@ -832,7 +837,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                     index++;
                 }
             } catch (ParseException | MultipleMatchException | IOException e) {
-                logger.error("Error", e);
+                logger.error(e.getMessage(), e);
                 throw new OperationTerminatedException(MessageFormat.format("Operation failed while preparing swipe card for terminal {0}", terminal.getLuno()));
             } finally {
                 try {
@@ -859,11 +864,9 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
         if (!transaction.getOperationState().equals(OperationState.ERROR))
             transaction.setOperationState(OperationState.FINISHED);
 
-        System.out.println(
-                MessageFormat.format("Terminal transaction: {0}/{1}/{2}/{3}",
-                        transaction.getLuno(), transaction.getSwipeCard().getJournalFile().getName(),
-                        transaction.getLineStart(), transaction.getLineEnd())
-        );
+        logger.info("Terminal transaction: {}/{}/{}/{}",
+                transaction.getLuno(), transaction.getSwipeCard().getJournalFile().getName(),
+                transaction.getLineStart(), transaction.getLineEnd());
 
         return terminalTransactionService.create(transaction);
     }

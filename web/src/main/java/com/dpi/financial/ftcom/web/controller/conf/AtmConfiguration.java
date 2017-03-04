@@ -1,8 +1,9 @@
 package com.dpi.financial.ftcom.web.controller.conf;
 
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
-import com.dpi.financial.ftcom.model.dao.atm.TerminalDao;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
+import com.dpi.financial.ftcom.utility.system.OperationSystem;
+import com.dpi.financial.ftcom.web.exception.UnsupportedOperationSystem;
 import org.omnifaces.cdi.Startup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class AtmConfiguration implements Runnable {
     private WatchService watcher;
     private Map<String, Terminal> terminalMap;
 
-    public String getJournalPath() {
+    public String getJournalPath() throws UnsupportedOperationSystem {
         String path = null;
 
         try {
@@ -41,9 +42,21 @@ public class AtmConfiguration implements Runnable {
             InputStream input = classLoader.getResourceAsStream("atm.properties");
             Properties properties = new Properties();
             properties.load(input);
-            path = properties.getProperty("JOURNAL_PATH");
+            switch (OperationSystem.getOS()) {
+                case Windows:
+                    path = properties.getProperty("JOURNAL_PATH_WINDOWS");
+                    break;
+                case Unix:
+                    path = properties.getProperty("JOURNAL_PATH_UNIX");
+                    break;
+                case Solaris:
+                case Mac:
+                case unsupported:
+                    throw new UnsupportedOperationSystem();
+            }
+            logger.info("Operation System: {}", OperationSystem.getOS());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("IOException", e);
         }
 
         return path;
@@ -161,7 +174,9 @@ public class AtmConfiguration implements Runnable {
 
             // watch(dir);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("IOException", e);
+        } catch (UnsupportedOperationSystem e) {
+            logger.error("UnsupportedOperationSystem", e);
         }
     }
 

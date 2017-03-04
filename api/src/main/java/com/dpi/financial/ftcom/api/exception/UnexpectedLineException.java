@@ -1,6 +1,8 @@
 package com.dpi.financial.ftcom.api.exception;
 
 public class UnexpectedLineException extends RuntimeException {
+    private static final long serialVersionUID = -132883181446131916L;
+
     public UnexpectedLineException() {
         super();
     }
