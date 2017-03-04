@@ -3,10 +3,10 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                template="/base/template.xhtml">
+                template="/base/template-simulator.xhtml">
 
     <ui:define name="header">
-        <h2>#{lbl['label.Msg.Issuer']}</h2>
+        <h2>#{lbl['label.simulator.Msg.Issuer']}</h2>
     </ui:define>
 
     <ui:define name="content">
@@ -17,10 +17,10 @@
                 <div class="input-group">
                     <div class="input-group-addon">
                         <h:outputLabel for="processingCode"
-                                       value="#{lbl['label.switchTransaction.processingCode']}"/>
+                                       value="#{lbl['label.simulator.processingCode']}"/>
                     </div>
                     <h:selectOneMenu value="#{simulatorManagedBean.processingCode}"
-                                     id="processingCode" label="#{lbl['label.switchTransaction.processingCode']}"
+                                     id="processingCode" label="#{lbl['label.simulator.processingCode']}"
                                      styleClass="form-control" required="true">
                         <f:selectItems value="#{selectItemsController.processingCodeItems.entrySet()}" var="items"
                                        itemLabel="#{items.value}" itemValue="#{items.key}"/>
@@ -32,10 +32,10 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">
-                        <h:outputLabel for="deviceCode" value="#{lbl['label.switchTransaction.deviceCode']}"/>
+                        <h:outputLabel for="deviceCode" value="#{lbl['label.simulator.deviceCode']}"/>
                     </div>
                     <h:selectOneMenu value="#{simulatorManagedBean.deviceCode}"
-                                     id="deviceCode" label="#{lbl['label.switchTransaction.deviceCode']}"
+                                     id="deviceCode" label="#{lbl['label.simulator.deviceCode']}"
                                      styleClass="form-control" required="true">
                         <f:selectItems value="#{selectItemsController.deviceCodeItems.entrySet()}" var="items"
                                        itemLabel="#{items.value}" itemValue="#{items.key}"/>
@@ -47,10 +47,10 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">
-                        <h:outputLabel for="productCode" value="#{lbl['label.switchTransaction.productCode']}"/>
+                        <h:outputLabel for="productCode" value="#{lbl['label.simulator.productCode']}"/>
                     </div>
                     <h:selectOneMenu value="#{simulatorManagedBean.productCode}"
-                                     id="productCode" label="#{lbl['label.switchTransaction.productCode']}"
+                                     id="productCode" label="#{lbl['label.simulator.productCode']}"
                                      styleClass="form-control" required="false">
                         <f:selectItems value="#{selectItemsController.productCodeItems.entrySet()}" var="items"
                                        itemLabel="#{items.value}" itemValue="#{items.key}"/>
@@ -63,10 +63,10 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">
-                        <h:outputLabel for="cardNumber" value="#{lbl['label.switchTransaction.cardNumber']}"/>
+                        <h:outputLabel for="cardNumber" value="#{lbl['label.simulator.cardNumber']}"/>
                     </div>
                     <h:inputText value="#{simulatorManagedBean.cardNumber}"
-                                 id="cardNumber" label="#{lbl['label.switchTransaction.cardNumber']}"
+                                 id="cardNumber" label="#{lbl['label.simulator.cardNumber']}"
                                  styleClass="form-control" required="false"/>
                 </div>
             </div>
@@ -75,10 +75,21 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">
-                        <h:outputLabel for="track2" value="#{lbl['label.magneticStripe.track2']}"/>
+                        <h:outputLabel for="track2" value="#{lbl['label.simulator.track2']}"/>
                     </div>
                     <h:inputText value="#{simulatorManagedBean.track2}"
-                                 id="track2" label="#{lbl['label.magneticStripe.track2']}"
+                                 id="track2" label="#{lbl['label.simulator.track2']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="expDate" value="#{lbl['labal.simulator.expDate']}"/>
+                    </div>
+                    <h:inputText value="#{simulatorManagedBean.expDate}"
+                                 id="expDate" label="#{lbl['labal.simulator.expDate']}"
                                  styleClass="form-control" required="false"/>
                 </div>
             </div>
@@ -87,10 +98,10 @@
             <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
-                    <h:outputLabel for="pin" value="#{lbl['label.pin']}"/>
+                    <h:outputLabel for="pin" value="#{lbl['label.simulator.pin']}"/>
                 </div>
                 <h:inputText value="#{simulatorManagedBean.pin}"
-                             id="pin" label="#{lbl['label.pin']}"
+                             id="pin" label="#{lbl['label.simulator.pin']}"
                              styleClass="form-control" required="false"/>
             </div>
         </div>
@@ -99,18 +110,45 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">
-                        <h:outputLabel for="response" value="#{lbl['label.response']}"/>
+                        <h:outputLabel for="rrn" value="#{lbl['label.simulator.rrn']}"/>
                     </div>
-                    <h:inputText value="#{simulatorManagedBean.responseCode}"
-                                 id="response" label="#{lbl['label.response']}"
+                    <h:inputText value="#{simulatorManagedBean.rrn}"
+                                 id="rrn" label="#{lbl['label.simulator.rrn']}"
                                  styleClass="form-control" required="false"/>
                 </div>
             </div>
 
 
 
-            <h:commandButton value="#{lbl['button.SendMessage']}" action="#{simulatorManagedBean.createSendMessage()}"
-                             styleClass="btn btn-default"/>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <h:outputLabel for="response" value="#{lbl['label.simulator.responseCode']}"/>
+                    </div>
+                    <h:inputText value="#{simulatorManagedBean.responseCode}"
+                                 id="response" label="#{lbl['label.simulator.responseCode']}"
+                                 styleClass="form-control" required="false"/>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            <h:commandButton value="#{lbl['button.sendmsg']}" action="#{simulatorManagedBean.createSendMessage()}"
+                             styleClass="btn btn-default">
+
+
+            <f:ajax execute="@form" render="rrn" />
+
+            </h:commandButton>
+
+
+
+
 
 
         </h:form>

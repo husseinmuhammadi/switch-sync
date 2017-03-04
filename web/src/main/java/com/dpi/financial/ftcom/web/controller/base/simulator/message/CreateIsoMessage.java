@@ -44,11 +44,12 @@ public class CreateIsoMessage {
 		ISOChannel channel = new ASCIIChannel(
 				"172.20.35.243", 39190, new ISO87APackager()
 		);
-		((LogSource) channel).setLogger(logger, "test-channel");
+		((LogSource) channel).setLogger(logger, "TestDb-channel");
 		channel.connect();
 		ISOMsg isoMsg = new ISOMsg();
 		TransactionFactory factory = new TransactionFactory();
-		String processingCode="31";
+		//String processingCode="31";
+		String processingCode=messageDetails.getProcessingCode();
 
 		ITransaction transaction = factory.getTransaction( processingCode);
 	//if (transaction.isRequest()) {
@@ -78,31 +79,6 @@ public class CreateIsoMessage {
 
 
 
-	//get Field 48
-	private String getAdditionalData(MessageDetails messageDetails){
 
-
-		String field48="";
-		String reserve="      ";// 6 char
-		String lang = "00";// 01:english 00:farsi
-		field48=reserve+lang;
-        field48 +=messageDetails.getPan();
-		return field48;
-
-	}
-
-
-
-	//get Field 62
-	private String getTransactionCode(MessageDetails messageDetails)
-	{
-		String field62="";
-	//	String terminalId=cardDetails.getCARD_ACCEPTOR_TERMINAL_ID();
-		String errorIndicator="000";
-		String reasonCode = "0000";
-
-		//String bit62 = terminalId + errorIndicator + reasonCode + functionCode + secutiryConfig + shetabControllingData + tranSupplData + cardAccSupplData + panEnc + sourceCardEnc;
-		return field62;
-	}
 
 }

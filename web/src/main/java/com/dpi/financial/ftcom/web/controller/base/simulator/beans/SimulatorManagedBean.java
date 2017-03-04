@@ -4,11 +4,21 @@ package com.dpi.financial.ftcom.web.controller.base.simulator.beans;
 
 
 
+import com.dpi.financial.ftcom.api.base.SimulatorService;
+import com.dpi.financial.ftcom.model.to.Simulator;
+import com.dpi.financial.ftcom.model.type.DeviceCode;
+import com.dpi.financial.ftcom.model.type.ProductCode;
 import com.dpi.financial.ftcom.web.controller.base.simulator.message.CreateIsoMessage;
 import com.dpi.financial.ftcom.web.controller.base.simulator.std.definition.MessageDetails;
+import com.dpi.financial.ftcom.model.type.ProcessingCode;
+import org.jpos.iso.ISOMsg;
 
+
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 @Named
@@ -16,40 +26,48 @@ import java.io.Serializable;
 public class SimulatorManagedBean implements Serializable{
 
 
-
-
-    private String processingCode;
-    private String deviceCode;
-    private String productCode;
+    private ProcessingCode processingCode;
+    private DeviceCode deviceCode;
+    private ProductCode productCode;
     private String cardNumber;
     private String track2;
     private String pin;
     private String responseCode;
+    private String rrn;
+    private String expDate;
 
-    public SimulatorManagedBean() {
+
+    public String getRrn() {
+        return rrn;
     }
 
-    public String getProcessingCode() {
+    public void setRrn(String rrn) {
+        this.rrn = rrn;
+    }
+
+    public SimulatorManagedBean() {}
+
+    public ProcessingCode getProcessingCode() {
         return processingCode;
     }
 
-    public void setProcessingCode(String processingCode) {
+    public void setProcessingCode(ProcessingCode processingCode) {
         this.processingCode = processingCode;
     }
 
-    public String getDeviceCode() {
+    public DeviceCode getDeviceCode() {
         return deviceCode;
     }
 
-    public void setDeviceCode(String deviceCode) {
+    public void setDeviceCode(DeviceCode deviceCode) {
         this.deviceCode = deviceCode;
     }
 
-    public String getProductCode() {
+    public ProductCode getProductCode() {
         return productCode;
     }
 
-    public void setProductCode(String productCode) {
+    public void setProductCode(ProductCode productCode) {
         this.productCode = productCode;
     }
 
@@ -86,6 +104,14 @@ public class SimulatorManagedBean implements Serializable{
         this.responseCode = responseCode;
     }
 
+    public String getExpDate() {
+        return expDate;
+    }
+
+    public void setExpDate(String expDate) {
+        this.expDate = expDate;
+    }
+
     public void createSendMessage() {
 
 
@@ -98,23 +124,48 @@ public class SimulatorManagedBean implements Serializable{
             MessageDetails messageDetails=new MessageDetails();
 
 
-            messageDetails.setProcessingCode(getProcessingCode());
-            messageDetails.setDeviceCode(getDeviceCode());
-            messageDetails.setProductCode(getProductCode());
+            messageDetails.setProcessingCode(getProcessingCode().getValue());
+            messageDetails.setDeviceCode(getDeviceCode().getValue());
+            messageDetails.setProductCode(getProductCode().getValue());
             //messageDetails.setTransactionName("BalanceEnquiry");
             messageDetails.setPan(getCardNumber());
             messageDetails.setTrack2(getTrack2());
             messageDetails.setPin(getPin());
+            messageDetails.setExpDate(getExpDate());
+
+   /*         Simulator simulator=new Simulator();
+            simulator.setRrn("123");
+
+         //   simulatorService.create(simulator);*/
+
             createIsoMessage.IntitIsoMsg(messageDetails);
 
+           this.setRrn(messageDetails.getRrn());
 
-            System.out.println("salam");
+
 
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+
+    }
+
+    public  void readResponse(){
+
+
+        try{
+
+
+
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
 
     }
 

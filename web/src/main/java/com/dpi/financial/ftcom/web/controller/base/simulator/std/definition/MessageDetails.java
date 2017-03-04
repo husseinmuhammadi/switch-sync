@@ -35,6 +35,16 @@ public class MessageDetails {
 	private String CARD_ACCEPTOR_TERMINAL_LOCATION;
 	private String productCode;
 
+	private String rrn;
+
+	public String getRrn() {
+		return rrn;
+	}
+
+	public void setRrn(String rrn) {
+		this.rrn = rrn;
+	}
+
 	public String getCARD_ACCEPTOR_TERMINAL_LOCATION() {
 		return CARD_ACCEPTOR_TERMINAL_LOCATION;
 	}
