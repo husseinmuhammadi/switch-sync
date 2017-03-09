@@ -4,7 +4,6 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:p="http://primefaces.org/ui"
                 template="/base/template.xhtml">
 
     <ui:define name="metadata">
@@ -42,31 +41,11 @@
             </table>
 
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">
-                                <h:outputLabel for="selectedCardNumber"
-                                               value="#{lbl['label.switchTransaction.cardNumber']}"/>
-                            </div>
-                            <h:selectOneMenu value="#{middleEastBankSwitchReconciliationManager.selectedCardNumber}"
-                                             id="selectedCardNumber" label="#{lbl['label.switchTransaction.cardNumber']}"
-                                             styleClass="form-control">
-                                <f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>
-                                <f:selectItems value="#{middleEastBankSwitchReconciliationManager.cardNumbers}"/>
-                                <f:ajax event="valueChange" execute="@this"
-                                        render="switchTransactionDate switchTransactionList terminalTransactionList :messages"
-                                        listener="#{middleEastBankSwitchReconciliationManager.cardValueChange}"/>
-                            </h:selectOneMenu>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <h:outputLabel for="luno"
-                                               value="#{lbl['label.terminal.luno']}"/>
+                                <h:outputLabel for="luno" value="#{lbl['label.terminal.luno']}"/>
                             </div>
                             <h:selectOneMenu value="#{middleEastBankSwitchReconciliationManager.terminal.luno}"
                                              id="luno" label="#{lbl['label.terminal.luno']}"
@@ -80,44 +59,72 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <h:outputLabel for="selectedCardNumber"
+                                               value="#{lbl['label.switchTransaction.cardNumber']}"/>
+                            </div>
+                            <h:selectOneMenu value="#{middleEastBankSwitchReconciliationManager.selectedCardNumber}"
+                                             id="selectedCardNumber"
+                                             label="#{lbl['label.switchTransaction.cardNumber']}"
+                                             styleClass="form-control">
+                                <f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>
+                                <f:selectItems value="#{middleEastBankSwitchReconciliationManager.cardNumbers}"/>
+                                <f:ajax event="valueChange" execute="@this"
+                                        render="switchTransactionDate switchTransactionList terminalTransactionList :messages"
+                                        listener="#{middleEastBankSwitchReconciliationManager.cardValueChange}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+
+                <h:panelGroup id="switchTransactionDate">
+                    <h:panelGroup rendered="#{middleEastBankSwitchReconciliationManager.selectedCardNumber eq null}">
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <h:outputLabel for="switchTransactionDateFrom"
+                                                       value="#{lbl['label.journalFile.journalDateFrom']}"/>
+                                    </div>
+                                    <h:inputText
+                                            value="#{middleEastBankSwitchReconciliationManager.switchTransactionDateFrom}"
+                                            id="switchTransactionDateFrom"
+                                            label="#{lbl['label.journalFile.journalDateFrom']}"
+                                            styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                                        <f:convertDateTime pattern="d-M-yyyy"/>
+                                    </h:inputText>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <h:outputLabel for="switchTransactionDateTo"
+                                                       value="#{lbl['label.journalFile.journalDateTo']}"/>
+                                    </div>
+                                    <h:inputText
+                                            value="#{middleEastBankSwitchReconciliationManager.switchTransactionDateTo}"
+                                            id="switchTransactionDateTo"
+                                            label="#{lbl['label.journalFile.journalDateTo']}"
+                                            styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                                        <f:convertDateTime pattern="d-M-yyyy"/>
+                                    </h:inputText>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </h:panelGroup>
             </div>
 
-
-
-            <h:panelGroup id="switchTransactionDate">
-                <h:panelGroup rendered="#{middleEastBankSwitchReconciliationManager.selectedCardNumber eq null}">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <h:outputLabel for="switchTransactionDateFrom"
-                                               value="#{lbl['label.journalFile.journalDateFrom']}"/>
-                            </div>
-                            <h:inputText value="#{middleEastBankSwitchReconciliationManager.switchTransactionDateFrom}"
-                                         id="switchTransactionDateFrom"
-                                         label="#{lbl['label.journalFile.journalDateFrom']}"
-                                         styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
-                                <f:convertDateTime pattern="d-M-yyyy"/>
-                            </h:inputText>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <h:outputLabel for="journalDateTo" value="#{lbl['label.journalFile.journalDateTo']}"/>
-                            </div>
-                            <h:inputText value="#{middleEastBankSwitchReconciliationManager.switchTransactionDateTo}"
-                                         id="journalDateTo" label="#{lbl['label.journalFile.journalDateTo']}"
-                                         styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
-                                <f:convertDateTime pattern="d-M-yyyy"/>
-                            </h:inputText>
-                        </div>
-                    </div>
-                </h:panelGroup>
-            </h:panelGroup>
-
             <div class="row">
-                <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1" style="background-color:lavender;">
+                <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1"
+                     style="background-color:lavender;">
                     <h:dataTable value="#{middleEastBankSwitchReconciliationManager.switchTransactionList}"
                                  id="switchTransactionList" var="switchTransaction"
                                  styleClass="table table-striped table-bordered dt-responsive nowrap"
@@ -171,7 +178,8 @@
                     </h:dataTable>
 
                 </div>
-                <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1" style="background-color:lavenderblush;">
+                <div class="col-xs-12 col-sm-11 col-sm-offset-1 col-md-6 col-sm-offset-0 col-lg-5 col-lg-offset-1"
+                     style="background-color:lavenderblush;">
                     <h:dataTable value="#{middleEastBankSwitchReconciliationManager.terminalTransactionList}"
                                  id="terminalTransactionList" var="terminalTransaction"
                                  styleClass="table table-striped table-bordered dt-responsive nowrap"

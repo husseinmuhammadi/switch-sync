@@ -3,6 +3,7 @@ package com.dpi.financial.ftcom.model.to.meb.atm.transaction;
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.converter.YesNoTypeConverter;
+import com.dpi.financial.ftcom.model.to.cms.card.CardMaster;
 import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalContent;
 import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
 import com.dpi.financial.ftcom.model.type.OperationState;
@@ -55,6 +56,10 @@ public class SwipeCard extends EntityBase {
 
     @Column(name = "PRIMARY_ACCOUNT_NUMBER", length = 19)
     private String primaryAccountNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CARD_MASTER_ID", nullable = true)
+    private CardMaster cardMaster;
 
     // @Column(name = "PRIMARY_ACCOUNT_NUMBER", length = 19)
     // private String pan;
@@ -242,5 +247,13 @@ public class SwipeCard extends EntityBase {
 
     public void setPrimaryAccountNumber(String primaryAccountNumber) {
         this.primaryAccountNumber = primaryAccountNumber;
+    }
+
+    public CardMaster getCardMaster() {
+        return cardMaster;
+    }
+
+    public void setCardMaster(CardMaster cardMaster) {
+        this.cardMaster = cardMaster;
     }
 }

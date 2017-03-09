@@ -32,13 +32,20 @@
                         <li>
                             <a href='#{request.contextPath}/index.xhtml'>#{lbl['menu.home']}</a>
                         </li>
-                        <li class='has-sub'><a href='#'>#{lbl['menu.meb.atm']}</a>
+                        <li class='has-sub'><a href='#'>#{lbl['menu.terminal.atm']}</a>
                             <ul>
                                 <li>
                                     <a href='#{request.contextPath}/admin/atm/ndc/operation/index.xhtml'>#{lbl['menu.meb.atm.ndc.operationCode']}</a>
                                 </li>
                                 <li>
                                     <a href='#{request.contextPath}/admin/meb/atm/journal/file/index.xhtml'>#{lbl['menu.meb.atm.journal.file']}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class='has-sub'><a href='#'>#{lbl['menu.switch']}</a>
+                            <ul>
+                                <li>
+                                    <a href='#{request.contextPath}/admin/meb/switch/reconciliation/index.xhtml'>#{lbl['menu.meb.switch.reconciliation']}</a>
                                 </li>
                             </ul>
                         </li>

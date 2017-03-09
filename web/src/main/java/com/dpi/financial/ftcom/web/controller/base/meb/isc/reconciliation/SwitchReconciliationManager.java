@@ -105,8 +105,10 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
         try {
             // Terminal terminal = terminalService.findByLuno(luno);
             cardNumbers = service.findAllCard(luno, switchTransactionDateFrom, switchTransactionDateTo);
-            int toIndex = cardNumbers.size() > 100 ? 100 : cardNumbers.size();
-            cardNumbers = new ArrayList<String>(cardNumbers.subList(0, toIndex - 1));
+            if (cardNumbers.size() < 100)
+                return;
+
+            cardNumbers = new ArrayList<String>(cardNumbers.subList(0, 99));
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);

@@ -2,6 +2,7 @@ package com.dpi.financial.ftcom.model.to.meb.isc.transaction;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
+import com.dpi.financial.ftcom.model.to.cms.card.CardMaster;
 import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
 
@@ -56,6 +57,10 @@ public class MiddleEastBankSwitchTransaction extends EntityBase {
     @Column(name = "PROCESSING_CODE", nullable = false, length = 2)
     @Convert(converter = ProcessingCodeConverter.class)
     private ProcessingCode processingCode;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CARD_MASTER_ID")
+    private CardMaster cardMaster;
 
     @Column(name = "CARD_NUMBER", length = 19)
     private String cardNumber;
@@ -207,6 +212,14 @@ public class MiddleEastBankSwitchTransaction extends EntityBase {
 
     public void setAcquiringInstitutionCode(String acquiringInstitutionCode) {
         this.acquiringInstitutionCode = acquiringInstitutionCode;
+    }
+
+    public CardMaster getCardMaster() {
+        return cardMaster;
+    }
+
+    public void setCardMaster(CardMaster cardMaster) {
+        this.cardMaster = cardMaster;
     }
 
     @Transient

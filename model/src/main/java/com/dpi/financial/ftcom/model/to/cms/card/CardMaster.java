@@ -19,21 +19,21 @@ public class CardMaster extends EntityBase {
     @Column(name = "PRIMARY_ACCOUNT_NUMBER", nullable = false, length = 19)
     private String pan;
 
-    @Column(name = "NAME", nullable = true, length = 26)
+    @Column(name = "NAME", length = 26)
     private String name;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "EXPIRATION_DATE", columnDefinition = "Date", nullable = false)
+    @Column(name = "EXPIRATION_DATE", columnDefinition = "Date")
     private Date expirationDate;
 
-    @Column(name = "SERVICE_CODE", nullable = true, length = 3)
+    @Column(name = "SERVICE_CODE", length = 3)
     private String serviceCode;
 
     // CVV2
-    @Column(name = "CARD_VERIFICATION_VALUE", nullable = true, length = 3)
+    @Column(name = "CARD_VERIFICATION_VALUE", length = 3)
     private String cvv;
 
-    @Column(name = "DISCRETIONARY_DATA", nullable = true, length = 4)
+    @Column(name = "DISCRETIONARY_DATA", length = 4)
     private String discretionaryData;
 
     // https://en.wikibooks.org/wiki/Java_Persistence/OneToOne
