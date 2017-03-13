@@ -2,7 +2,7 @@ package com.dpi.financial.ftcom.web.controller.base.isc.transaction;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.isc.transaction.SwitchTransactionService;
-import com.dpi.financial.ftcom.model.to.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.isc.transaction.FinancialBase;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 
 import javax.ejb.EJB;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Named
 @ViewScoped
-public class TransactionManager extends ControllerManagerBase<SwitchTransaction> implements Serializable {
+public class TransactionManager extends ControllerManagerBase<FinancialBase> implements Serializable {
     private static final long serialVersionUID = 6457436395544349233L;
 
     @EJB
@@ -22,22 +22,22 @@ public class TransactionManager extends ControllerManagerBase<SwitchTransaction>
     // private List<SwitchTransaction> switchTransactions;
 
     public TransactionManager() {
-        super(SwitchTransaction.class);
+        super(FinancialBase.class);
     }
 
     @Override
-    public GeneralServiceApi<SwitchTransaction> getGeneralServiceApi() {
+    public GeneralServiceApi<FinancialBase> getGeneralServiceApi() {
         return service;
     }
 
     public void onLoad() {
     }
 
-    public List<SwitchTransaction> getSwitchTransactions() {
+    public List<FinancialBase> getSwitchTransactions() {
         return entityList;
     }
 
-    public void setSwitchTransactions(List<SwitchTransaction> switchTransactions) {
+    public void setSwitchTransactions(List<FinancialBase> switchTransactions) {
         this.entityList = switchTransactions;
     }
 }

@@ -2,7 +2,13 @@ package com.dpi.financial.ftcom.model.to.isc.test;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.*;
-import com.dpi.financial.ftcom.model.type.*;
+import com.dpi.financial.ftcom.model.converter.isc.transaction.InteractionPointConverter;
+import com.dpi.financial.ftcom.model.type.ProcessingCode;
+import com.dpi.financial.ftcom.model.type.ProductCode;
+import com.dpi.financial.ftcom.model.type.TestConditionType;
+import com.dpi.financial.ftcom.model.type.TransactionMode;
+import com.dpi.financial.ftcom.model.type.isc.DeviceCode;
+import com.dpi.financial.ftcom.model.type.isc.transaction.InteractionPoint;
 
 import javax.persistence.*;
 
@@ -67,8 +73,11 @@ public class SwitchTestCase extends EntityBase {
     private String comments;
 
     @Column(name = "FINANCIAL_SERVICE_PROVIDER", length = 1)
-    @Convert(converter = FinancialServiceProviderConverter.class)
-    private FinancialServiceProvider financialServiceProvider;
+    private String financialServiceProvider;
+
+    @Column(name = "INTERACTION_POINT", length = 1)
+    @Convert(converter = InteractionPointConverter.class)
+    private InteractionPoint interactionPoint;
 
     @Column(name = "TEST_CONDITION_TYPE", nullable = true, length = 1)
     @Convert(converter = TestConditionTypeConverter.class)
@@ -196,14 +205,6 @@ public class SwitchTestCase extends EntityBase {
         this.comments = comments;
     }
 
-    public FinancialServiceProvider getFinancialServiceProvider() {
-        return financialServiceProvider;
-    }
-
-    public void setFinancialServiceProvider(FinancialServiceProvider financialServiceProvider) {
-        this.financialServiceProvider = financialServiceProvider;
-    }
-
     public ProcessingCode getProcessingCode() {
         return processingCode;
     }
@@ -290,5 +291,13 @@ public class SwitchTestCase extends EntityBase {
 
     public void setResponseCode(String responseCode) {
         this.responseCode = responseCode;
+    }
+
+    public InteractionPoint getInteractionPoint() {
+        return interactionPoint;
+    }
+
+    public void setInteractionPoint(InteractionPoint interactionPoint) {
+        this.interactionPoint = interactionPoint;
     }
 }

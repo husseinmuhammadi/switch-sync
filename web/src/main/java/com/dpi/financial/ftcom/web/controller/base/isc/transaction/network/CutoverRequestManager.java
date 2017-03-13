@@ -1,9 +1,7 @@
 package com.dpi.financial.ftcom.web.controller.base.isc.transaction.network;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
-import com.dpi.financial.ftcom.api.base.isc.transaction.SwitchTransactionService;
 import com.dpi.financial.ftcom.api.base.isc.transaction.network.CutoverRequestService;
-import com.dpi.financial.ftcom.model.to.isc.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.model.to.isc.transaction.network.CutoverRequest;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 

@@ -1,6 +1,7 @@
 package com.dpi.financial.ftcom.model.converter;
 
-import com.dpi.financial.ftcom.model.type.DeviceCode;
+
+import com.dpi.financial.ftcom.model.type.isc.DeviceCode;
 
 import javax.persistence.AttributeConverter;
 

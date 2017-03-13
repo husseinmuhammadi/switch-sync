@@ -2,7 +2,10 @@ package com.dpi.financial.ftcom.model.to.isc.test;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
 import com.dpi.financial.ftcom.model.converter.*;
+import com.dpi.financial.ftcom.model.converter.isc.transaction.InteractionPointConverter;
 import com.dpi.financial.ftcom.model.type.*;
+import com.dpi.financial.ftcom.model.type.isc.DeviceCode;
+import com.dpi.financial.ftcom.model.type.isc.transaction.InteractionPoint;
 
 import javax.persistence.*;
 
@@ -42,9 +45,12 @@ public class SwitchTestScenario extends EntityBase {
     @Convert(converter = TestConditionTypeConverter.class)
     private TestConditionType testConditionType;
 
-    @Column(name = "FINANCIAL_SERVICE_PROVIDER", nullable = false, length = 1)
-    @Convert(converter = FinancialServiceProviderConverter.class)
-    private FinancialServiceProvider financialServiceProvider;
+    @Column(name = "FINANCIAL_SERVICE_PROVIDER", length = 1)
+    private String financialServiceProvider;
+
+    @Column(name = "INTERACTION_POINT", nullable = false, length = 1)
+    @Convert(converter = InteractionPointConverter.class)
+    private InteractionPoint interactionPoint;
 
     @Column(name = "PROCESSING_CODE", nullable = true, length = 2)
     @Convert(converter = ProcessingCodeConverter.class)
@@ -130,14 +136,6 @@ public class SwitchTestScenario extends EntityBase {
         this.comments = comments;
     }
 
-    public FinancialServiceProvider getFinancialServiceProvider() {
-        return financialServiceProvider;
-    }
-
-    public void setFinancialServiceProvider(FinancialServiceProvider financialServiceProvider) {
-        this.financialServiceProvider = financialServiceProvider;
-    }
-
     public TestConditionType getTestConditionType() {
         return testConditionType;
     }
@@ -152,5 +150,13 @@ public class SwitchTestScenario extends EntityBase {
 
     public void setReversed(boolean reversed) {
         this.reversed = reversed;
+    }
+
+    public InteractionPoint getInteractionPoint() {
+        return interactionPoint;
+    }
+
+    public void setInteractionPoint(InteractionPoint interactionPoint) {
+        this.interactionPoint = interactionPoint;
     }
 }

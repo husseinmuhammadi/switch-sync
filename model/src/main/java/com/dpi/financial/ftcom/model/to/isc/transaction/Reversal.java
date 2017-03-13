@@ -5,4 +5,5 @@ package com.dpi.financial.ftcom.model.to.isc.transaction;
  */
 
 public class Reversal extends FinancialBase {
+
 }

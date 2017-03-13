@@ -1,29 +1,19 @@
 package com.dpi.financial.ftcom.web.controller.base.simulator.beans;
 
 
-
-
-
-import com.dpi.financial.ftcom.api.base.SimulatorService;
-import com.dpi.financial.ftcom.model.to.Simulator;
-import com.dpi.financial.ftcom.model.type.DeviceCode;
+import com.dpi.financial.ftcom.model.type.ProcessingCode;
 import com.dpi.financial.ftcom.model.type.ProductCode;
+import com.dpi.financial.ftcom.model.type.isc.DeviceCode;
 import com.dpi.financial.ftcom.web.controller.base.simulator.message.CreateIsoMessage;
 import com.dpi.financial.ftcom.web.controller.base.simulator.std.definition.MessageDetails;
-import com.dpi.financial.ftcom.model.type.ProcessingCode;
-import org.jpos.iso.ISOMsg;
 
-
-import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 @Named
 @ViewScoped
-public class SimulatorManagedBean implements Serializable{
+public class SimulatorManagedBean implements Serializable {
 
 
     private ProcessingCode processingCode;
@@ -45,7 +35,8 @@ public class SimulatorManagedBean implements Serializable{
         this.rrn = rrn;
     }
 
-    public SimulatorManagedBean() {}
+    public SimulatorManagedBean() {
+    }
 
     public ProcessingCode getProcessingCode() {
         return processingCode;
@@ -115,13 +106,12 @@ public class SimulatorManagedBean implements Serializable{
     public void createSendMessage() {
 
 
-
         try {
 
             //  String SelectTypeRequest="BalanceEnquiry";
 
-            CreateIsoMessage createIsoMessage=new CreateIsoMessage();
-            MessageDetails messageDetails=new MessageDetails();
+            CreateIsoMessage createIsoMessage = new CreateIsoMessage();
+            MessageDetails messageDetails = new MessageDetails();
 
 
             messageDetails.setProcessingCode(getProcessingCode().getValue());
@@ -140,36 +130,27 @@ public class SimulatorManagedBean implements Serializable{
 
             createIsoMessage.IntitIsoMsg(messageDetails);
 
-           this.setRrn(messageDetails.getRrn());
+            this.setRrn(messageDetails.getRrn());
 
 
-
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public  void readResponse(){
+    public void readResponse() {
 
 
-        try{
+        try {
 
 
-
-        }
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
     }
-
-
 
 
 }

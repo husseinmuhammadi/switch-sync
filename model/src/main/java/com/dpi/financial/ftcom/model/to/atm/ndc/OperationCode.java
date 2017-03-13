@@ -1,7 +1,6 @@
 package com.dpi.financial.ftcom.model.to.atm.ndc;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
 import com.dpi.financial.ftcom.model.converter.YesNoTypeConverter;
 import com.dpi.financial.ftcom.model.converter.atm.ndc.LanguageConverter;

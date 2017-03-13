@@ -1,6 +1,5 @@
 package com.dpi.financial.ftcom.model.converter;
 
-import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 
 import javax.persistence.AttributeConverter;

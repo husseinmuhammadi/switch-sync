@@ -17,11 +17,23 @@ public abstract class Transaction extends EntityBase {
     @Column(name = "MTI", nullable = false, length = 4)
     protected String mti;
 
+    // MAC
+    @Column(name = "MESSAGE_AUTHENTICATION_CODE", nullable = true, length = 16)
+    private String messageAuthenticationCode;
+
     public String getMti() {
         return mti;
     }
 
     public void setMti(String mti) {
         this.mti = mti;
+    }
+
+    public String getMessageAuthenticationCode() {
+        return messageAuthenticationCode;
+    }
+
+    public void setMessageAuthenticationCode(String messageAuthenticationCode) {
+        this.messageAuthenticationCode = messageAuthenticationCode;
     }
 }

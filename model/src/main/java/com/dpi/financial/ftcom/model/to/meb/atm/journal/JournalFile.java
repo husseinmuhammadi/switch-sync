@@ -1,10 +1,7 @@
 package com.dpi.financial.ftcom.model.to.meb.atm.journal;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.model.converter.JournalFileStateConverter;
-import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
-import com.dpi.financial.ftcom.model.type.atm.journal.JournalFileState;
 
 import javax.persistence.*;
 import java.util.Collection;

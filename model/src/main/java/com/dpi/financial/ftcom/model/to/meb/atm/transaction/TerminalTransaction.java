@@ -1,13 +1,13 @@
 package com.dpi.financial.ftcom.model.to.meb.atm.transaction;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.converter.ProcessingCodeConverter;
 import com.dpi.financial.ftcom.model.converter.YesNoTypeConverter;
+import com.dpi.financial.ftcom.model.converter.atm.ndc.OperationStateConverter;
 import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
-import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
 import com.dpi.financial.ftcom.model.type.YesNoType;
+import com.dpi.financial.ftcom.model.type.atm.ndc.OperationState;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

@@ -1,5 +1,6 @@
-package com.dpi.financial.ftcom.model.type;
+package com.dpi.financial.ftcom.model.type.atm.ndc;
 
+import com.dpi.financial.ftcom.model.type.IEnumFieldValue;
 import com.dpi.financial.ftcom.utility.exception.model.TypeNotFoundException;
 
 public enum OperationState implements IEnumFieldValue<String> {

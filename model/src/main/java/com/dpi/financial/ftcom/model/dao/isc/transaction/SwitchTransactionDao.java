@@ -1,18 +1,18 @@
 package com.dpi.financial.ftcom.model.dao.isc.transaction;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.isc.transaction.FinancialBase;
 
 import javax.ejb.Stateless;
 import java.util.List;
 
 @Stateless
-public class SwitchTransactionDao extends GenericDao<SwitchTransaction> {
+public class SwitchTransactionDao extends GenericDao<FinancialBase> {
     public SwitchTransactionDao() {
-        super(SwitchTransaction.class);
+        super(FinancialBase.class);
     }
 
-    public List<SwitchTransaction> findAll() {
-        return createNamedQuery(SwitchTransaction.FIND_ALL).getResultList();
+    public List<FinancialBase> findAll() {
+        return createNamedQuery(FinancialBase.FIND_ALL).getResultList();
     }
 }

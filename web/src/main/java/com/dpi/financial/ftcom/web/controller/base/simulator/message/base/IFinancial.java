@@ -6,6 +6,7 @@ import com.dpi.financial.ftcom.web.controller.base.simulator.std.message.base.IT
 /**
  * Created by h.mohammadi on 6/18/2016.
  */
+@Deprecated
 public interface IFinancial extends ITransaction {
 
 }

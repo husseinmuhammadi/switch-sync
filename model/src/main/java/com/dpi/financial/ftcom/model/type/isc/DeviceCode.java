@@ -1,19 +1,21 @@
-package com.dpi.financial.ftcom.model.type;
+package com.dpi.financial.ftcom.model.type.isc;
 
+import com.dpi.financial.ftcom.model.type.IEnumFieldValue;
 import com.dpi.financial.ftcom.utility.exception.model.TypeNotFoundException;
 
 /**
- * Created by h.mohammadi on 9/14/2016.
+ * Device code (Terminal type code) represent device id as mentioned in SHETAB VOL 2 TRANSACTION DETAILS VERSION 7.0.4
+ * System is changed from SYS to 72 as SHETAB document mentioned
  */
 public enum DeviceCode implements IEnumFieldValue<String> {
     ATM("02"), // ATM
-    POS("14"), // POS
-    PAD("03"), // PINPAD
-    INT("59"), // INTERNET
     VRU("07"), // PHONE
     MOB("05"), // MOBILE
+    POS("14"), // POS
+    PAD("03"), // PINPAD
     IKT("43"), // KIOSK
-    SYS("SYS"); // SYSTEM
+    INT("59"), // INTERNET
+    SYS("72"); // SYSTEM
 
     private String deviceCode;
 

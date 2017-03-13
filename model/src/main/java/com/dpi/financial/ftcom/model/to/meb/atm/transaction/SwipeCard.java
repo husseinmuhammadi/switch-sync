@@ -1,13 +1,12 @@
 package com.dpi.financial.ftcom.model.to.meb.atm.transaction;
 
 import com.dpi.financial.ftcom.model.base.EntityBase;
-import com.dpi.financial.ftcom.model.converter.OperationStateConverter;
 import com.dpi.financial.ftcom.model.converter.YesNoTypeConverter;
+import com.dpi.financial.ftcom.model.converter.atm.ndc.OperationStateConverter;
 import com.dpi.financial.ftcom.model.to.cms.card.CardMaster;
-import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalContent;
 import com.dpi.financial.ftcom.model.to.meb.atm.journal.JournalFile;
-import com.dpi.financial.ftcom.model.type.OperationState;
 import com.dpi.financial.ftcom.model.type.YesNoType;
+import com.dpi.financial.ftcom.model.type.atm.ndc.OperationState;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -15,8 +14,9 @@ import java.util.Date;
 
 /**
  * JournalFile entity persist physical journal file information on database
+ *
  * @since ver 1.0.0 modified by Hossein Mohammadi w.r.t Issue #1 as on Monday, December 05, 2016
- *  <li>Prepare ATM swipe card based on journal content</li>
+ * <li>Prepare ATM swipe card based on journal content</li>
  */
 @Entity
 @SequenceGenerator(name = "SEQ_GENERATOR", sequenceName = "MEB_ATM_SWIPE_CARD_SEQ")

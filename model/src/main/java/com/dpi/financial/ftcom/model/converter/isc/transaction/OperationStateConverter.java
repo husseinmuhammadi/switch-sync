@@ -1,6 +1,7 @@
-package com.dpi.financial.ftcom.model.converter;
+package com.dpi.financial.ftcom.model.converter.isc.transaction;
 
-import com.dpi.financial.ftcom.model.type.OperationState;
+
+import com.dpi.financial.ftcom.model.type.isc.transaction.OperationState;
 
 import javax.persistence.AttributeConverter;
 
@@ -21,3 +22,4 @@ public class OperationStateConverter implements AttributeConverter<OperationStat
         return OperationState.getInstance(value);
     }
 }
+

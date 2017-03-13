@@ -4,16 +4,19 @@ import com.dpi.financial.ftcom.api.base.atm.TerminalService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.model.type.*;
 import com.dpi.financial.ftcom.model.type.atm.ndc.Language;
+import com.dpi.financial.ftcom.model.type.isc.DeviceCode;
+import com.dpi.financial.ftcom.model.type.isc.transaction.InteractionPoint;
 import com.dpi.financial.ftcom.web.controller.base.AbstractController;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collector;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  *
@@ -26,11 +29,11 @@ public class SelectItemsController extends AbstractController implements Seriali
     @EJB
     TerminalService terminalService;
 
-    public Map<String, String> getFinancialServiceProviderItems() {
+    public Map<String, String> getInteractionPointItems() {
         Map<String, String> items = new HashMap<String, String>();
         items.put("", getLabel("label.select.empty"));
-        for (FinancialServiceProvider financialServiceProvider : FinancialServiceProvider.values()) {
-            items.put(financialServiceProvider.name(), getLabel(financialServiceProvider));
+        for (InteractionPoint interactionPoint : InteractionPoint.values()) {
+            items.put(interactionPoint.name(), getLabel(interactionPoint));
         }
         return items;
     }

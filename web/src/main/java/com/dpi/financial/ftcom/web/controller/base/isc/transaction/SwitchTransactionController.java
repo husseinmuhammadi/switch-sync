@@ -1,9 +1,8 @@
 package com.dpi.financial.ftcom.web.controller.base.isc.transaction;
 
-
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.isc.transaction.SwitchTransactionService;
-import com.dpi.financial.ftcom.model.to.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.isc.transaction.FinancialBase;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 
 import javax.ejb.EJB;
@@ -13,27 +12,21 @@ import java.io.Serializable;
 
 @Named
 @ViewScoped
-public class SwitchTransactionController extends ControllerBase<SwitchTransaction> implements Serializable {
+public class SwitchTransactionController extends ControllerBase<FinancialBase> implements Serializable {
+
+    private static final long serialVersionUID = -7451715345159292678L;
 
     @EJB
     private SwitchTransactionService service;
 
-    // private SwitchTransaction switchTransaction;
+    // private FinancialBase financialBase;
 
     public SwitchTransactionController() {
-        super(SwitchTransaction.class);
-    }
-
-    public SwitchTransaction getSwitchTransaction() {
-        return super.getEntity();
-    }
-
-    public void setSwitchTransaction(SwitchTransaction switchTransaction) {
-        super.setEntity(switchTransaction);
+        super(FinancialBase.class);
     }
 
     @Override
-    public GeneralServiceApi<SwitchTransaction> getGeneralServiceApi() {
+    public GeneralServiceApi<FinancialBase> getGeneralServiceApi() {
         return service;
     }
 
@@ -45,5 +38,13 @@ public class SwitchTransactionController extends ControllerBase<SwitchTransactio
     @Override
     public void afterLoad() {
 
+    }
+
+    public FinancialBase getFinancialBase() {
+        return super.entity;
+    }
+
+    public void setFinancialBase(FinancialBase financialBase) {
+        super.entity = financialBase;
     }
 }

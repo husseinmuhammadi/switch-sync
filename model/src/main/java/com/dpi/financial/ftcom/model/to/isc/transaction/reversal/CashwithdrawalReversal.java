@@ -1,10 +1,10 @@
 package com.dpi.financial.ftcom.model.to.isc.transaction.reversal;
 
-import com.dpi.financial.ftcom.model.to.isc.transaction.Financial;
+import com.dpi.financial.ftcom.model.to.isc.transaction.Reversal;
 
 /**
  * https://en.wikibooks.org/wiki/Java_Persistence/Inheritance
  */
 
-public class CashwithdrawalReversal extends Financial {
+public class CashWithdrawalReversal extends Reversal {
 }

@@ -1,6 +1,6 @@
 package com.dpi.financial.ftcom.web.controller.base.simulator.field;
 
-import com.dpi.financial.ftcom.model.type.FunctionCode;
+import com.dpi.financial.ftcom.model.type.isc.transaction.FunctionCode;
 import com.dpi.financial.ftcom.web.controller.base.simulator.std.definition.MessageDetails;
 import org.jpos.iso.ISOUtil;
 
@@ -231,24 +231,22 @@ public class CreateSpecialField {
         String messErrorIndicator = "000";
         String messReasonCode = "0000";
         String shetabControllingData = "00000000";
-        String processingCode=messageDetails.getProcessingCode();
-        String functionCode="000";
+        String processingCode = messageDetails.getProcessingCode();
+        String functionCode = "000";
         switch (processingCode) {
             case "40":
-                functionCode = FunctionCode.FUND_TRANSFER.getValue();
+                functionCode = FunctionCode.FUND_TRANSFER_CARD_TO_ACCOUNT.getValue();
                 break;
             case "46":
-                functionCode = FunctionCode.FUND_TRANSFER_DR.getValue();
+                functionCode = FunctionCode.FUND_TRANSFER_DR_FROM_CARD.getValue();
                 break;
             case "47":
-                functionCode = FunctionCode.FUND_TRANSFER_CR.getValue();
+                functionCode = FunctionCode.FUND_TRANSFER_CR_TO_ACCOUNT.getValue();
                 break;
         }
 
 
-
-
-      //  field62 = messageDetails.getDeviceCode()+ messErrorIndicator + messReasonCode + functionCode + secutiryConfig + shetabControllingData + tranSupplData + cardAccSupplData + panEnc + sourceCardEnc;
+        //  field62 = messageDetails.getDeviceCode()+ messErrorIndicator + messReasonCode + functionCode + secutiryConfig + shetabControllingData + tranSupplData + cardAccSupplData + panEnc + sourceCardEnc;
         return field62;
 
     }

@@ -3,7 +3,7 @@ package com.dpi.financial.ftcom.web.controller.base.isc.transaction;
 
 import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.isc.transaction.SwitchTransactionService;
-import com.dpi.financial.ftcom.model.to.isc.transaction.SwitchTransaction;
+import com.dpi.financial.ftcom.model.to.isc.transaction.FinancialBase;
 import com.dpi.financial.ftcom.web.controller.base.ControllerBase;
 
 import javax.ejb.EJB;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Named
 @ViewScoped
-public class TransactionController extends ControllerBase<SwitchTransaction> implements Serializable {
+public class TransactionController extends ControllerBase<FinancialBase> implements Serializable {
 
     @EJB
     private SwitchTransactionService service;
@@ -21,19 +21,19 @@ public class TransactionController extends ControllerBase<SwitchTransaction> imp
     // private SwitchTransaction switchTransaction;
 
     public TransactionController() {
-        super(SwitchTransaction.class);
+        super(FinancialBase.class);
     }
 
-    public SwitchTransaction getSwitchTransaction() {
+    public FinancialBase getSwitchTransaction() {
         return super.getEntity();
     }
 
-    public void setSwitchTransaction(SwitchTransaction switchTransaction) {
+    public void setSwitchTransaction(FinancialBase switchTransaction) {
         super.setEntity(switchTransaction);
     }
 
     @Override
-    public GeneralServiceApi<SwitchTransaction> getGeneralServiceApi() {
+    public GeneralServiceApi<FinancialBase> getGeneralServiceApi() {
         return service;
     }
 

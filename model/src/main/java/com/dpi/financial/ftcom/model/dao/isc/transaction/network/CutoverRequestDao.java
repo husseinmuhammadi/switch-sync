@@ -1,7 +1,6 @@
 package com.dpi.financial.ftcom.model.dao.isc.transaction.network;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.isc.transaction.SwitchTransaction;
 import com.dpi.financial.ftcom.model.to.isc.transaction.network.CutoverRequest;
 
 import javax.ejb.Stateless;

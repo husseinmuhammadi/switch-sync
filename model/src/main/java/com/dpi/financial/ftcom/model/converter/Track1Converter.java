@@ -1,6 +1,5 @@
 package com.dpi.financial.ftcom.model.converter;
 
-import com.dpi.financial.ftcom.model.type.DeviceCode;
 import org.jpos.core.InvalidCardException;
 import org.jpos.core.Track1;
 

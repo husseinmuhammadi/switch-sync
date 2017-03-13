@@ -11,6 +11,7 @@ import org.jpos.iso.ISOException;
 /**
  * Created by h.mohammadi on 6/18/2016.
  */
+@Deprecated
 public abstract class FinancialBase extends TransactionBase implements IFinancial {
     protected FinancialBase(ProcessingCode processingCode) {
         super(processingCode);
