@@ -88,6 +88,7 @@ public abstract class FinancialBase extends Transaction {
     private String iban;
 
     // P62 Transaction Enhanced Information
+    @Transient
     private TransactionCoding transactionCoding;
 
 
