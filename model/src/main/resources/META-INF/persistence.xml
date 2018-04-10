@@ -12,7 +12,7 @@
         org.hibernate.type=trace
         -->
 
-        <jta-data-source>java:/jdbc/SwitchDS</jta-data-source>
+        <jta-data-source>java:/jdbc/SwitchSync</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
         <properties>
