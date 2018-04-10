@@ -20,15 +20,15 @@ import java.util.Date;
         @NamedQuery(name = MiddleEastBankSwitchTransaction.FIND_ALL,
                 query = "select t from MiddleEastBankSwitchTransaction t where t.deleted = false"),
         @NamedQuery(name = MiddleEastBankSwitchTransaction.FIND_ALL_UNBOUND,
-                query = "select distinct t.cardNumber from MiddleEastBankSwitchTransaction t where t.deleted = false and t.terminalTransaction is null and t.luno = :luno and t.transactionDate between :transactionDateFrom and :transactionDateTo"),
+                query = "select t.cardNumber from MiddleEastBankSwitchTransaction t where t.deleted = false and t.terminalTransaction is null and t.luno = :luno and t.transactionDate between :transactionDateFrom and :transactionDateTo group by t.luno, t.cardNumber order by count(*) desc"),
         @NamedQuery(name = MiddleEastBankSwitchTransaction.FIND_ALL_BY_LUNO_CARD_NUMBER,
                 query = "select t from MiddleEastBankSwitchTransaction t where t.deleted = false and t.luno = :luno and t.cardNumber = :cardNumber order by t.transactionDate asc"),
         @NamedQuery(name = MiddleEastBankSwitchTransaction.FIND_INCONSISTENT_TRANSACTIONS,
                 query = "select t from MiddleEastBankSwitchTransaction t where t.deleted = false " +
-                "and t.processingCode = com.dpi.financial.ftcom.model.type.ProcessingCode.CASH_WITHDRAWAL " +
-                "and coalesce(t.responseCode, '91') = '00' and t.reveresed = false " +
-                "and coalesce(t.terminalTransaction.cashTaken, 'N') = com.dpi.financial.ftcom.model.type.YesNoType.No " +
-                "and t.luno = :luno and t.transactionDate between :transactionDateFrom and :transactionDateTo"),
+                        "and t.processingCode = com.dpi.financial.ftcom.model.type.ProcessingCode.CASH_WITHDRAWAL " +
+                        "and coalesce(t.responseCode, '91') = '00' and t.reveresed = false " +
+                        "and coalesce(t.terminalTransaction.cashTaken, 'N') = com.dpi.financial.ftcom.model.type.YesNoType.No " +
+                        "and t.luno = :luno and t.transactionDate between :transactionDateFrom and :transactionDateTo"),
 })
 public class MiddleEastBankSwitchTransaction extends EntityBase {
     public static final String FIND_ALL = "MiddleEastBankSwitchTransaction.findAll";
