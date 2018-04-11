@@ -21,4 +21,8 @@
             <supported-locale>en_US</supported-locale>
         </locale-config>
     </application>
+
+    <lifecycle>
+            <phase-listener>com.dpi.financial.ftcom.web.SyncPhaseListener</phase-listener>
+    </lifecycle>
 </faces-config>
