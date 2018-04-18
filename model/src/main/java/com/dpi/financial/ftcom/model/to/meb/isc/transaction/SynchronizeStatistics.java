@@ -17,7 +17,7 @@ import javax.persistence.*;
                 query = "from SynchronizeStatistics where deleted = false"
         ),
         @NamedQuery(name = SynchronizeStatistics.FIND_BY_LUNO_PROCESSING_CODE,
-                query = "from SynchronizeStatistics where deleted = false and luno = :luno order by retryCount"
+                query = "from SynchronizeStatistics where deleted = false and luno = :luno and coalesce(remainNo, 1) > 0 order by retryCount"
         ),
         @NamedQuery(name = SynchronizeStatistics.FIND_BY_LUNO_CARD_NUMBER_PROCESSING_CODE,
                 query = "from SynchronizeStatistics where deleted = false and luno = :luno and cardNumber = :cardNumber and processingCode = :processingCode"
@@ -40,6 +40,9 @@ public class SynchronizeStatistics extends EntityBase {
 
     @Column(name = "RETRY_COUNT")
     private Integer retryCount;
+
+    @Column(name = "REMAIN_NO")
+    private Integer remainNo;
 
     public String getLuno() {
         return luno;
@@ -71,5 +74,13 @@ public class SynchronizeStatistics extends EntityBase {
 
     public void setRetryCount(Integer retryCount) {
         this.retryCount = retryCount;
+    }
+
+    public Integer getRemainNo() {
+        return remainNo;
+    }
+
+    public void setRemainNo(Integer remainNo) {
+        this.remainNo = remainNo;
     }
 }

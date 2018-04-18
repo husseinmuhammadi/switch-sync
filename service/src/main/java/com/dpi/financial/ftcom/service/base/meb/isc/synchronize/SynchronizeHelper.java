@@ -2,7 +2,6 @@ package com.dpi.financial.ftcom.service.base.meb.isc.synchronize;
 
 import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
-import com.dpi.financial.ftcom.service.base.meb.isc.reconciliation.SwitchReconciliationServiceImpl;
 import com.dpi.financial.ftcom.service.exception.atm.transaction.InvalidAmountException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +9,13 @@ import org.slf4j.LoggerFactory;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class Synchronize {
-    Logger logger = LoggerFactory.getLogger(Synchronize.class);
+public class SynchronizeHelper {
+    Logger logger = LoggerFactory.getLogger(SynchronizeHelper.class);
 
     private final List<MiddleEastBankSwitchTransaction> switchTransactions;
     private final List<TerminalTransaction> terminalTransactions;
 
-    public Synchronize(List<MiddleEastBankSwitchTransaction> switchTransactions, List<TerminalTransaction> terminalTransactions) {
+    public SynchronizeHelper(List<MiddleEastBankSwitchTransaction> switchTransactions, List<TerminalTransaction> terminalTransactions) {
         this.switchTransactions = switchTransactions;
         this.terminalTransactions = terminalTransactions;
     }
@@ -33,7 +32,14 @@ public class Synchronize {
             }
         }
 
-        logger.info("There is {} transaction in switch that are similar", similarSwitchTransactionList.size());
+        StringBuilder builder = new StringBuilder();
+        similarSwitchTransactionList.forEach(item -> {
+            builder.append(item.getRrn()).append(",");
+        });
+        if (similarSwitchTransactionList.size() == 1)
+            logger.info("Switch transaction to synchronize {}", builder.toString().substring(0, builder.toString().length() - 1));
+        if (similarSwitchTransactionList.size() > 1)
+            logger.info("Similar switch transactions to synchronize {}", builder.toString().substring(0, builder.toString().length() - 1));
         return similarSwitchTransactionList;
     }
 
@@ -50,7 +56,7 @@ public class Synchronize {
         }
 
         int stopTerminalTransactionIndex = terminalTransactions.size() - 1;
-        if (startSwitchTransactionIndex < terminalTransactions.size()) {
+        if (stopSwitchTransactionIndex < switchTransactions.size()) {
             stopTerminalTransactionIndex = terminalTransactions.indexOf(switchTransactions.get(stopSwitchTransactionIndex).getTerminalTransaction());
         }
 
@@ -58,8 +64,9 @@ public class Synchronize {
     }
 
     public List<TerminalTransaction> getProbabilityTerminalTransactionRestrictByAmount(MiddleEastBankSwitchTransaction switchTransaction) throws InvalidAmountException {
-        logger.info("Find all probability for switch transaction: {}", switchTransaction.getRrn());
+        logger.info("Find all probability for switch transaction for switch transaction {}", switchTransaction.getRrn());
         List<TerminalTransaction> probability = getProbabilityTerminalTransaction(switchTransaction);
+        logger.info("{} row found in terminal transaction.", probability.size());
 
         List<TerminalTransaction> atmTransactionList = new ArrayList<TerminalTransaction>();
         for (TerminalTransaction atmTransaction : probability) {
@@ -91,12 +98,12 @@ public class Synchronize {
     }
 
     private int getFollowSwitchTransactionIndex(MiddleEastBankSwitchTransaction switchTransaction) {
-        ListIterator<MiddleEastBankSwitchTransaction> iterator = switchTransactions.listIterator(switchTransactions.indexOf(switchTransaction));
+        ListIterator<MiddleEastBankSwitchTransaction> iterator = switchTransactions.listIterator(switchTransactions.indexOf(switchTransaction) + 1);
 
         if (!iterator.hasNext())
             return switchTransactions.size();
 
-        MiddleEastBankSwitchTransaction next = iterator.previous();
+        MiddleEastBankSwitchTransaction next = iterator.next();
 
         if (next.getTerminalTransaction() == null)
             return getFollowSwitchTransactionIndex(next);

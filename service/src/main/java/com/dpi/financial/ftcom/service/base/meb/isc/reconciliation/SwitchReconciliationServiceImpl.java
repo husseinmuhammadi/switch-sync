@@ -14,17 +14,18 @@ import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitch
 import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SynchronizeStatistics;
 import com.dpi.financial.ftcom.model.type.YesNoType;
 import com.dpi.financial.ftcom.service.GeneralServiceImpl;
-import com.dpi.financial.ftcom.service.base.meb.isc.synchronize.Synchronize;
+import com.dpi.financial.ftcom.service.base.meb.isc.synchronize.SynchronizeHelper;
 import com.dpi.financial.ftcom.service.exception.InvalidSynchronizeException;
-import com.dpi.financial.ftcom.service.exception.atm.transaction.InvalidAmountException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import javax.ejb.*;
-import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 @Stateless
 @LocalBean
@@ -104,24 +105,25 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<MiddleEa
         Date to = cal.getTime();
 
         SynchronizeStatistics synchronizeStatistics = synchronizeStatisticsDao.findAllCashWithdrawalByLuno("01001").get(0);
-        sessionContext.getBusinessObject(SwitchReconciliationServiceImpl.class).synchronize("01001", synchronizeStatistics.getCardNumber());
+        int countOfRemainSwitchTransaction = sessionContext.getBusinessObject(SwitchReconciliationServiceImpl.class).synchronize("01001", synchronizeStatistics.getCardNumber());
         synchronizeStatistics.setRetryCount(synchronizeStatistics.getRetryCount() + 1);
+        synchronizeStatistics.setRemainNo(countOfRemainSwitchTransaction);
         synchronizeStatisticsDao.update(synchronizeStatistics);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public void synchronize(String luno, String cardNumber) {
+    public int synchronize(String luno, String cardNumber) {
         logger.info("Synchronizing started for {}/{}", luno, cardNumber);
-
+        int count = -2;
         try {
             synchronizeAtmTransactionsByRRN(luno, cardNumber);
-            synchronizeAtmTransactionsByOtherAlgorithms(luno, cardNumber);
+            count = synchronizeAtmTransactionsByOtherAlgorithms(luno, cardNumber);
+            logger.info("Synchronize finished for {}/{}", luno, cardNumber);
+            logger.info("--------------------------------------------------");
         } catch (InvalidSynchronizeException e) {
-            e.printStackTrace();
+            logger.error("Error in synchronize: " + luno + "/" + cardNumber, e);
         }
-
-        logger.info("Synchronize finished for {}/{}", luno, cardNumber);
-        logger.info("--------------------------------------------------");
+        return count;
     }
 
     private void synchronizeAtmTransactionsByRRN(String luno, String cardNumber) throws InvalidSynchronizeException {
@@ -161,32 +163,34 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<MiddleEa
      * @param luno
      * @param cardNumber
      */
-    private void synchronizeAtmTransactionsByOtherAlgorithms(String luno, String cardNumber) {
-        // Continue till there is no transaction match
-        logger.info("Start synchronizing by other algorithms ...");
+    private int synchronizeAtmTransactionsByOtherAlgorithms(String luno, String cardNumber) {
+        try {
+            List<MiddleEastBankSwitchTransaction> switchTransactions = switchTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
+            List<TerminalTransaction> terminalTransactions = terminalTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
+            SynchronizeHelper synchronizeHelper = new SynchronizeHelper(switchTransactions, terminalTransactions);
 
-        List<MiddleEastBankSwitchTransaction> switchTransactions = switchTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
-        List<TerminalTransaction> terminalTransactions = terminalTransactionDao.findAllByLunoCardNumber(luno, cardNumber);
-        Synchronize synchronize = new Synchronize(switchTransactions, terminalTransactions);
+            boolean matchAnyTransaction;
+            do {
+                int phase = 0;
+                logger.info("Start synchronizing by other algorithms ... ({})", phase++);
+                matchAnyTransaction = false;
+                for (MiddleEastBankSwitchTransaction switchTransaction : switchTransactions) {
+                    if (switchTransaction.getTerminalTransaction() == null) {
+                        List<MiddleEastBankSwitchTransaction> similarSwitchTransactionList = synchronizeHelper.getSimilarSwitchTransactions(switchTransaction);
+                        List<TerminalTransaction> probabilityAtmTransactionList = synchronizeHelper.getProbabilityTerminalTransactionRestrictByAmount(switchTransaction);
 
-        boolean matchAnyTransaction;
-        do {
-            int phase = 1;
-            logger.info("Start synchronizing by other algorithms ... ({})", phase);
-            matchAnyTransaction = false;
-
-            for (MiddleEastBankSwitchTransaction switchTransaction : switchTransactions) {
-                if (switchTransaction.getTerminalTransaction() == null) {
-                    List<MiddleEastBankSwitchTransaction> similarSwitchTransactionList = synchronize.getSimilarSwitchTransactions(switchTransaction);
-                    List<TerminalTransaction> probabilityAtmTransactionList = synchronize.getProbabilityTerminalTransactionRestrictByAmount(switchTransaction);
-
-                    matchAnyTransaction = synchronizeSameCountList(similarSwitchTransactionList, probabilityAtmTransactionList);
-                    matchAnyTransaction = matchAnyTransaction || synchronizeSuccessfulCashWithdrawal(similarSwitchTransactionList, probabilityAtmTransactionList);
+                        matchAnyTransaction = synchronizeSameCountList(similarSwitchTransactionList, probabilityAtmTransactionList);
+                        matchAnyTransaction = matchAnyTransaction || synchronizeSuccessfulCashWithdrawal(similarSwitchTransactionList, probabilityAtmTransactionList);
+                    }
                 }
-            }
-            phase++;
-        } while (matchAnyTransaction);
-        logger.info("Finished synchronizing by other algorithms ...");
+            } while (matchAnyTransaction);
+            logger.info("Finished synchronizing by other algorithms ...");
+            long count = switchTransactions.stream().filter(item -> item.getTerminalTransaction() == null).count();
+            return Math.toIntExact(count);
+        } catch (Exception e) {
+            logger.error("Error in synchronizeAtmTransactionsByOtherAlgorithms", e);
+        }
+        return -1;
     }
 
     private boolean synchronizeSameCountList(List<MiddleEastBankSwitchTransaction> similarSwitchTransactionList, List<TerminalTransaction> probabilityAtmTransactionList) {
