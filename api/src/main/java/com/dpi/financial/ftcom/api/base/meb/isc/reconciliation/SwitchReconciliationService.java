@@ -12,4 +12,6 @@ public interface SwitchReconciliationService extends GeneralServiceApi<MiddleEas
     List<String> findAllCard(String luno, Date transactionDateFrom, Date transactionDateTo);
 
     List<MiddleEastBankSwitchTransaction> findInconsistentTransactions(String luno, Date switchTransactionDateFrom, Date switchTransactionDateTo);
+
+    void syncByRetrievalReferenceNumber(String luno);
 }

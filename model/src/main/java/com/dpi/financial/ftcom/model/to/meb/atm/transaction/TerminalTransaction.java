@@ -562,26 +562,4 @@ public class TerminalTransaction extends EntityBase {
     public void setRetrievedRrn(String retrievedRrn) {
         this.retrievedRrn = retrievedRrn;
     }
-
-    @Transient
-    public int switchTransactionIndex = -1;
-
-    @Transient
-    public int index;
-
-    public int getSwitchTransactionIndex() {
-        return switchTransactionIndex;
-    }
-
-    public void setSwitchTransactionIndex(int switchTransactionIndex) {
-        this.switchTransactionIndex = switchTransactionIndex;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
 }

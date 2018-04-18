@@ -34,7 +34,7 @@ public class MiddleEastBankSwitchTransaction extends EntityBase {
     public static final String FIND_ALL = "MiddleEastBankSwitchTransaction.findAll";
     public static final String FIND_ALL_UNBOUND = "MiddleEastBankSwitchTransaction.findAllUnbound";
     public static final String FIND_ALL_BY_LUNO_CARD_NUMBER = "MiddleEastBankSwitchTransaction.findAllByLunoCardNumber";
-    public static final java.lang.String FIND_INCONSISTENT_TRANSACTIONS = "MiddleEastBankSwitchTransaction.findInconsistentTransactions";
+    public static final String FIND_INCONSISTENT_TRANSACTIONS = "MiddleEastBankSwitchTransaction.findInconsistentTransactions";
 
     // https://en.wikibooks.org/wiki/Java_Persistence/OneToOne
     // Each switch transaction has a terminal transaction
@@ -220,27 +220,5 @@ public class MiddleEastBankSwitchTransaction extends EntityBase {
 
     public void setCardMaster(CardMaster cardMaster) {
         this.cardMaster = cardMaster;
-    }
-
-    @Transient
-    private int atmTransactionIndex = -1;
-
-    public int getAtmTransactionIndex() {
-        return atmTransactionIndex;
-    }
-
-    public void setAtmTransactionIndex(int atmTransactionIndex) {
-        this.atmTransactionIndex = atmTransactionIndex;
-    }
-
-    @Transient
-    public int index;
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 }

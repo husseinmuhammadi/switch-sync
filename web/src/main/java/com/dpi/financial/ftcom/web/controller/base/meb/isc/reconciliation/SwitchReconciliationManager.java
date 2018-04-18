@@ -13,8 +13,11 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
+import javax.ejb.Schedule;
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
@@ -23,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +35,7 @@ import java.util.List;
 @ViewScoped
 public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEastBankSwitchTransaction>
         implements Serializable {
+    Logger logger = LoggerFactory.getLogger(SwitchReconciliationManager.class);
 
     private static final long serialVersionUID = 680449549876328399L;
 
@@ -102,13 +105,17 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
      */
     public void lunoValueChange(AjaxBehaviorEvent event) {
         String luno = ((UIInput) event.getComponent()).getValue().toString();
+        logger.info("Loading unbound card number for terminal: {}", luno);
+
         try {
             // Terminal terminal = terminalService.findByLuno(luno);
             cardNumbers = service.findAllCard(luno, switchTransactionDateFrom, switchTransactionDateTo);
+            logger.info("{} card is found.", cardNumbers.size());
             if (cardNumbers.size() < 100)
                 return;
 
             cardNumbers = new ArrayList<String>(cardNumbers.subList(0, 99));
+            logger.info("Load finished.");
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
@@ -156,10 +163,9 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
             } else {
                 List<String> allUnbound = service.findAllCard(luno, switchTransactionDateFrom, switchTransactionDateTo);
                 allUnbound.forEach(cardNo -> {
-                    System.out.println(
-                            MessageFormat.format("Synchronize {0}/{1}", luno, cardNo)
-                    );
+                    logger.info("Synchronizing started for {}/{}", luno, cardNo);
                     service.synchronizeAtmTransactions(luno, cardNo);
+                    logger.info("Synchronize finished for {}/{}", luno, cardNo);
                 });
             }
         } catch (Exception e) {

@@ -71,7 +71,7 @@ public abstract class GenericDao<T extends EntityBase> {
     }*/
 
     public TypedQuery<T> createNamedQuery(String queryName) {
-        logger.info(MessageFormat.format("Create named query: {0}", queryName));
+        //  logger.info(MessageFormat.format("Create named query: {0}", queryName));
         Arrays.stream(Thread.currentThread().getStackTrace()).forEach(i -> logger.debug(i.getClassName() + ":" + i.getMethodName()));
         return entityManager.createNamedQuery(queryName, entityBeanType);
     }

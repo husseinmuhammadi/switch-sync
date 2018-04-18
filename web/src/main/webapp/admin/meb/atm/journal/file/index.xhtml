@@ -92,13 +92,15 @@
                                 </h:commandLink>
                             </td>
                             <td>
-                                <h:commandLink>
-                                    <h:graphicImage alt="Prepare atm transactions" library="images"
-                                                    name="cloud-computing.png"
-                                                    width="36" styleClass="img-responsive"/>
-                                    <f:ajax execute="@form" render="journalFileList :messages"
-                                            listener="#{middleEastBankJournalFileManager.prepareAtmTransactions}"/>
-                                </h:commandLink>
+                                <div style="background-color: #00A8FF">
+                                    <h:commandLink>
+                                        <h:graphicImage alt="Prepare atm transactions" library="images"
+                                                        name="cloud-computing.png"
+                                                        width="36" styleClass="img-responsive"/>
+                                        <f:ajax execute="@form" render="journalFileList :messages"
+                                                listener="#{middleEastBankJournalFileManager.prepareAtmTransactions}"/>
+                                    </h:commandLink>
+                                </div>
                             </td>
                         </tr>
                     </table>

@@ -4,6 +4,8 @@ import com.dpi.financial.ftcom.model.base.GenericDao;
 import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
 import com.dpi.financial.ftcom.utility.date.DateUtil;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -14,6 +16,8 @@ import java.util.Map;
 
 @Stateless
 public class SwitchReconciliationDao extends GenericDao<MiddleEastBankSwitchTransaction> {
+    Logger logger = LoggerFactory.getLogger(SwitchReconciliationDao.class);
+
     public SwitchReconciliationDao() {
         super(MiddleEastBankSwitchTransaction.class);
     }
@@ -23,6 +27,7 @@ public class SwitchReconciliationDao extends GenericDao<MiddleEastBankSwitchTran
     }
 
     public List<String> findAllCard(String luno, Date transactionDateFrom, Date transactionDateTo) {
+        logger.info("Finding all card to synchronizing for luno: {}", luno);
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("luno", luno);
         parameters.put("transactionDateFrom", DateUtil.removeTime(transactionDateFrom));
@@ -34,7 +39,9 @@ public class SwitchReconciliationDao extends GenericDao<MiddleEastBankSwitchTran
         query.setParameter("transactionDateFrom", DateUtil.removeTime(transactionDateFrom));
         query.setParameter("transactionDateTo", DateUtil.removeTime(transactionDateTo));
 
-        return query.getResultList();
+        List<String> list = query.getResultList();
+        logger.info("{} card to synchronizing found.", list.size());
+        return list;
     }
 
     public List<MiddleEastBankSwitchTransaction> findInconsistentTransactions(String luno, Date switchTransactionDateFrom, Date switchTransactionDateTo) {
@@ -49,5 +56,9 @@ public class SwitchReconciliationDao extends GenericDao<MiddleEastBankSwitchTran
             Hibernate.initialize(switchTransaction.getTerminalTransaction());
 
         return switchTransactions;
+    }
+
+    public void syncByRetrievalReferenceNumber(String luno) {
+        getEntityManager().createQuery("");
     }
 }
