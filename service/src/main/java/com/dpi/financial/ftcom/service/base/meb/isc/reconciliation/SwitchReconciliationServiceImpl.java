@@ -90,25 +90,21 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<MiddleEa
 
     @Schedule(second = "*/10", minute = "*", hour = "*")
     public void synchronizeTimer() {
-        Calendar cal = Calendar.getInstance();
+        try {
+            List<SynchronizeStatistics> synchronizeStatisticsList = synchronizeStatisticsDao.findAllCashWithdrawalByLuno("01001");
+            if (synchronizeStatisticsList == null || synchronizeStatisticsList.size() == 0)
+                logger.info("There is nothing to synchronize");
 
-        cal.set(Calendar.YEAR, 2014);
-        cal.set(Calendar.MONTH, Calendar.AUGUST);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date from = cal.getTime();
-
-        cal.set(Calendar.YEAR, 2017);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        Date to = cal.getTime();
-
-        SynchronizeStatistics synchronizeStatistics = synchronizeStatisticsDao.findAllCashWithdrawalByLuno("01001").get(0);
-        int countOfRemainSwitchTransaction = sessionContext.getBusinessObject(SwitchReconciliationServiceImpl.class).synchronize("01001", synchronizeStatistics.getCardNumber());
-        synchronizeStatistics.setRetryCount(synchronizeStatistics.getRetryCount() + 1);
-        synchronizeStatistics.setRemainNo(countOfRemainSwitchTransaction);
-        synchronizeStatisticsDao.update(synchronizeStatistics);
+            if (synchronizeStatisticsList != null && synchronizeStatisticsList.size() > 0) {
+                SynchronizeStatistics synchronizeStatistics = synchronizeStatisticsList.get(0);
+                int countOfRemainSwitchTransaction = sessionContext.getBusinessObject(SwitchReconciliationServiceImpl.class).synchronize("01001", synchronizeStatistics.getCardNumber());
+                synchronizeStatistics.setRetryCount(synchronizeStatistics.getRetryCount() + 1);
+                synchronizeStatistics.setRemainNo(countOfRemainSwitchTransaction);
+                synchronizeStatisticsDao.update(synchronizeStatistics);
+            }
+        } catch (Exception e) {
+            logger.error("Error in synchronizeTimer", e);
+        }
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
