@@ -32,8 +32,8 @@ public class TerminalTransaction extends EntityBase {
     @JoinColumn(name = "SWIPE_CARD_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_MEB_ATM_SWIPE_CARD_ID_01"))
     private SwipeCard swipeCard;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "terminalTransaction")
-    private MiddleEastBankSwitchTransaction switchTransaction;
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "terminalTransaction")
+//    private MiddleEastBankSwitchTransaction switchTransaction;
 
     /*
     @OneToOne
@@ -539,13 +539,13 @@ public class TerminalTransaction extends EntityBase {
         this.cardJammed = cardJammed;
     }
 
-    public MiddleEastBankSwitchTransaction getSwitchTransaction() {
-        return switchTransaction;
-    }
-
-    public void setSwitchTransaction(MiddleEastBankSwitchTransaction switchTransaction) {
-        this.switchTransaction = switchTransaction;
-    }
+//    public MiddleEastBankSwitchTransaction getSwitchTransaction() {
+//        return switchTransaction;
+//    }
+//
+//    public void setSwitchTransaction(MiddleEastBankSwitchTransaction switchTransaction) {
+//        this.switchTransaction = switchTransaction;
+//    }
 
     public String getTerminalMessage() {
         return terminalMessage;

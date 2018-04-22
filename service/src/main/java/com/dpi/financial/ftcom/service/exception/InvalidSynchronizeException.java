@@ -1,6 +1,6 @@
 package com.dpi.financial.ftcom.service.exception;
 
-public class InvalidSynchronizeException extends Exception {
+public class InvalidSynchronizeException extends RuntimeException {
     public InvalidSynchronizeException() {
         super();
     }

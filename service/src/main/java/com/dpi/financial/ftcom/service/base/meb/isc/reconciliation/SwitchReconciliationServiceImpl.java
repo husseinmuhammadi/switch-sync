@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import javax.ejb.*;
 import java.text.MessageFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -88,37 +87,41 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<MiddleEa
         dao.syncByRetrievalReferenceNumber(luno);
     }
 
-    @Schedule(second = "*/10", minute = "*", hour = "*")
+    // @Schedule(second = "*/10", minute = "*", hour = "*")
     public void synchronizeTimer() {
-        try {
-            List<SynchronizeStatistics> synchronizeStatisticsList = synchronizeStatisticsDao.findAllCashWithdrawalByLuno("01001");
-            if (synchronizeStatisticsList == null || synchronizeStatisticsList.size() == 0)
-                logger.info("There is nothing to synchronize");
+        List<SynchronizeStatistics> synchronizeStatisticsList = synchronizeStatisticsDao.findAllCashWithdrawalByLuno("01001");
+        if (synchronizeStatisticsList == null || synchronizeStatisticsList.size() == 0)
+            logger.info("There is nothing to synchronize");
 
-            if (synchronizeStatisticsList != null && synchronizeStatisticsList.size() > 0) {
-                SynchronizeStatistics synchronizeStatistics = synchronizeStatisticsList.get(0);
-                int countOfRemainSwitchTransaction = sessionContext.getBusinessObject(SwitchReconciliationServiceImpl.class).synchronize("01001", synchronizeStatistics.getCardNumber());
-                synchronizeStatistics.setRetryCount(synchronizeStatistics.getRetryCount() + 1);
-                synchronizeStatistics.setRemainNo(countOfRemainSwitchTransaction);
-                synchronizeStatisticsDao.update(synchronizeStatistics);
+        if (synchronizeStatisticsList != null && synchronizeStatisticsList.size() > 0) {
+            SynchronizeStatistics synchronizeStatistics = synchronizeStatisticsList.get(0);
+            int countOfRemainSwitchTransaction;
+
+            try {
+                countOfRemainSwitchTransaction = sessionContext.getBusinessObject(SwitchReconciliationServiceImpl.class).synchronize("01001", synchronizeStatistics.getCardNumber());
+            } catch (Exception e) {
+                countOfRemainSwitchTransaction = -1;
+                logger.error("Error in synchronizeTimer", e);
             }
-        } catch (Exception e) {
-            logger.error("Error in synchronizeTimer", e);
+
+            synchronizeStatistics.setRetryCount(synchronizeStatistics.getRetryCount() + 1);
+            synchronizeStatistics.setRemainNo(countOfRemainSwitchTransaction);
+            synchronizeStatisticsDao.update(synchronizeStatistics);
         }
     }
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    // @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public int synchronize(String luno, String cardNumber) {
         logger.info("Synchronizing started for {}/{}", luno, cardNumber);
         int count = -2;
-        try {
+//        try {
             synchronizeAtmTransactionsByRRN(luno, cardNumber);
             count = synchronizeAtmTransactionsByOtherAlgorithms(luno, cardNumber);
             logger.info("Synchronize finished for {}/{}", luno, cardNumber);
             logger.info("--------------------------------------------------");
-        } catch (InvalidSynchronizeException e) {
-            logger.error("Error in synchronize: " + luno + "/" + cardNumber, e);
-        }
+//        } catch (InvalidSynchronizeException e) {
+//            logger.error("Error in synchronize: " + luno + "/" + cardNumber, e);
+//        }
         return count;
     }
 
@@ -199,7 +202,7 @@ public class SwitchReconciliationServiceImpl extends GeneralServiceImpl<MiddleEa
                 switchTransaction.setTerminalTransaction(atmTransaction);
                 dao.update(switchTransaction);
 
-                atmTransaction.setSwitchTransaction(switchTransaction);
+                // atmTransaction.setSwitchTransaction(switchTransaction);
                 atmTransaction.setRetrievedRrn(switchTransaction.getRrn());
                 terminalTransactionDao.update(atmTransaction);
 

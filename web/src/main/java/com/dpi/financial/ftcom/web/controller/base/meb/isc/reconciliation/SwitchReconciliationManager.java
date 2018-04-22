@@ -4,10 +4,12 @@ import com.dpi.financial.ftcom.api.GeneralServiceApi;
 import com.dpi.financial.ftcom.api.base.atm.TerminalService;
 import com.dpi.financial.ftcom.api.base.meb.atm.transaction.TerminalTransactionService;
 import com.dpi.financial.ftcom.api.base.meb.isc.reconciliation.SwitchReconciliationService;
+import com.dpi.financial.ftcom.api.base.meb.isc.reconciliation.SynchronizeStatisticsService;
 import com.dpi.financial.ftcom.api.base.meb.isc.transaction.SwitchTransactionService;
 import com.dpi.financial.ftcom.model.to.atm.Terminal;
 import com.dpi.financial.ftcom.model.to.meb.atm.transaction.TerminalTransaction;
 import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
+import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SynchronizeStatistics;
 import com.dpi.financial.ftcom.web.controller.base.ControllerManagerBase;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -17,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
-import javax.ejb.Schedule;
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
@@ -41,6 +42,9 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
 
     @EJB
     private SwitchReconciliationService service;
+
+    @EJB
+    private SynchronizeStatisticsService synchronizeStatisticsService;
 
     @EJB
     private TerminalService terminalService;
@@ -171,6 +175,28 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
         } catch (Exception e) {
             e.printStackTrace();
             printErrorMessage(e);
+        }
+    }
+
+    public void synchronizeSwitchTransactionsForSelectedTerminal() {
+        String luno = terminal.getLuno();
+        List<SynchronizeStatistics> synchronizeStatisticsList = synchronizeStatisticsService.findAllCashWithdrawalByTerminal(luno);
+        if (synchronizeStatisticsList == null || synchronizeStatisticsList.size() == 0)
+            logger.info("There is nothing to synchronize");
+
+        for (SynchronizeStatistics synchronizeStatistics : synchronizeStatisticsList) {
+            int countOfRemainSwitchTransaction;
+
+            try {
+                countOfRemainSwitchTransaction = service.synchronize(luno, synchronizeStatistics.getCardNumber());
+            } catch (Exception e) {
+                countOfRemainSwitchTransaction = -1;
+                logger.error("Error in synchronizeTimer", e);
+            }
+
+            synchronizeStatistics.setRetryCount(synchronizeStatistics.getRetryCount() + 1);
+            synchronizeStatistics.setRemainNo(countOfRemainSwitchTransaction);
+            synchronizeStatisticsService.update(synchronizeStatistics);
         }
     }
 

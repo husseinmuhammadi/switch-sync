@@ -24,7 +24,7 @@ public class SwitchTransactionDao extends GenericDao<MiddleEastBankSwitchTransac
         parameters.put("luno", luno);
         parameters.put("cardNumber", cardNumber);
         List<MiddleEastBankSwitchTransaction> switchTransactions = createNamedQuery(MiddleEastBankSwitchTransaction.FIND_ALL_BY_LUNO_CARD_NUMBER, parameters).getResultList();
-        switchTransactions.forEach(switchTransaction -> Hibernate.initialize(switchTransaction.getTerminalTransaction()));
+        // switchTransactions.forEach(switchTransaction -> Hibernate.initialize(switchTransaction.getTerminalTransaction()));
         return switchTransactions;
     }
 }

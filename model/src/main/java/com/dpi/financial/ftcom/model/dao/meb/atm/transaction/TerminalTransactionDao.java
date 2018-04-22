@@ -24,7 +24,7 @@ public class TerminalTransactionDao extends GenericDao<TerminalTransaction> {
         parameters.put("luno", luno);
         parameters.put("pan", pan);
         List<TerminalTransaction> terminalTransactions = createNamedQuery(TerminalTransaction.FIND_ALL_BY_LUNO_CARD_NUMBER, parameters).getResultList();
-        terminalTransactions.forEach(terminalTransaction -> Hibernate.initialize(terminalTransaction.getSwitchTransaction()));
+        // terminalTransactions.forEach(terminalTransaction -> Hibernate.initialize(terminalTransaction.getSwitchTransaction()));
         return terminalTransactions;
     }
 }
