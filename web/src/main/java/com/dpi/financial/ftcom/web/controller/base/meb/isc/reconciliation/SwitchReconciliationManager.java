@@ -191,7 +191,7 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
                 countOfRemainSwitchTransaction = service.synchronize(luno, synchronizeStatistics.getCardNumber());
             } catch (Exception e) {
                 countOfRemainSwitchTransaction = -1;
-                logger.error("Error in synchronizeTimer", e);
+                logger.error("Error in synchronizeSwitchTransactionsForSelectedTerminal", e);
             }
 
             synchronizeStatistics.setRetryCount(synchronizeStatistics.getRetryCount() + 1);
