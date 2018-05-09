@@ -15,11 +15,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.primefaces.event.SelectEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -27,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -178,6 +182,12 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
         }
     }
 
+    public void onDateSelect(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+
     public void synchronizeSwitchTransactionsForSelectedTerminal() {
         String luno = terminal.getLuno();
         List<SynchronizeStatistics> synchronizeStatisticsList = synchronizeStatisticsService.findAllCashWithdrawalByTerminal(luno);
@@ -198,6 +208,29 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
             synchronizeStatistics.setRemainNo(countOfRemainSwitchTransaction);
             synchronizeStatisticsService.update(synchronizeStatistics);
         }
+    }
+
+    public void synchronizeSwitchTransactionsForSelectedCard() {
+        if (terminal == null || terminal.getLuno() == null)
+            return;
+        if (selectedCardNumber == null || selectedCardNumber.isEmpty())
+            return;
+
+        String luno = terminal.getLuno();
+
+        SynchronizeStatistics synchronizeStatistics = synchronizeStatisticsService.findAllCashWithdrawalByLunoCardNumber(luno, selectedCardNumber);
+
+        int countOfRemainSwitchTransaction;
+        try {
+            countOfRemainSwitchTransaction = service.synchronize(luno, synchronizeStatistics.getCardNumber());
+        } catch (Exception e) {
+            countOfRemainSwitchTransaction = -1;
+            logger.error("Error in synchronizeSwitchTransactionsForSelectedTerminal", e);
+        }
+
+        synchronizeStatistics.setRetryCount(synchronizeStatistics.getRetryCount() + 1);
+        synchronizeStatistics.setRemainNo(countOfRemainSwitchTransaction);
+        synchronizeStatisticsService.update(synchronizeStatistics);
     }
 
     private static void WriteRow(HSSFSheet sheet, int rownum, Object[] values) {

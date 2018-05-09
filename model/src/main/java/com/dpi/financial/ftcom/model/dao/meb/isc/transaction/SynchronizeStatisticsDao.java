@@ -1,10 +1,8 @@
 package com.dpi.financial.ftcom.model.dao.meb.isc.transaction;
 
 import com.dpi.financial.ftcom.model.base.GenericDao;
-import com.dpi.financial.ftcom.model.to.meb.isc.transaction.MiddleEastBankSwitchTransaction;
 import com.dpi.financial.ftcom.model.to.meb.isc.transaction.SynchronizeStatistics;
 import com.dpi.financial.ftcom.model.type.ProcessingCode;
-import org.hibernate.Hibernate;
 
 import javax.ejb.Stateless;
 import java.util.HashMap;
@@ -29,12 +27,11 @@ public class SynchronizeStatisticsDao extends GenericDao<SynchronizeStatistics> 
         return switchTransactions;
     }
 
-    public List<SynchronizeStatistics> findAllCashWithdrawalByLunoCardNumber(String luno, String cardNumber) {
+    public SynchronizeStatistics findAllCashWithdrawalByLunoCardNumber(String luno, String cardNumber) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("luno", luno);
         parameters.put("cardNumber", cardNumber);
         parameters.put("processingCode", ProcessingCode.CASH_WITHDRAWAL);
-        List<SynchronizeStatistics> switchTransactions = createNamedQuery(SynchronizeStatistics.FIND_BY_LUNO_CARD_NUMBER_PROCESSING_CODE, parameters).getResultList();
-        return switchTransactions;
+        return createNamedQuery(SynchronizeStatistics.FIND_BY_LUNO_CARD_NUMBER_PROCESSING_CODE, parameters).getSingleResult();
     }
 }

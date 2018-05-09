@@ -27,4 +27,9 @@ public class SynchronizeStatisticsServiceImpl extends GeneralServiceImpl<Synchro
     public List<SynchronizeStatistics> findAllCashWithdrawalByTerminal(String luno) {
         return dao.findAllCashWithdrawalByLuno(luno);
     }
+
+    @Override
+    public SynchronizeStatistics findAllCashWithdrawalByLunoCardNumber(String luno, String cardNumber) {
+        return dao.findAllCashWithdrawalByLunoCardNumber(luno, cardNumber);
+    }
 }
