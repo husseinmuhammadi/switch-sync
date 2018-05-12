@@ -23,7 +23,7 @@ public class TerminalTransactionDao extends GenericDao<TerminalTransaction> {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("luno", luno);
         parameters.put("pan", pan);
-        List<TerminalTransaction> terminalTransactions = createNamedQuery(TerminalTransaction.FIND_ALL_BY_LUNO_CARD_NUMBER, parameters).getResultList();
+        List<TerminalTransaction> terminalTransactions = createNamedQuery(TerminalTransaction.FIND_BY_LUNO_CARD_NUMBER, parameters).getResultList();
         // terminalTransactions.forEach(terminalTransaction -> Hibernate.initialize(terminalTransaction.getSwitchTransaction()));
         return terminalTransactions;
     }

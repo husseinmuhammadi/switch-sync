@@ -25,6 +25,12 @@ public class SynchronizeHelper {
         ListIterator<MiddleEastBankSwitchTransaction> iterator = switchTransactions.listIterator(switchTransactions.indexOf(switchTransaction));
         while (iterator.hasNext()) {
             MiddleEastBankSwitchTransaction next = iterator.next();
+
+            // Break if the next transaction is already bounded
+            if (next.getTerminalTransaction() != null)
+                break;
+
+            // Continue to find next unbound transaction
             if (next.getTerminalTransaction() == null
                     && switchTransaction.getPrice() != null
                     && switchTransaction.getPrice().equals(next.getPrice())) {
@@ -50,7 +56,7 @@ public class SynchronizeHelper {
         int startSwitchTransactionIndex = getFormerSwitchTransactionIndex(switchTransaction);
         int stopSwitchTransactionIndex = getFollowSwitchTransactionIndex(switchTransaction);
 
-        int startTerminalTransactionIndex = 0;
+        int startTerminalTransactionIndex = -1;
         if (startSwitchTransactionIndex >= 0) {
             startTerminalTransactionIndex = terminalTransactions.indexOf(switchTransactions.get(startSwitchTransactionIndex).getTerminalTransaction());
         }
@@ -60,7 +66,7 @@ public class SynchronizeHelper {
             stopTerminalTransactionIndex = terminalTransactions.indexOf(switchTransactions.get(stopSwitchTransactionIndex).getTerminalTransaction());
         }
 
-        return terminalTransactions.subList(startTerminalTransactionIndex, stopTerminalTransactionIndex);
+        return terminalTransactions.subList(startTerminalTransactionIndex + 1, stopTerminalTransactionIndex);
     }
 
     public List<TerminalTransaction> getProbabilityTerminalTransactionRestrictByAmount(MiddleEastBankSwitchTransaction switchTransaction) throws InvalidAmountException {

@@ -218,7 +218,7 @@ public class SwitchReconciliationManager extends ControllerManagerBase<MiddleEas
 
         String luno = terminal.getLuno();
 
-        SynchronizeStatistics synchronizeStatistics = synchronizeStatisticsService.findAllCashWithdrawalByLunoCardNumber(luno, selectedCardNumber);
+        SynchronizeStatistics synchronizeStatistics = synchronizeStatisticsService.findCashWithdrawalByLunoCardNumber(luno, selectedCardNumber);
 
         int countOfRemainSwitchTransaction;
         try {

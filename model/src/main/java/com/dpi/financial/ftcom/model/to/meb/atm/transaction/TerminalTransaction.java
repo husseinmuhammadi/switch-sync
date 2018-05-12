@@ -21,11 +21,11 @@ import java.util.Date;
 })
 @NamedQueries({
         @NamedQuery(name = TerminalTransaction.FIND_ALL, query = "select t from TerminalTransaction t where t.deleted = false"),
-        @NamedQuery(name = TerminalTransaction.FIND_ALL_BY_LUNO_CARD_NUMBER, query = "select t from TerminalTransaction t where t.deleted = false and t.luno = :luno and t.swipeCard.primaryAccountNumber = :pan order by t.transactionTime"),
+        @NamedQuery(name = TerminalTransaction.FIND_BY_LUNO_CARD_NUMBER, query = "select t from TerminalTransaction t where t.deleted = false and t.processingCode = com.dpi.financial.ftcom.model.type.ProcessingCode.CASH_WITHDRAWAL and t.swipeCard.luno = :luno and t.swipeCard.primaryAccountNumber = :pan order by t.transactionTime"),
 })
 public class TerminalTransaction extends EntityBase {
     public static final String FIND_ALL = "JournalTransaction.findAll";
-    public static final String FIND_ALL_BY_LUNO_CARD_NUMBER = "TerminalTransaction.findAllByLunoCardNumber";
+    public static final String FIND_BY_LUNO_CARD_NUMBER = "TerminalTransaction.findAllByLunoCardNumber";
 
     // http://www.dba-oracle.com/standards_schema_object_names.htm
     @ManyToOne(fetch = FetchType.LAZY)

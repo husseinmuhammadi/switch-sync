@@ -8,5 +8,5 @@ import java.util.List;
 public interface SynchronizeStatisticsService extends GeneralServiceApi<SynchronizeStatistics> {
     List<SynchronizeStatistics> findAllCashWithdrawalByTerminal(String luno);
 
-    SynchronizeStatistics findAllCashWithdrawalByLunoCardNumber(String luno, String cardNumber);
+    SynchronizeStatistics findCashWithdrawalByLunoCardNumber(String luno, String cardNumber);
 }

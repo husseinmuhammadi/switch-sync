@@ -27,7 +27,7 @@ public class SynchronizeStatisticsDao extends GenericDao<SynchronizeStatistics> 
         return switchTransactions;
     }
 
-    public SynchronizeStatistics findAllCashWithdrawalByLunoCardNumber(String luno, String cardNumber) {
+    public SynchronizeStatistics findCashWithdrawalByLunoCardNumber(String luno, String cardNumber) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("luno", luno);
         parameters.put("cardNumber", cardNumber);

@@ -27,13 +27,7 @@
                                             name="synchronization.png" width="36"
                                             styleClass="img-responsive"/>
                             <f:ajax execute="@form" render="@form :messages"
-                                    listener="#{middleEastBankSwitchReconciliationManager.synchronizeSwitchTransactions}"/>
-                        </h:commandLink>
-                    </td>
-                    <td>
-                        <h:commandLink action="#{middleEastBankSwitchReconciliationManager.showXLS}">
-                            <h:graphicImage alt="Download" library="images" name="download-button.png" width="36"
-                                            styleClass="img-responsive"/>
+                                    listener="#{middleEastBankSwitchReconciliationManager.synchronizeSwitchTransactionsForSelectedCard}"/>
                         </h:commandLink>
                     </td>
                 </tr>
