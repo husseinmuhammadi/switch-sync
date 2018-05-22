@@ -146,3 +146,52 @@ Additional Tips:
 		./bin/jboss-cli.sh --connect --command="undeploy javaee7-1.0-SNAPSHOT.war"
 	
 	reference: http://blog.arungupta.me/deploy-to-wildfly-using-jboss-cli-tech-tip-11/
+
+	
+
+
+
+
+Running Project
+ 1- Create a folder for JRN files and copy all ATM journal files 
+
+ 2- Change the path to specified journal path in atm.properties
+ 3- Upload all physical information of journal files to database 
+    Open http://localhost:8080/switch/admin/meb/atm/journal/file/index.xhtml
+	Press reload button to update all file physical information in MEB_JOURNAL_FILE
+	
+	Prepare ATM transactions from journal files	
+	The prepration will start from last_journal_date and last_journal_line_number
+	select last_journal_date, last_journal_line_number from ATM_TERMINAL_MASTER where terminal_id = '01001';
+	For start from the begining of the file set last_journal_line_number to 0
+	
+	
+	
+	
+	
+	
+	All missing journal 
+	
+	select to_char(rdt, 'YYYY-MM-DD', 'nls_calendar=gregorian') rdt, cal_date, atm_date, cnt
+	from 
+	(
+	  with swipe as (
+		select a.swipe_date, count(*) cnt
+		from meb_atm_swipe_card a 
+		where a.luno = '01001' 
+		group by a.swipe_date)
+	  select c.rdt, to_char(c.rdt, 'YYYY-MM-DD') cal_date, to_char(swipe_date, 'YYYY-MM-DD', 'nls_calendar=gregorian') atm_date, cnt 
+	  from swipe s 
+		right join (select date '2014-1-1' + level - 1 rdt from dual connect by level <= 5000) c
+		  on s.swipe_date = c.rdt
+	  where c.rdt >= date '2014-9-12'
+	  -- order by c.rdt
+	) missing 
+	where atm_date is null
+	order by rdt;	
+	
+
+	
+
+
+

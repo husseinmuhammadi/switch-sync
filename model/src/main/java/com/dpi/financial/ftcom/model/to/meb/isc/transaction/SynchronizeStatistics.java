@@ -17,7 +17,8 @@ import javax.persistence.*;
                 query = "from SynchronizeStatistics where deleted = false"
         ),
         @NamedQuery(name = SynchronizeStatistics.FIND_BY_LUNO_PROCESSING_CODE,
-                query = "from SynchronizeStatistics where deleted = false and luno = :luno and coalesce(remainNo, 1) > 0 order by retryCount"
+                // query = "from SynchronizeStatistics where deleted = false and luno = :luno and coalesce(remainNo, 1) > 0 order by retryCount"
+                query = "from SynchronizeStatistics where deleted = false and luno = :luno and remainNo is null order by retryCount"
         ),
         @NamedQuery(name = SynchronizeStatistics.FIND_BY_LUNO_CARD_NUMBER_PROCESSING_CODE,
                 query = "from SynchronizeStatistics where deleted = false and luno = :luno and cardNumber = :cardNumber and processingCode = :processingCode"

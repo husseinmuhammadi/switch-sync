@@ -86,14 +86,12 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>1.0.2.Final</version>
 
-                <!--
                 <configuration>
                     <hostname>172.20.35.178</hostname>
                     <port>9990</port>
-                    <username>Hossein</username>
+                    <username>hmohammadi</username>
                     <password>148941</password>
                 </configuration>
-                -->
 
                 <executions>
                     <!-- Undeploy the application on clean -->
