@@ -194,4 +194,16 @@ Running Project
 	
 
 
+View syncronization statistics
 
+select * from 
+(
+  select luno, case when remain_no > 0 then 'P' when remain_no = 0 then 'C' when remain_no is null then 'W' when remain_no = -1 then 'E' else 'X' end stat
+  from meb_synchronize_statistics
+  where length(luno) = 5
+)
+pivot
+(
+  count(stat) for stat in ('P' as PENDING, 'C' as COMPLETE, 'W' as WAIT, 'E' as ERROR, 'X' as UNKNOWN)
+)
+order by luno;
