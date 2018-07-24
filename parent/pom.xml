@@ -59,7 +59,7 @@
         <jpos.archive.name>q2mbean-1.0.sar</jpos.archive.name>
 
         <!-- web -->
-        <web.contextroot>/switch</web.contextroot>
+        <web.contextroot>/switch-sync</web.contextroot>
 
         <!-- database -->
         <dbunit.dataTypeFactoryName>org.dbunit.dataset.datatype.DefaultDataTypeFactory</dbunit.dataTypeFactoryName>
