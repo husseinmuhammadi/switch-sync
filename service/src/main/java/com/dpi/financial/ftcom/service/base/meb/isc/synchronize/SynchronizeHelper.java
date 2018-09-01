@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.*;
 
 public class SynchronizeHelper {
@@ -76,14 +77,28 @@ public class SynchronizeHelper {
 
         List<TerminalTransaction> atmTransactionList = new ArrayList<TerminalTransaction>();
         for (TerminalTransaction atmTransaction : probability) {
-            if (atmTransaction.getFastCashAmount() != null && atmTransaction.getAmountEntered() != null
-                    && !Objects.equals(atmTransaction.getFastCashAmount(), atmTransaction.getAmountEntered()))
-                throw new InvalidAmountException();
 
-            BigDecimal amount = atmTransaction.getFastCashAmount() != null ? atmTransaction.getFastCashAmount() : atmTransaction.getAmountEntered();
-            if (Objects.equals(switchTransaction.getPrice(), amount)) {
-                atmTransactionList.add(atmTransaction);
+            // If both of fast cash amount and amount entered has value they should be same
+            if (atmTransaction.getFastCashAmount() != null && atmTransaction.getAmountEntered() != null
+                    && !Objects.equals(atmTransaction.getFastCashAmount(), atmTransaction.getAmountEntered())) {
+                throw new InvalidAmountException();
             }
+
+            // If switch transaction and atm transaction come with different amount they are not same
+            BigDecimal amount = atmTransaction.getFastCashAmount() != null ? atmTransaction.getFastCashAmount() : atmTransaction.getAmountEntered();
+            if (!Objects.equals(switchTransaction.getPrice(), amount)) {
+                continue;
+            }
+
+            // If switch transaction and atm transaction come with different rrn they are not same
+            if (atmTransaction.getRrn() != null && switchTransaction.getRrn() != null
+                    && !Objects.equals(atmTransaction.getRrn(), switchTransaction.getRrn())) {
+                MessageFormat messageFormat = new MessageFormat("Transaction with RRN {0} and switch transaction with RRN {1} has same amount and different RRN are not match");
+                logger.warn(messageFormat.format(new Object[]{atmTransaction.getRrn(), switchTransaction.getRrn()}));
+                continue;
+            }
+
+            atmTransactionList.add(atmTransaction);
         }
         return atmTransactionList;
     }
