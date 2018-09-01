@@ -520,6 +520,9 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                                 swipeCard = null;
                             }
 
+                            allInformationEntered.setLength(0);
+                            allAmountEntered.setLength(0);
+                            amountEntered = null;
                             transaction = null;
 
                             swipeCard = new SwipeCard();
@@ -930,7 +933,7 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
 
     ////////////////////////////////
-    // CHECK METHOT BELOW
+    // CHECK METHOD BELOW
     ////////////////////////////////
 
     /**
@@ -1130,8 +1133,9 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
             return null;
 
         TerminalOperationState operationState;
-        Optional<TerminalOperationState> any = operationStates.stream().
-                filter(item -> item.getCurrentState().equals(state) && item.getOperationType().equals(operationType)).findAny();
+        Optional<TerminalOperationState> any = operationStates.stream().filter(
+                item -> item.getCurrentState().equals(state) && item.getOperationType().equals(operationType)
+        ).findAny();
 
         if (any.isPresent()) {
             operationState = any.get();
