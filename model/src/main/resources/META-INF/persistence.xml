@@ -28,8 +28,7 @@
             <property name="hibernate.format_sql" value="false"/>
 
             <!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <!--<property name="hibernate.hbm2ddl.auto" value="none"/>-->
+            <property name="hibernate.hbm2ddl.auto" value="none"/>
 
             <!-- Use Hibernate 4.3.x with JTA on Glassfish 4 -->
             <!--
