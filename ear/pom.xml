@@ -65,11 +65,11 @@
                             <bundleFileName>${web.archive.name}</bundleFileName>
                             <contextRoot>${web.contextroot}</contextRoot>
                         </webModule>
-                        <sarModule>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>${jpos.artifactId}</artifactId>
-                            <bundleFileName>${jpos.archive.name}</bundleFileName>
-                        </sarModule>
+                        <!--<sarModule>-->
+                            <!--<groupId>${project.groupId}</groupId>-->
+                            <!--<artifactId>${jpos.artifactId}</artifactId>-->
+                            <!--<bundleFileName>${jpos.archive.name}</bundleFileName>-->
+                        <!--</sarModule>-->
                     </modules>
                     <!-- create jboss-app.xml and put it in META-INF folder, you can create this file manually
                     <jboss>
@@ -162,12 +162,12 @@
             <version>${core.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>${jpos.artifactId}</artifactId>
-            <version>${jpos.version}</version>
-            <type>sar</type>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>${project.groupId}</groupId>-->
+            <!--<artifactId>${jpos.artifactId}</artifactId>-->
+            <!--<version>${jpos.version}</version>-->
+            <!--<type>sar</type>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>${project.groupId}</groupId>

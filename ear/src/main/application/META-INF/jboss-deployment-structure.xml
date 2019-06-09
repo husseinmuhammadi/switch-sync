@@ -2,26 +2,4 @@
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2"
                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <!--
-    <deployment>
-        <dependencies>
-            <module name="org.dom4j"/>
-        </dependencies>
-    </deployment>
-    -->
-
-
-    <!--
-    <deployment>
-        <exclude-subsystems>
-            <subsystem name="weld"/>
-        </exclude-subsystems>
-    </deployment>
-    <sub-deployment name="q2mbean-1.0.sar">
-        <exclude-subsystems>
-            <subsystem name="weld"/>
-        </exclude-subsystems>
-    </sub-deployment>
-    -->
-
 </jboss-deployment-structure>
