@@ -105,33 +105,13 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     private Terminal terminal;
     // private List<JournalFile> journalFileList;
-    Date journalDateFrom;
-    Date journalDateTo;
+//    Date journalDateFrom;
+//    Date journalDateTo;
 
     private List<TerminalOperationState> operationStates;
 
     public JournalFileManager() {
         super(JournalFile.class);
-
-        Calendar cal = Calendar.getInstance();
-
-        cal.set(Calendar.YEAR, 2014);
-        cal.set(Calendar.MONTH, Calendar.AUGUST);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        /*
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        */
-        journalDateFrom = cal.getTime();
-
-        cal.set(Calendar.YEAR, 2017);
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        journalDateTo = cal.getTime();
-
         terminal = new Terminal();
     }
 
@@ -851,12 +831,6 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
                     e.printStackTrace();
                 }
             }
-
-
-            if (journalFile.getJournalDate().before(DateUtil.removeTime(journalDateTo))) {
-                // journalFile.setState(JournalFileState.PREPARED);
-                // journalFileService.update(journalFile);
-            }
         }
     }
 
@@ -897,22 +871,6 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
             printErrorMessage(e);
         }
 
-    }
-
-    public Date getJournalDateFrom() {
-        return journalDateFrom;
-    }
-
-    public void setJournalDateFrom(Date journalDateFrom) {
-        this.journalDateFrom = journalDateFrom;
-    }
-
-    public Date getJournalDateTo() {
-        return journalDateTo;
-    }
-
-    public void setJournalDateTo(Date journalDateTo) {
-        this.journalDateTo = journalDateTo;
     }
 
     public List<JournalFile> getJournalFileList() {
