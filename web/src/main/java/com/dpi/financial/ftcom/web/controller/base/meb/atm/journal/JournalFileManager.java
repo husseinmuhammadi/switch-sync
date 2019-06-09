@@ -105,8 +105,6 @@ public class JournalFileManager extends ControllerManagerBase<JournalFile> imple
 
     private Terminal terminal;
     // private List<JournalFile> journalFileList;
-//    Date journalDateFrom;
-//    Date journalDateTo;
 
     private List<TerminalOperationState> operationStates;
 

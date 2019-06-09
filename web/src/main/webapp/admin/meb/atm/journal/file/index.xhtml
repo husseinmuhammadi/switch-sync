@@ -34,12 +34,30 @@
                                 <!--<f:selectItem itemLabel="#{lbl['label.select.empty']}" itemValue=""/>-->
                                 <f:selectItems value="#{selectItemsController.atmTerminalItems.entrySet()}"
                                                var="items" itemLabel="#{items.value}" itemValue="#{items.key}"/>
-                                <f:ajax event="valueChange" execute="@this" render="journalFileList :messages"
+                                <f:ajax event="valueChange" execute="@this" render="terminal journalFileList :messages"
                                         listener="#{middleEastBankJournalFileManager.lunoValueChange}"/>
                             </h:selectOneMenu>
                         </div>
                     </div>
                 </div>
+
+                <h:panelGroup id="terminal">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <h:outputLabel for="lastJournalDate"
+                                                   value="#{lbl['label.terminal.lastJournalDate']}"/>
+                                </div>
+                                <h:outputText value="#{middleEastBankJournalFileManager.terminal.lastJournalDate}"
+                                              id="lastJournalDate" label="#{lbl['label.terminal.lastJournalDate']}"
+                                              styleClass="form-control" required="true" pt:placeholder="d-M-yyyy">
+                                    <f:convertDateTime pattern="d-M-yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
 
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                     <table>
@@ -53,7 +71,7 @@
                                 </h:commandLink>
                             </td>
                             <td>
-                                <h:commandLink>
+                                <h:commandLink rendered="false">
                                     <h:graphicImage alt="Transfer journal content to database" library="images"
                                                     name="transfer.png" width="36" styleClass="img-responsive"/>
                                     <f:ajax execute="@form" render="journalFileList :messages"
@@ -76,6 +94,7 @@
                 </div>
             </div>
 
+            <!--<h:outputText style="color:blue" value="Flash Variable Without Keep: #{flash.keep.message.summary}"/>-->
             <h:dataTable value="#{middleEastBankJournalFileManager.journalFileList}" var="journalFile"
                          id="journalFileList"
                          styleClass="table table-striped table-bordered dt-responsive nowrap"
