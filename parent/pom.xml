@@ -98,7 +98,7 @@
             <![CDATA[<property name="javax" value="javaee" />]]>
         </persistence.xml>
 
-        <shiro.version>1.2.4</shiro.version>
+        <shiro.version>1.10.0</shiro.version>
 
 
     </properties>
